@@ -1,5 +1,6 @@
 package app.Twiter.service;
 
+import app.Twiter.model.Post;
 import app.Twiter.model.User;
 import app.Twiter.repository.UserRepo;
 import app.Twiter.util.UserUtil;
@@ -49,5 +50,9 @@ public class UserService implements IUserService{
     public List<User> getAll() {
 
         return userRepo.getAllUsers();
+    }
+
+    public List<Post> getPostsFromUser(Integer ID){
+        return userRepo.getUserPosts(ID);
     }
 }

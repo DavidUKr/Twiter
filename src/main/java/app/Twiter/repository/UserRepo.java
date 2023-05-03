@@ -1,5 +1,6 @@
 package app.Twiter.repository;
 
+import app.Twiter.model.Post;
 import app.Twiter.model.User;
 import org.springframework.stereotype.Repository;
 
@@ -42,4 +43,8 @@ public class UserRepo {
         user.setUSERNAME(new_username);
     } //to be overloaded
 
+    public List<Post> getUserPosts(Integer ID){
+        User user=getUserByID(ID);
+        return user.getAllPosts();
+    }
 }

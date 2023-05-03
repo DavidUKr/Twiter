@@ -1,7 +1,9 @@
 package app.Twiter.model;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class User {
     private int ID;
@@ -83,6 +85,10 @@ public class User {
     public void addPOST(Post post) {
         POSTS.put(index, post);
         index++;
+    }
+
+    public List<Post> getAllPosts(){
+        return POSTS.values().stream().collect(Collectors.toList());
     }
 
 

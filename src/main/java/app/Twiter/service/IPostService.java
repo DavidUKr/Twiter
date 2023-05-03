@@ -8,6 +8,6 @@ public interface IPostService {
     List<Post> getAll();
 
     Post getById(Integer ID);
-    void createPost(Post post);
+    void createPost(Post post, Integer user_ID);
     void deletePost(Integer id);
 }

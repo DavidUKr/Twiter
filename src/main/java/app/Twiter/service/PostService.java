@@ -1,7 +1,9 @@
 package app.Twiter.service;
 
 import app.Twiter.model.Post;
+import app.Twiter.model.User;
 import app.Twiter.repository.PostRepo;
+import app.Twiter.repository.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,9 +13,11 @@ import java.util.List;
 public class PostService implements IPostService{
 
     PostRepo postRepo;
+    UserRepo userRepo;
     @Autowired
-    public PostService(PostRepo postRepo){
+    public PostService(PostRepo postRepo, UserRepo  userRepo){
         this.postRepo=postRepo;
+        this.userRepo=userRepo;
     }
     @Override
     public List<Post> getAll() {
@@ -26,8 +30,10 @@ public class PostService implements IPostService{
     }
 
     @Override
-    public void createPost(Post post) {
+    public void createPost(Post post, Integer user_ID) {
         postRepo.createPost(post);
+        User user=userRepo.getUserByID(user_ID);
+        user.addPOST(post);
     }
 
     @Override
