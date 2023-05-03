@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Post {
+    private Integer ID;
     private User owner;
     private String content;
     private Image imageContent; //subject to development
@@ -16,7 +17,8 @@ public class Post {
     private List<Like> LIKES;
     private List<Reply> REPLIES;
 
-    public Post(User owner, String content){
+    public Post(User owner, String content, int ID){
+        this.ID=ID;
         this.owner=owner;
         this.content=content;
         Like_Count=0;
@@ -27,7 +29,8 @@ public class Post {
         REPLIES=new ArrayList<>();
     }
 
-    public Post(User owner, String content, Image imageContent){
+    public Post(User owner, String content, Image imageContent, int ID){
+        this.ID=ID;
         this.owner=owner;
         this.content=content;
         this.imageContent=imageContent;
@@ -38,6 +41,10 @@ public class Post {
 
         LIKES=new ArrayList<>(); //subject to development
         REPLIES=new ArrayList<>();
+    }
+
+    public int getID(){
+        return ID;
     }
 
     public void addLike(Like like){

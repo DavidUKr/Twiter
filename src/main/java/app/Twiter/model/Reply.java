@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Reply {
+    private int ID;
     private final User owner;
     private String content; //subject to dev: Make a class Content which can contain multiple types;
     private List<Reply> REPLIES;
