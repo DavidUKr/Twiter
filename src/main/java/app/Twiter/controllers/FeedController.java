@@ -1,4 +1,4 @@
-package app.Twiter.controllers.post;
+package app.Twiter.controllers;
 
 import app.Twiter.model.Post;
 import app.Twiter.service.PostService;
@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-public class GetFeedController {
+public class FeedController {
     @Autowired
     PostService postService;
 
