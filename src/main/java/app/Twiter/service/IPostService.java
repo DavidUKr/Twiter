@@ -3,7 +3,7 @@ package app.Twiter.service;
 import app.Twiter.model.Post;
 
 import java.util.List;
-
+//TODO change interface names
 public interface IPostService {
     List<Post> getAll();
 
