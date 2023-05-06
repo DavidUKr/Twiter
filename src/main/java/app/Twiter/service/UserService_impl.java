@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 public class UserService_impl implements UserService{
@@ -33,13 +34,15 @@ public class UserService_impl implements UserService{
     }
 
     @Override
-    public void patchUser(User user, Map<String, String> partialUser) {
-        userUtil.pathUser(user, partialUser);
+    public void patchUser(Integer ID, Map<String, String> partialUser) {
+        User toUpdate=userRepo.getUserByID(ID);
+        userUtil.patchUser(toUpdate, partialUser);
+        updateUser(ID, toUpdate);
     }
 
     @Override
-    public void updateUser(Integer ID, String new_username) {
-        userRepo.updateUser(ID, new_username);
+    public void updateUser(Integer ID, User user) {
+        userRepo.updateUser(ID, user);
     }
 
     @Override
@@ -51,6 +54,15 @@ public class UserService_impl implements UserService{
     public List<User> getAll() {
 
         return userRepo.getAllUsers();
+    }
+
+    @Override
+    public List<User> searchByName(String name) {
+        return userRepo.getAllUsers().stream()
+                .filter(user -> user.getUSERNAME().contains(name) ||
+                        user.getFIRST_NAME().contains(name) ||
+                        user.getLAST_NAME().contains(name))
+                .collect(Collectors.toList());
     }
 
     public List<Post> getPostsFromUser(Integer ID){

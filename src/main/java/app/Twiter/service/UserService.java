@@ -9,9 +9,10 @@ import java.util.Map;
 public interface UserService {
     void registerUser(User user);
     void deleteUser(Integer ID);
-    void patchUser(User user, Map<String, String> partialUser);
-    void updateUser(Integer ID, String new_username);
+    void patchUser(Integer ID, Map<String, String> partialUser);
+    void updateUser(Integer ID, User user);
     User getByID(Integer ID);
     List<User> getAll();
+    List<User> searchByName(String name);
     List<Post> getPostsFromUser(Integer id);
 }

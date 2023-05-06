@@ -7,7 +7,7 @@ import java.util.Map;
 
 @Component
 public class UserUtil {
-    public void pathUser(User user, Map<String, String> partialUser){
+    public void patchUser(User user, Map<String, String> partialUser){
         String firstName = partialUser.get("firstName");
         String lastName = partialUser.get("lastName");
         String email = partialUser.get("email");

@@ -6,7 +6,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 public class User {
-    private int ID;
+    private int ID; //TODO upgrade to unique indexing
     private String EMAIL;
     private String USERNAME;
     private String LAST_NAME;

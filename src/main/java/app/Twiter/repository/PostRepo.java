@@ -19,19 +19,23 @@ public class PostRepo {
         return POSTS.values().stream().collect(Collectors.toList());
     }
 
-    //create delete
+    //CREATE
     public void createPost(Post post){
         POSTS.put(index, post);
         index++;
     }
 
-    public void deletePost(int ID){
-        POSTS.remove(ID);
-    }
-
+    //READ
     public Post getPostByID(int ID){
         Post post=POSTS.get(ID);
         if(Objects.isNull(post)) throw new RuntimeException("Post "+ID+ "not found");
         return post;
+    }
+
+    //UPDATE
+
+    //DELETE
+    public void deletePost(int ID){
+        POSTS.remove(ID);
     }
 }
