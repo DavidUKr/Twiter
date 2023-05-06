@@ -20,8 +20,7 @@ public class User {
     //utilities
     private int post_index;
 
-    public User(int ID,String EMAIL, String USERNAME, String LAST_NAME, String FIRST_NAME, String PASSWORD){
-        this.ID=ID;
+    public User(String EMAIL, String USERNAME, String LAST_NAME, String FIRST_NAME, String PASSWORD){
         this.EMAIL=EMAIL;
         this.USERNAME=USERNAME;
         this.LAST_NAME=LAST_NAME;

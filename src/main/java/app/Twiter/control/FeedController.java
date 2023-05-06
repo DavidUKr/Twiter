@@ -24,12 +24,12 @@ public class FeedController {
 
     //TODO implement get from personalised feed
     @PostMapping (value = "/{id}")
-    public void followUser(@PathVariable Integer user_id, Integer id){
+    public void followUser(@PathVariable Integer user_id,@PathVariable Integer id){
         userService.addFollowing(user_id, id);
     }
 
-    @PostMapping (value = "/{id}")
-    public void unfollowUser(@PathVariable Integer user_id, Integer id){
+    @PostMapping (value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public void unfollowUser(@PathVariable Integer user_id,@PathVariable Integer id){
         userService.removeFollowing(user_id, id);
     }
 }
