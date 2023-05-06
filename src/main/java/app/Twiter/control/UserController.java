@@ -1,4 +1,4 @@
-package app.Twiter.controllers;
+package app.Twiter.control;
 
 import app.Twiter.model.User;
 import app.Twiter.service.UserService;
@@ -9,21 +9,22 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@RequestMapping(value="/api/v1/users")
 public class UserController {
 
     @Autowired
     private UserService userService;
 
-    @GetMapping(value = "users/", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public List<User> getAllUsers(){
         return userService.getAll();
     }
-    @GetMapping(value = "users/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public User getUserById(@PathVariable Integer id){
         return userService.getByID(id);
     }
 
-    @PostMapping(value = "/users", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public void registerUser(@RequestBody User user){
         userService.registerUser(user);
     }
