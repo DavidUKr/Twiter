@@ -15,4 +15,6 @@ public interface UserService {
     List<User> getAll();
     List<User> searchByName(String name);
     List<Post> getPostsFromUser(Integer id);
+    void addFollowing(Integer follower, Integer followed);
+    void removeFollowing(Integer follower, Integer followed);
 }

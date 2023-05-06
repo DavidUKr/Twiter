@@ -24,7 +24,7 @@ public class PostController {
     }
 
     @GetMapping(value="/posts", produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<Post> getMyPosts(@RequestParam Integer user_id){
+    public List<Post> getMyPosts(@PathVariable Integer user_id){
         return userService.getPostsFromUser(user_id);
     }
 }

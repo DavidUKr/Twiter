@@ -1,12 +1,12 @@
 package app.Twiter.control;
 
 import app.Twiter.model.Post;
+import app.Twiter.model.User;
 import app.Twiter.service.PostService;
+import app.Twiter.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -15,6 +15,7 @@ import java.util.List;
 public class FeedController {
     @Autowired
     PostService postService;
+    UserService userService;
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public List<Post> getFeed(){
@@ -22,4 +23,13 @@ public class FeedController {
     }
 
     //TODO implement get from personalised feed
+    @PostMapping (value = "/{id}")
+    public void followUser(@PathVariable Integer user_id, Integer id){
+        userService.addFollowing(user_id, id);
+    }
+
+    @PostMapping (value = "{id}")
+    public void unfollowUser(@PathVariable Integer user_id, Integer id){
+        userService.removeFollowing(user_id, id);
+    }
 }

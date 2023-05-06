@@ -68,4 +68,16 @@ public class UserService_impl implements UserService{
     public List<Post> getPostsFromUser(Integer ID){
         return userRepo.getUserPosts(ID);
     }
+
+    @Override
+    public void addFollowing(Integer follower, Integer followed) {
+        userRepo.getUserByID(follower).addFollowing(followed);
+        userRepo.getUserByID(followed).addFollower(follower);
+    }
+
+    @Override
+    public void removeFollowing(Integer follower, Integer followed) {
+        userRepo.getUserByID(follower).removeFollowing(followed);
+        userRepo.getUserByID(followed).removeFollower(follower);
+    }
 }
