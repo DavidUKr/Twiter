@@ -12,14 +12,12 @@ import java.util.List;
 @RestController
 @RequestMapping(value="/api/v1/users/{user_id}")
 public class PostController {
-
-    //TODO add @RequestMapping to controllers
     @Autowired
     PostService postService;
     UserService userService;
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    public void addPostToUser(@RequestParam Integer user_id, @RequestBody Post post){
+    public void addPostToUser(@PathVariable Integer user_id, @RequestBody Post post){
         postService.createPost(post, user_id);
     }
 
