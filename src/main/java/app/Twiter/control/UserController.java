@@ -13,7 +13,7 @@ import java.util.List;
 public class UserController {
 
     //CREATE
-    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PutMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public void registerUser(@RequestBody User user){
         userService.registerUser(user);
     }
@@ -38,9 +38,13 @@ public class UserController {
 
     //UPDATE
     @PatchMapping(value = "/{id}", consumes=MediaType.APPLICATION_JSON_VALUE)
-    public void patchUser(@RequestParam Integer id, @RequestBody User user){
+    public void patchUser(@PathVariable Integer id, @RequestBody User user){
         userService.updateUser(id, user);
     }
 
     //DELETE
+    @DeleteMapping(value = "/{id}")
+    public void unregisterUser(@PathVariable Integer id){
+        userService.deleteUser(id);
+    }
 }

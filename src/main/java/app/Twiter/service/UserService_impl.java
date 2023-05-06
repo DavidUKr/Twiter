@@ -15,12 +15,13 @@ import java.util.stream.Collectors;
 public class UserService_impl implements UserService{
 
     UserRepo userRepo;
-
     UserUtil userUtil;
+    PostService postService;
     @Autowired
-    public UserService_impl(UserRepo userRepo, UserUtil userUtil){
+    public UserService_impl(UserRepo userRepo, UserUtil userUtil, PostService postService){
         this.userRepo=userRepo;
         this.userUtil=userUtil;
+        this.postService=postService;
     }
 
     @Override
@@ -30,6 +31,10 @@ public class UserService_impl implements UserService{
 
     @Override
     public void deleteUser(Integer ID) {
+        for(Post post: getPostsFromUser(ID)){ //delete posts from PostRepo
+            postService.deletePost(post.getID());
+        }
+        getPostsFromUser(ID).clear(); //delete posts from user data
         userRepo.deleteUser(ID);
     }
 
