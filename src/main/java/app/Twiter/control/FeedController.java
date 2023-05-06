@@ -28,7 +28,7 @@ public class FeedController {
         userService.addFollowing(user_id, id);
     }
 
-    @PostMapping (value = "{id}")
+    @PostMapping (value = "/{id}")
     public void unfollowUser(@PathVariable Integer user_id, Integer id){
         userService.removeFollowing(user_id, id);
     }
