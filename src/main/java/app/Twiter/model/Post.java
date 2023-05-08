@@ -1,26 +1,27 @@
 package app.Twiter.model;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Post implements Posting{
     private Integer ID;
-    private User owner;
+    private Integer ownerID;
     private Content content;
     private int LikeCount;
     private int ReplyCount;
-
     private int ViewCount;
-
+    private LocalDate postTime;
     private java.util.List<Like> LIKES;
     private List<Reply> REPLIES;
 
-    public Post(User owner, Content content){
-        this.owner=owner;
+    public Post(Integer ownerID, Content content){
+        this.ownerID=ownerID;
         this.content=content;
         LikeCount=0;
         ReplyCount=0;
         ViewCount=0;
+        postTime=LocalDate.now();
 
         LIKES=new ArrayList<>();
         REPLIES=new ArrayList<>();
@@ -80,13 +81,13 @@ public class Post implements Posting{
     }
 
     @Override
-    public void setOwner(User owner) {
-        this.owner=owner;
+    public void setOwner(Integer ownerID) {
+        this.ownerID=ownerID;
     }
 
     @Override
-    public User getOwner() {
-        return owner;
+    public Integer getOwner() {
+        return ownerID;
     }
 
     @Override
@@ -107,5 +108,9 @@ public class Post implements Posting{
     @Override
     public int getViewCount() {
         return ViewCount;
+    }
+
+    public LocalDate getPostTime(){
+        return postTime;
     }
 }

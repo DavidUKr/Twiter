@@ -32,6 +32,7 @@ public class PostService_impl implements PostService{
     @Override
     public void createPost(Post post, Integer user_ID) {
         postRepo.createPost(post);
+        post.setOwner(user_ID);
         User user=userRepo.getUserByID(user_ID);
         user.addPOST(post);
     }

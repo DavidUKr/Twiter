@@ -7,6 +7,7 @@ import app.Twiter.util.UserUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -75,6 +76,17 @@ public class UserService_impl implements UserService{
     }
 
     @Override
+    public List<Post> getPostsFromUserNewerThan(Integer ID, Integer oldestDate) {
+        int year=oldestDate%1000;
+        int month=oldestDate/1000%100;
+        int day=oldestDate/100%100;
+
+        return userRepo.getUserPosts(ID).stream()
+                .filter(post -> post.getPostTime().isAfter(LocalDate.of(year, month, day)))
+                .collect(Collectors.toList());
+    }
+
+    @Override
     public void addFollowing(Integer follower, Integer followed) {
         userRepo.getUserByID(follower).addFollowing(followed);
         userRepo.getUserByID(followed).addFollower(follower);
@@ -85,4 +97,5 @@ public class UserService_impl implements UserService{
         userRepo.getUserByID(follower).removeFollowing(followed);
         userRepo.getUserByID(followed).removeFollower(follower);
     }
+
 }

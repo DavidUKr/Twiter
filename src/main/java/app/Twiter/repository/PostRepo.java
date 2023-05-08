@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
 @Repository
 public class PostRepo {
     private HashMap<Integer, Post> POSTS= new HashMap<>();
-    private Integer index=0;
+    private Integer index=0; //TODO update inedxing system
 
     public List<Post> getAll(){
         return POSTS.values().stream().collect(Collectors.toList());
@@ -21,6 +21,7 @@ public class PostRepo {
 
     //CREATE
     public void createPost(Post post){
+        post.setID(index);
         POSTS.put(index, post);
         index++;
     }

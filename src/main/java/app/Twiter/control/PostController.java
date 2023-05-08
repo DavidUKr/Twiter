@@ -21,8 +21,12 @@ public class PostController {
         postService.createPost(post, user_id);
     }
 
-    @GetMapping(value="/posts", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value="/myposts", produces = MediaType.APPLICATION_JSON_VALUE)
     public List<Post> getMyPosts(@PathVariable Integer user_id){
         return userService.getPostsFromUser(user_id);
+    }
+    @GetMapping(value = "/myposts/filter", produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<Post> getMyNewerThan(@PathVariable Integer user_id, @RequestParam Integer oldest_date){
+        return userService.getPostsFromUserNewerThan(user_id, oldest_date);
     }
 }

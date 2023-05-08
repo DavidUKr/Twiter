@@ -1,6 +1,7 @@
 package app.Twiter.model;
 
 import java.awt.*;
+import java.time.LocalDate;
 import java.util.List;
 
 public interface Posting {
@@ -14,10 +15,11 @@ public interface Posting {
     void removeReply(Reply reply);
     int getReplyCount();
     List<Reply> getREPLIES();
-    void setOwner(User user);
-    User getOwner();
+    void setOwner(Integer userID);
+    Integer getOwner();
     void setContent(Content content);
     Content getContent();
     void addView();
     int getViewCount();
+    LocalDate getPostTime();
 }
