@@ -18,7 +18,12 @@ public class FeedController {
     UserService userService;
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<Post> getFeed(){
+    public List<Post> getMyFeed(@PathVariable Integer user_id){
+        return userService.getUserFeed(user_id);
+    }
+
+    @GetMapping(value ="/all", produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<Post> getAllFeed(){
         return postService.getAll();
     }
 

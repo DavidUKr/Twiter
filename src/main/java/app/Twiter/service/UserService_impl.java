@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -52,7 +53,7 @@ public class UserService_impl implements UserService{
     }
 
     @Override
-    public User getByID(Integer ID) {
+    public User getUserByID(Integer ID) {
         return userRepo.getUserByID(ID);
     }
 
@@ -63,7 +64,7 @@ public class UserService_impl implements UserService{
     }
 
     @Override
-    public List<User> searchByName(String name) {
+    public List<User> searchUserByName(String name) {
         return userRepo.getAllUsers().stream()
                 .filter(user -> user.getUSERNAME().contains(name) ||
                         user.getFIRST_NAME().contains(name) ||

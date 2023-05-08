@@ -28,12 +28,12 @@ public class UserController {
 
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public User getUserById(@PathVariable Integer id){
-        return userService.getByID(id);
+        return userService.getUserByID(id);
     }
 
     @GetMapping(value = "/search", produces = MediaType.APPLICATION_JSON_VALUE)
     public List<User> searchUserByName(@RequestParam String name){
-        return userService.searchByName(name);
+        return userService.searchUserByName(name);
     }
 
     //UPDATE

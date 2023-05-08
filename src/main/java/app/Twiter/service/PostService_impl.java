@@ -7,6 +7,7 @@ import app.Twiter.repository.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -25,7 +26,7 @@ public class PostService_impl implements PostService{
     }
 
     @Override
-    public Post getById(Integer ID) {
+    public Post getPostById(Integer ID) {
         return postRepo.getPostByID(ID);
     }
 
@@ -40,5 +41,18 @@ public class PostService_impl implements PostService{
     @Override
     public void deletePost(Integer ID) {
         postRepo.deletePost(ID);
+    }
+
+
+    @Override
+    public List<Post> getUserFeed(Integer ID) {
+        ArrayList<Post> feed=new ArrayList<Post>();
+
+        ArrayList<Integer> follow_list= (ArrayList<Integer>) userRepo.getUserByID(ID).getFOLLOW();
+        for(Integer user_id:follow_list){
+            feed.addAll(userRepo.getUserByID(user_id).getPOSTS().values());
+        }
+
+        return feed;
     }
 }
