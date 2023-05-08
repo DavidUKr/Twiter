@@ -17,8 +17,6 @@ public class User {
     private Map<Integer, Post> POSTS; //index-post
     private List<Integer> FOLLOW;
     private List<Integer> FOLLOWERS;
-    //utilities
-    private int post_index;
 
     public User(String EMAIL, String USERNAME, String LAST_NAME, String FIRST_NAME, String PASSWORD){
         this.EMAIL=EMAIL;
@@ -30,7 +28,6 @@ public class User {
         POSTS=new HashMap<>();
         FOLLOW=new ArrayList<>();
         FOLLOWERS=new ArrayList<>();
-        post_index =0;
     }
 
     public int getID() {
@@ -86,8 +83,10 @@ public class User {
     }
 
     public void addPOST(Post post) {
-        POSTS.put(post_index, post);
-        post_index++;
+        POSTS.put(post.getID(), post);
+    }
+    public void removePOST(Integer id){
+        POSTS.remove(id);
     }
 
     public List<Post> getAllPosts(){

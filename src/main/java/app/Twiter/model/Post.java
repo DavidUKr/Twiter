@@ -11,6 +11,9 @@ public class Post implements Posting{
     private int LikeCount;
     private int ReplyCount;
     private int ViewCount;
+    private int RepostCount;
+    boolean isRepost=false;
+    Integer author_Id;
     private LocalDate postTime;
     private java.util.List<Like> LIKES;
     private List<Reply> REPLIES;
@@ -21,7 +24,23 @@ public class Post implements Posting{
         LikeCount=0;
         ReplyCount=0;
         ViewCount=0;
+        RepostCount=0;
         postTime=LocalDate.now();
+
+        LIKES=new ArrayList<>();
+        REPLIES=new ArrayList<>();
+    }
+    public Post(Integer ownerID, Content content, boolean isRepost, Integer author_id){
+        this.ownerID=ownerID;
+        this.content=content;
+        LikeCount=0;
+        ReplyCount=0;
+        ViewCount=0;
+        RepostCount=0;
+        postTime=LocalDate.now();
+
+        this.isRepost=isRepost;
+        this.author_Id=author_id;
 
         LIKES=new ArrayList<>();
         REPLIES=new ArrayList<>();
@@ -108,6 +127,20 @@ public class Post implements Posting{
     @Override
     public int getViewCount() {
         return ViewCount;
+    }
+
+    @Override
+    public void addRepost() {
+        RepostCount++;
+    }
+
+    public void removeRepost(){
+        RepostCount--;
+    }
+
+    @Override
+    public int getRepostCount() {
+        return RepostCount;
     }
 
     public LocalDate getPostTime(){

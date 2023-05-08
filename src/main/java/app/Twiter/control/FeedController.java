@@ -19,22 +19,36 @@ public class FeedController {
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public List<Post> getMyFeed(@PathVariable Integer user_id){
-        return userService.getUserFeed(user_id);
+        return postService.getUserFeed(user_id);
     }
-
+    //TODO implement feed to show latest posts
     @GetMapping(value ="/all", produces = MediaType.APPLICATION_JSON_VALUE)
     public List<Post> getAllFeed(){
         return postService.getAll();
     }
 
-    //TODO implement get from personalised feed
-    @PostMapping (value = "/{id}")
+    @PostMapping (value = "/{id}/follow")
     public void followUser(@PathVariable Integer user_id,@PathVariable Integer id){
         userService.addFollowing(user_id, id);
     }
 
-    @PostMapping (value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping (value = "/{id}/unfollow", consumes = MediaType.APPLICATION_JSON_VALUE)
     public void unfollowUser(@PathVariable Integer user_id,@PathVariable Integer id){
         userService.removeFollowing(user_id, id);
+    }
+
+    @PostMapping (value = "/{post_id}/retweet")
+    public void repost(@PathVariable Integer user_id, @PathVariable Integer post_id){
+        postService.repost(user_id, post_id);
+    }
+
+    @PostMapping(value = "/{post_id}/like")
+    public void likePost(@PathVariable Integer user_id, @PathVariable Integer post_id){
+        postService.likePost(user_id, post_id);
+    }
+
+    @DeleteMapping(value = "/{post_id}/like")
+    public void unlikePost(@PathVariable Integer user_id, @PathVariable Integer post_id){
+        postService.unlikePost(user_id, post_id);
     }
 }

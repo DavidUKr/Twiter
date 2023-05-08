@@ -47,4 +47,6 @@ public class UserController {
     public void unregisterUser(@PathVariable Integer id){
         userService.deleteUser(id);
     }
+
+    //TODO implement get mentions
 }

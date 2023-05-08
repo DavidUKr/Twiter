@@ -21,5 +21,8 @@ public interface Posting {
     Content getContent();
     void addView();
     int getViewCount();
+    void addRepost();
+    void removeRepost();
+    int getRepostCount();
     LocalDate getPostTime();
 }
