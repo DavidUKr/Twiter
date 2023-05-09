@@ -3,35 +3,21 @@ package app.Twiter.model;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Reply {
-    private int ID;
-    private final User owner;
-    private String content; //subject to dev: Make a class Content which can contain multiple types;
-    private List<Reply> REPLIES;
-
-    public Reply(User owner, String content) {
-        this.owner = owner;
-        this.content = content;
-        REPLIES = new ArrayList<>(); //subject to dev
+public class Reply extends Post{
+    private Integer rootPost_id;
+    private boolean isPublic;
+    public Reply(Integer owner_id, Content content, Integer rootPost_id, boolean isPublic) {
+        super(owner_id, content);
+        this.rootPost_id=rootPost_id;
+        this.isPublic=isPublic;
     }
 
-    public User getOwner() {
-        return owner;
+    public Integer getRootPost_id() {
+        return rootPost_id;
     }
 
-    public String getContent() {
-        return content;
-    }
-
-    public List<Reply> getREPLIES() {
-        return REPLIES;
-    }
-
-    public void setContent(String content) {
-        this.content = content;
-    }
-
-    public void addReply(Reply reply){
-        REPLIES.add(reply);
+    public boolean isPublic() {
+        return isPublic;
     }
 }
+

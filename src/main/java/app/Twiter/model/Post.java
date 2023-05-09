@@ -1,107 +1,149 @@
 package app.Twiter.model;
 
-import java.awt.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Post {
+public class Post implements Posting{
     private Integer ID;
-    private User owner;
-    private String content;
-    private Image imageContent; //subject to development
-    private int Like_Count;
-    private int Reply_Count;
-
+    private Integer ownerID;
+    private Content content;
+    private int LikeCount;
+    private int ReplyCount;
     private int ViewCount;
-
-    private List<Like> LIKES;
+    private int RepostCount;
+    boolean isRepost=false;
+    Integer author_Id;
+    private LocalDate postTime;
+    private java.util.List<Like> LIKES;
     private List<Reply> REPLIES;
 
-    public Post(User owner, String content, int ID){
-        this.ID=ID;
-        this.owner=owner;
+    public Post(Integer ownerID, Content content){
+        this.ownerID=ownerID;
         this.content=content;
-        Like_Count=0;
-        Reply_Count=0;
+        LikeCount=0;
+        ReplyCount=0;
         ViewCount=0;
+        RepostCount=0;
+        postTime=LocalDate.now();
 
-        LIKES=new ArrayList<>(); //subject to development
+        LIKES=new ArrayList<>();
+        REPLIES=new ArrayList<>();
+    }
+    public Post(Integer ownerID, Content content, boolean isRepost, Integer author_id){
+        this.ownerID=ownerID;
+        this.content=content;
+        LikeCount=0;
+        ReplyCount=0;
+        ViewCount=0;
+        RepostCount=0;
+        postTime=LocalDate.now();
+
+        this.isRepost=isRepost;
+        this.author_Id=author_id;
+
+        LIKES=new ArrayList<>();
         REPLIES=new ArrayList<>();
     }
 
-    public Post(User owner, String content, Image imageContent, int ID){
+    @Override
+    public void setID(Integer ID){
         this.ID=ID;
-        this.owner=owner;
-        this.content=content;
-        this.imageContent=imageContent;
-
-        Like_Count=0;
-        Reply_Count=0;
-        ViewCount=0;
-
-        LIKES=new ArrayList<>(); //subject to development
-        REPLIES=new ArrayList<>();
     }
 
+    @Override
     public int getID(){
         return ID;
     }
 
+    @Override
     public void addLike(Like like){
         LIKES.add(like);
-        Like_Count++;
-    }
-    //remove like/reply
-    public void addReply(Reply reply){
-        REPLIES.add(reply);
-        Reply_Count++;
+        LikeCount++;
     }
 
-    public User getOwner() {
-        return owner;
+    @Override
+    public void removeLike(Like like) {
+        LIKES.remove(like);
+        LikeCount--;
     }
 
-    public void setOwner(User owner) {
-        this.owner = owner;
+    @Override
+    public int getLikeCount() {
+        return LikeCount;
     }
 
-    public void setContent(String content) {
-        this.content = content;
-    }
-
-    public void setImageContent(Image imageContent) {
-        this.imageContent = imageContent;
-    }
-
-    public String getContent() {
-        return content;
-    }
-
-    public Image getImageContent() {
-        return imageContent;
-    }
-
-    public int getLike_Count() {
-        return Like_Count;
-    }
-
-    public int getReply_Count() {
-        return Reply_Count;
-    }
-
+    @Override
     public List<Like> getLIKES() {
         return LIKES;
     }
+
+    @Override
+    public void addReply(Reply reply) {
+        REPLIES.add(reply);
+        ReplyCount++;
+    }
+
+    @Override
+    public void removeReply(Reply reply) {
+        REPLIES.remove(reply);
+    }
+
+    @Override
+    public int getReplyCount() {
+        return ReplyCount;
+    }
+
+    @Override
     public List<Reply> getREPLIES() {
         return REPLIES;
     }
 
+    @Override
+    public void setOwner(Integer ownerID) {
+        this.ownerID=ownerID;
+    }
+
+    @Override
+    public Integer getOwner() {
+        return ownerID;
+    }
+
+    @Override
+    public void setContent(Content content) {
+        this.content=content;
+    }
+
+    @Override
+    public Content getContent() {
+        return content;
+    }
+
+    @Override
+    public void addView() {
+        ViewCount++;
+    }
+
+    @Override
     public int getViewCount() {
         return ViewCount;
     }
 
-    public void addView(){
-        ViewCount++;
+    @Override
+    public void addRepost() {
+        RepostCount++;
     }
 
+    public void removeRepost(){
+        RepostCount--;
+    }
+
+    @Override
+    public int getRepostCount() {
+        return RepostCount;
+    }
+
+    public LocalDate getPostTime(){
+        return postTime;
+    }
 }

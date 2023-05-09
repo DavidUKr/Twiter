@@ -4,27 +4,26 @@ import java.time.LocalDate;
 import java.util.Date;
 
 public class Like {
-    private final User owner;
-    private final Post post;
-    private final LocalDate post_time;
+    private final Integer owner_id;
+    private final Integer post_id;
+    private final LocalDate like_time;
 
-    public Like(User owner, Post post){
-        this.owner=owner;
-        this.post=post;
+    public Like(Integer owner_id, Integer post_id){
+        this.owner_id=owner_id;
+        this.post_id=post_id;
 
-        post_time= LocalDate.now();
+        like_time= LocalDate.now();
+    }
+    public Integer getOwner() {
+        return owner_id;
     }
 
-    public User getOwner() {
-        return owner;
+    public Integer getPost() {
+        return post_id;
     }
 
-    public Post getPost() {
-        return post;
-    }
-
-    public LocalDate getPost_time() {
-        return post_time;
+    public LocalDate getLike_time() {
+        return like_time;
     }
 
 }

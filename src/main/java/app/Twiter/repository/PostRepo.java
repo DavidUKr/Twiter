@@ -13,25 +13,30 @@ import java.util.stream.Collectors;
 @Repository
 public class PostRepo {
     private HashMap<Integer, Post> POSTS= new HashMap<>();
-    private Integer index=0;
+    private Integer index=0; //TODO update inedxing system
 
     public List<Post> getAll(){
         return POSTS.values().stream().collect(Collectors.toList());
     }
 
-    //create delete
+    //CREATE
     public void createPost(Post post){
+        post.setID(index);
         POSTS.put(index, post);
         index++;
     }
 
-    public void deletePost(int ID){
-        POSTS.remove(ID);
-    }
-
+    //READ
     public Post getPostByID(int ID){
         Post post=POSTS.get(ID);
         if(Objects.isNull(post)) throw new RuntimeException("Post "+ID+ "not found");
         return post;
+    }
+
+    //UPDATE
+
+    //DELETE
+    public void deletePost(int ID){
+        POSTS.remove(ID);
     }
 }

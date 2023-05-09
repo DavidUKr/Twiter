@@ -1,12 +1,13 @@
 package app.Twiter.model;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
 public class User {
-    private int ID;
+    private int ID; //TODO upgrade to unique indexing
     private String EMAIL;
     private String USERNAME;
     private String LAST_NAME;
@@ -14,12 +15,10 @@ public class User {
     private String PASSWORD;
 
     private Map<Integer, Post> POSTS; //index-post
+    private List<Integer> FOLLOW;
+    private List<Integer> FOLLOWERS;
 
-    //utilities
-    private int index;
-
-    public User(int ID,String EMAIL, String USERNAME, String LAST_NAME, String FIRST_NAME, String PASSWORD){
-        this.ID=ID;
+    public User(String EMAIL, String USERNAME, String LAST_NAME, String FIRST_NAME, String PASSWORD){
         this.EMAIL=EMAIL;
         this.USERNAME=USERNAME;
         this.LAST_NAME=LAST_NAME;
@@ -27,7 +26,8 @@ public class User {
         this.PASSWORD=PASSWORD;
 
         POSTS=new HashMap<>();
-        index=0;
+        FOLLOW=new ArrayList<>();
+        FOLLOWERS=new ArrayList<>();
     }
 
     public int getID() {
@@ -83,14 +83,37 @@ public class User {
     }
 
     public void addPOST(Post post) {
-        POSTS.put(index, post);
-        index++;
+        POSTS.put(post.getID(), post);
+    }
+    public void removePOST(Integer id){
+        POSTS.remove(id);
     }
 
     public List<Post> getAllPosts(){
         return POSTS.values().stream().collect(Collectors.toList());
     }
 
+    public List<Integer> getFOLLOW() {
+        return FOLLOW;
+    }
 
+    public void addFollowing(Integer id){
+        FOLLOW.add(id);
+    }
 
+    public void removeFollowing(Integer followed) {
+        FOLLOW.remove(followed);
+    }
+
+    public List<Integer> getFOLLOWERS() {
+        return FOLLOWERS;
+    }
+
+    public void addFollower(Integer id){
+        FOLLOWERS.add(id);
+    }
+
+    public void removeFollower(Integer follower) {
+        FOLLOWERS.remove(follower);
+    }
 }

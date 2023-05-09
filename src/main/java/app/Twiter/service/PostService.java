@@ -1,43 +1,21 @@
 package app.Twiter.service;
 
+import app.Twiter.model.Content;
 import app.Twiter.model.Post;
-import app.Twiter.model.User;
-import app.Twiter.repository.PostRepo;
-import app.Twiter.repository.UserRepo;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import app.Twiter.model.Reply;
 
 import java.util.List;
+public interface PostService {
+    List<Post> getAll();
+    List<Post> getUserFeed(Integer ID);
+    Post getPostById(Integer ID);
+    void createPost(Post post, Integer userID);
+    void deletePost(Integer postId);
+    void repost(Integer userId, Integer postId);
+    void likePost(Integer userId, Integer postId);
 
-@Service
-public class PostService implements IPostService{
-
-    PostRepo postRepo;
-    UserRepo userRepo;
-    @Autowired
-    public PostService(PostRepo postRepo, UserRepo  userRepo){
-        this.postRepo=postRepo;
-        this.userRepo=userRepo;
-    }
-    @Override
-    public List<Post> getAll() {
-        return postRepo.getAll();
-    }
-
-    @Override
-    public Post getById(Integer ID) {
-        return postRepo.getPostByID(ID);
-    }
-
-    @Override
-    public void createPost(Post post, Integer user_ID) {
-        postRepo.createPost(post);
-        User user=userRepo.getUserByID(user_ID);
-        user.addPOST(post);
-    }
-
-    @Override
-    public void deletePost(Integer ID) {
-        postRepo.deletePost(ID);
-    }
+    void unlikePost(Integer userId, Integer postId);
+    void createReply(Integer userId, Integer postId, Content content,boolean isPublic);
+    List<Reply> getMyPostReplies(Integer postId);
+    List<Reply> getPostReplies(Integer postID);
 }
