@@ -1,13 +1,18 @@
 package app.Twiter.model;
 
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotNull;
+
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Post implements Posting{
     private Integer ID;
+    @NotNull
     private Integer ownerID;
     private Content content;
+    @Min(0)
     private int LikeCount;
     private int ReplyCount;
     private int ViewCount;

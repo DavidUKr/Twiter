@@ -5,6 +5,10 @@ import app.Twiter.model.Post;
 import app.Twiter.model.Reply;
 import app.Twiter.service.PostService;
 import app.Twiter.service.UserService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -19,6 +23,15 @@ public class PostController {
     UserService userService;
 
     //CREATE
+    @Operation(summary = "This endpoint adds post")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Post added",
+                    content = { @io.swagger.v3.oas.annotations.media.Content(mediaType = "application/json",
+                            schema = @Schema(implementation = Post.class)) }),
+            @ApiResponse(responseCode = "400", description = "Bad request",content = @io.swagger.v3.oas.annotations.media.Content),
+            @ApiResponse(responseCode = "404", description = "User not found", content = @io.swagger.v3.oas.annotations.media.Content),
+            @ApiResponse(responseCode = "500", description = "Something happened, could not add post",content = @io.swagger.v3.oas.annotations.media.Content)
+    })
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public void addPostToUser(@PathVariable Integer user_id, @RequestBody Post post){
         postService.createPost(post, user_id);

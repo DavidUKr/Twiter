@@ -1,5 +1,7 @@
 package app.Twiter.model;
 
+import jakarta.validation.constraints.NotNull;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -8,10 +10,13 @@ import java.util.stream.Collectors;
 
 public class User {
     private int ID; //TODO upgrade to unique indexing
+    @NotNull
     private String EMAIL;
+    @NotNull
     private String USERNAME;
     private String LAST_NAME;
     private String FIRST_NAME;
+    @NotNull
     private String PASSWORD;
 
     private Map<Integer, Post> POSTS; //index-post

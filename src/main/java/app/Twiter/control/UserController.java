@@ -12,15 +12,15 @@ import java.util.List;
 @RequestMapping(value="/api/v1/users")
 public class UserController {
 
+    @Autowired
+    private UserService userService;
     //CREATE
+
     @PutMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public void registerUser(@RequestBody User user){
         userService.registerUser(user);
     }
-
     //READ
-    @Autowired
-    private UserService userService;
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public List<User> getAllUsers(){
         return userService.getAll();
