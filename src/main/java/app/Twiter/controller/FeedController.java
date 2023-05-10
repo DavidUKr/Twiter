@@ -1,4 +1,4 @@
-package app.Twiter.control;
+package app.Twiter.controller;
 
 import app.Twiter.model.Post;
 import app.Twiter.model.Posting;

@@ -1,4 +1,4 @@
-package app.Twiter.control;
+package app.Twiter.controller;
 
 import app.Twiter.model.User;
 import app.Twiter.service.UserService;
