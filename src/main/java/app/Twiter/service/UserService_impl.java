@@ -77,11 +77,13 @@ public class UserService_impl implements UserService{
     }
 
     @Override
-    public List<Post> getPostsFromUserNewerThan(Integer ID, Integer oldestDate) {
+    public List<Post> getPostsFromUserNewerThan(Integer ID, String oldestDate) {
+       //TODO format ISO
         int year=oldestDate%1000;
         int month=oldestDate/1000%100;
         int day=oldestDate/100%100;
-
+        //TODO add exception system
+        LocalDate.parse(oldestDate);
         return userRepo.getUserPosts(ID).stream()
                 .filter(post -> post.getPostTime().isAfter(LocalDate.of(year, month, day)))
                 .collect(Collectors.toList());
