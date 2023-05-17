@@ -11,12 +11,12 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-public class PostService_impl implements PostService{
+public class PostServiceImpl implements PostService{
 
     PostRepo postRepo;
     UserRepo userRepo;
     @Autowired
-    public PostService_impl(PostRepo postRepo, UserRepo  userRepo){
+    public PostServiceImpl(PostRepo postRepo, UserRepo  userRepo){
         this.postRepo=postRepo;
         this.userRepo=userRepo;
     }

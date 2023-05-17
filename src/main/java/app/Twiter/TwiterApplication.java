@@ -13,12 +13,14 @@ public class TwiterApplication {
 
 	/*TODO
 	*  Interfaces for @Operations
-	Change request paths for controllers
 	Make post controller not use userService
 	Change User -> not contain Post
 	Search for feed in postRepo, not userRepo
 	Exceptions for each controller method
 	Rename classes
 	Remove Content Class-> text and url
+	*
+	* DONE:
+	* Change request paths for controllers
 	* */
 }

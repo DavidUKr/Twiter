@@ -8,19 +8,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
-public class UserService_impl implements UserService{
+public class UserServiceImpl implements UserService{
 
     UserRepo userRepo;
     UserUtil userUtil;
     PostService postService;
     @Autowired
-    public UserService_impl(UserRepo userRepo, UserUtil userUtil, PostService postService){
+    public UserServiceImpl(UserRepo userRepo, UserUtil userUtil, PostService postService){
         this.userRepo=userRepo;
         this.userUtil=userUtil;
         this.postService=postService;
@@ -78,14 +77,10 @@ public class UserService_impl implements UserService{
 
     @Override
     public List<Post> getPostsFromUserNewerThan(Integer ID, String oldestDate) {
-       //TODO format ISO
-        int year=oldestDate%1000;
-        int month=oldestDate/1000%100;
-        int day=oldestDate/100%100;
         //TODO add exception system
-        LocalDate.parse(oldestDate);
+        LocalDate date_limit=LocalDate.parse(oldestDate);
         return userRepo.getUserPosts(ID).stream()
-                .filter(post -> post.getPostTime().isAfter(LocalDate.of(year, month, day)))
+                .filter(post -> post.getPostTime().isAfter(date_limit))
                 .collect(Collectors.toList());
     }
 
