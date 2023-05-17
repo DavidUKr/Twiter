@@ -1,0 +1,23 @@
+{
+    "Servers": {
+        "1": {
+            "Name": "Twiter",
+            "Group": "Servers",
+            "Host": "localhost",
+            "Port": 5432,
+            "MaintenanceDB": "postgres",
+            "Username": "postgres",
+            "Comment": "Twitter wannabe: Twiter",
+            "BGColor": "#9FE6D6",
+            "FGColor": "#99DAF8",
+            "UseSSHTunnel": 0,
+            "TunnelPort": "22",
+            "TunnelAuthentication": 0,
+            "KerberosAuthentication": false,
+            "ConnectionParameters": {
+                "sslmode": "prefer",
+                "connect_timeout": 10
+            }
+        }
+    }
+}
