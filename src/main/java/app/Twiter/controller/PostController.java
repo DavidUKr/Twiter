@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping(value="/api/v1/users/{user_id}")
+@RequestMapping(value="/api/v1/posts/")
 public class PostController {
     @Autowired
     PostService postService;
@@ -42,21 +42,21 @@ public class PostController {
     }
 
     //READ
-    @GetMapping(value="/myposts", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value="/{user_id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public List<Post> getMyPosts(@PathVariable Integer user_id){
         return userService.getPostsFromUser(user_id);
     }
-    @GetMapping(value = "/myposts/filter", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/{user_id}/filter", produces = MediaType.APPLICATION_JSON_VALUE)
     public List<Post> getMyPostsNewerThan(@PathVariable Integer user_id, @RequestParam Integer oldest_date){
         return userService.getPostsFromUserNewerThan(user_id, oldest_date);
     }
-    @GetMapping(value = "/myposts/{post_id}/replies", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/{post_id}/replies", produces = MediaType.APPLICATION_JSON_VALUE)
     public List<Reply> getMyPostReplies(@PathVariable Integer post_id){
         return postService.getMyPostReplies(post_id);
     }
 
     //DELETE
-    @DeleteMapping( value = "/myposts")
+    @DeleteMapping( value = "/{post_id}")
     public void deletePost(@RequestParam Integer post_id){
         postService.deletePost(post_id);
     }

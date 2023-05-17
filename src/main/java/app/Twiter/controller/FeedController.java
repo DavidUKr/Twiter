@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping(value="/api/v1/users/{user_id}/feed")
+@RequestMapping(value="/api/v1/feed")
 public class FeedController {
 
     @Autowired
@@ -37,7 +37,7 @@ public class FeedController {
         return postService.getUserFeed(user_id);
     }
     //TODO implement feed to show latest posts
-    @GetMapping(value ="/all", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public List<Post> getAllFeed(){
         return postService.getAll();
     }
@@ -51,9 +51,9 @@ public class FeedController {
             @ApiResponse(responseCode = "404", description = "User not found", content = @Content),
             @ApiResponse(responseCode = "500", description = "Something happened, could not follow user",content = @Content)
     })
-    @PostMapping (value = "/{id}/follow")
-    public void followUser(@PathVariable Integer user_id,@PathVariable Integer id){
-        userService.addFollowing(user_id, id);
+    @PostMapping (value = "/{user_id}/{id_to_follow}/follow")
+    public void followUser(@PathVariable Integer user_id,@PathVariable Integer id_to_follow){
+        userService.addFollowing(user_id, id_to_follow);
     }
 
     @Operation(summary = "This endpoint controls user following")
@@ -65,22 +65,22 @@ public class FeedController {
             @ApiResponse(responseCode = "404", description = "User not found", content = @Content),
             @ApiResponse(responseCode = "500", description = "Something happened, you are forever following this user",content = @Content)
     })
-    @PostMapping (value = "/{id}/unfollow", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping (value = "/{user_id}/{id}/unfollow", consumes = MediaType.APPLICATION_JSON_VALUE)
     public void unfollowUser(@PathVariable Integer user_id,@PathVariable Integer id){
         userService.removeFollowing(user_id, id);
     }
 
-    @PostMapping (value = "/{post_id}/retweet")
+    @PostMapping (value = "/{user_id}/{post_id}/retweet")
     public void repost(@PathVariable Integer user_id, @PathVariable Integer post_id){
         postService.repost(user_id, post_id);
     }
 
-    @PostMapping(value = "/{post_id}/like")
+    @PostMapping(value = "/{user_id}/{post_id}/like")
     public void likePost(@PathVariable Integer user_id, @PathVariable Integer post_id){
         postService.likePost(user_id, post_id);
     }
 
-    @DeleteMapping(value = "/{post_id}/like")
+    @DeleteMapping(value = "/{user_id}/{post_id}/like")
     public void unlikePost(@PathVariable Integer user_id, @PathVariable Integer post_id){
         postService.unlikePost(user_id, post_id);
     }
