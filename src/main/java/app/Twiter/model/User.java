@@ -10,26 +10,24 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 @Entity
-@Table
+@Table(name = "users")
 public class User {
 
-    @PrimaryKeyJoinColumn
-    @PrimaryKeyJoinColumns()
+    @Id
+    @GeneratedValue(strategy = GenerationType.UUID)
     private int ID; //TODO upgrade to unique indexing
-    @NotNull
-    @JoinColumn(referencedColumnName = "")
-    private String EMAIL;
-    @NotNull
+    @Column(nullable = false)
     private String USERNAME;
+    @Column
     private String LAST_NAME;
+    @Column
     private String FIRST_NAME;
-    @NotNull
+    @Column(nullable = false)
+    private String EMAIL;
+    @Column(nullable = false)
     private String PASSWORD;
 
-    private Map<Integer, Post> POSTS; //index-post
-    private List<Integer> FOLLOW;
-    private List<Integer> FOLLOWERS;
-
+    public User(){}
     public User(String EMAIL, String USERNAME, String LAST_NAME, String FIRST_NAME, String PASSWORD){
         this.EMAIL=EMAIL;
         this.USERNAME=USERNAME;
@@ -37,9 +35,9 @@ public class User {
         this.FIRST_NAME=FIRST_NAME;
         this.PASSWORD=PASSWORD;
 
-        POSTS=new HashMap<>();
-        FOLLOW=new ArrayList<>();
-        FOLLOWERS=new ArrayList<>();
+        //POSTS=new ArrayList<>();
+        //FOLLOW=new ArrayList<>();
+        //FOLLOWERS=new ArrayList<>();
     }
 
     public int getID() {
@@ -90,19 +88,19 @@ public class User {
         this.PASSWORD = PASSWORD;
     }
 
-    public Map<Integer, Post> getPOSTS() {
+    /*public List<Integer> getPOSTS() {
         return POSTS;
     }
 
     public void addPOST(Post post) {
-        POSTS.put(post.getID(), post);
+        POSTS.add(post.getID());
     }
     public void removePOST(Integer id){
         POSTS.remove(id);
     }
 
-    public List<Post> getAllPosts(){
-        return POSTS.values().stream().collect(Collectors.toList());
+    public List<Integer> getAllPosts(){
+        return POSTS;
     }
 
     public List<Integer> getFOLLOW() {
@@ -127,5 +125,5 @@ public class User {
 
     public void removeFollower(Integer follower) {
         FOLLOWERS.remove(follower);
-    }
+    }*/
 }

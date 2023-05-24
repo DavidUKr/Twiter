@@ -2,12 +2,11 @@ package app.Twiter.service;
 
 import app.Twiter.model.Post;
 import app.Twiter.model.User;
-import app.Twiter.repository.UserRepo;
+import app.Twiter.repository.UserRepoImpl;
 import app.Twiter.util.UserUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -15,11 +14,11 @@ import java.util.stream.Collectors;
 @Service
 public class UserServiceImpl implements UserService{
 
-    UserRepo userRepo;
+    UserRepoImpl userRepo;
     UserUtil userUtil;
     PostService postService;
     @Autowired
-    public UserServiceImpl(UserRepo userRepo, UserUtil userUtil, PostService postService){
+    public UserServiceImpl(UserRepoImpl userRepo, UserUtil userUtil, PostService postService){
         this.userRepo=userRepo;
         this.userUtil=userUtil;
         this.postService=postService;
@@ -32,10 +31,10 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public void deleteUser(Integer ID) {
-        for(Post post: getPostsFromUser(ID)){ //delete posts from PostRepo
+        for(Post post: postService.getPostsFromUser(ID)){ //delete posts from PostRepoImpl
             postService.deletePost(post.getID());
         }
-        getPostsFromUser(ID).clear(); //delete posts from user data
+        postService.getPostsFromUser(ID).clear(); //delete posts from user data
         userRepo.deleteUser(ID);
     }
 
@@ -68,19 +67,6 @@ public class UserServiceImpl implements UserService{
                 .filter(user -> user.getUSERNAME().contains(name) ||
                         user.getFIRST_NAME().contains(name) ||
                         user.getLAST_NAME().contains(name))
-                .collect(Collectors.toList());
-    }
-
-    public List<Post> getPostsFromUser(Integer ID){
-        return userRepo.getUserPosts(ID);
-    }
-
-    @Override
-    public List<Post> getPostsFromUserNewerThan(Integer ID, String oldestDate) {
-        //TODO add exception system
-        LocalDate date_limit=LocalDate.parse(oldestDate);
-        return userRepo.getUserPosts(ID).stream()
-                .filter(post -> post.getPostTime().isAfter(date_limit))
                 .collect(Collectors.toList());
     }
 

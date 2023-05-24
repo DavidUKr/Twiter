@@ -1,26 +1,20 @@
 package app.Twiter.controller;
 
-import app.Twiter.model.Content;
 import app.Twiter.model.Post;
 import app.Twiter.model.Reply;
-import app.Twiter.service.PostService;
-import app.Twiter.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
+import java.net.URL;
 import java.util.List;
 
 @RestController
 @RequestMapping(value="/api/v1/posts/")
-public class PostController {
-    @Autowired
-    PostService postService;
-    UserService userService;
+public interface PostController {
 
     //CREATE
     @Operation(summary = "This endpoint adds post")
@@ -33,31 +27,22 @@ public class PostController {
             @ApiResponse(responseCode = "500", description = "Something happened, could not add post",content = @io.swagger.v3.oas.annotations.media.Content)
     })
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    public void addPostToUser(@PathVariable Integer user_id, @RequestBody Post post){
-        postService.createPost(post, user_id);
-    }
+    void addPostToUser(@PathVariable Integer user_id, @RequestBody Post post);
+
     @PostMapping (value = "/feed/{post_id}", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public void replyPost(@PathVariable Integer user_id, @PathVariable Integer post_id, @RequestBody Content content, @RequestParam boolean isPublic){
-        postService.createReply(user_id, post_id, content, isPublic);
-    }
+    void replyPost(@PathVariable Integer user_id, @PathVariable Integer post_id, @RequestBody String text, @RequestBody URL url, @RequestParam boolean isPublic);
 
     //READ
     @GetMapping(value="/{user_id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<Post> getMyPosts(@PathVariable Integer user_id){
-        return userService.getPostsFromUser(user_id);
-    }
+    List<Post> getMyPosts(@PathVariable Integer user_id);
+
     @GetMapping(value = "/{user_id}/filter", produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<Post> getMyPostsNewerThan(@PathVariable Integer user_id, @RequestParam Integer oldest_date){
-        return userService.getPostsFromUserNewerThan(user_id, oldest_date);
-    }
+    List<Post> getMyPostsNewerThan(@PathVariable Integer user_id, @RequestParam String oldest_date);
+
     @GetMapping(value = "/{post_id}/replies", produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<Reply> getMyPostReplies(@PathVariable Integer post_id){
-        return postService.getMyPostReplies(post_id);
-    }
+    List<Reply> getMyPostReplies(@PathVariable Integer post_id);
 
     //DELETE
     @DeleteMapping( value = "/{post_id}")
-    public void deletePost(@RequestParam Integer post_id){
-        postService.deletePost(post_id);
-    }
+    void deletePost(@RequestParam Integer post_id);
 }

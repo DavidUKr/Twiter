@@ -1,11 +1,13 @@
 package app.Twiter.service;
 
 import app.Twiter.model.*;
-import app.Twiter.repository.PostRepo;
-import app.Twiter.repository.UserRepo;
+import app.Twiter.repository.PostRepoImpl;
+import app.Twiter.repository.UserRepoImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.net.URL;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -13,10 +15,10 @@ import java.util.stream.Collectors;
 @Service
 public class PostServiceImpl implements PostService{
 
-    PostRepo postRepo;
-    UserRepo userRepo;
+    PostRepoImpl postRepo;
+    UserRepoImpl userRepo;
     @Autowired
-    public PostServiceImpl(PostRepo postRepo, UserRepo  userRepo){
+    public PostServiceImpl(PostRepoImpl postRepo, UserRepoImpl userRepo){
         this.postRepo=postRepo;
         this.userRepo=userRepo;
     }
@@ -39,8 +41,8 @@ public class PostServiceImpl implements PostService{
     }
 
     @Override
-    public void createReply(Integer userId, Integer postId, Content content, boolean isPublic) {
-        Reply reply=new Reply(userId, content, postId, isPublic);
+    public void createReply(Integer userId, Integer postId, String text, URL url, boolean isPublic) {
+        Reply reply=new Reply(userId, text, url, postId, isPublic, postRepo.getPostByID(postId).getOwner());
         userRepo.getUserByID(userId).addPOST(reply);
         postRepo.getPostByID(postId).addReply(reply);
     }
@@ -58,11 +60,31 @@ public class PostServiceImpl implements PostService{
     }
 
     @Override
+    public List<Post> getPostsFromUser(Integer userId) {
+        //TODO Question can postservice acces userRepo?
+        List<Integer> post_ids=userRepo.getUserPosts(userId);
+        List<Post> POSTS=new ArrayList<>();
+
+        for(Integer id: post_ids){
+            POSTS.add(postRepo.getPostByID(id));
+        }
+
+        return POSTS;
+    }
+
+    @Override
+    public List<Post> getPostsFromUserNewerThan(Integer userId, String oldestDate) {
+        List<Post> POSTS=getPostsFromUser(userId);
+        LocalDate date_limit=LocalDate.parse(oldestDate);
+        return POSTS.stream().filter(post -> post.getPostTime().isAfter(date_limit)).collect(Collectors.toList());
+    }
+
+    @Override
     public void repost(Integer userId, Integer postId) {
         Post original=getPostById(postId);
         //TODO QUESTION: Better add instance or just reference?
         original.addRepost();
-        Post post=new Post(userId, original.getContent(), true, original.getOwner());
+        Post post=new Post(userId, original.getText(), original.getUrl(), true, original.getOwner());
         createPost(post, userId);
     }
 
@@ -99,11 +121,11 @@ public class PostServiceImpl implements PostService{
 
         ArrayList<Integer> follow_list= (ArrayList<Integer>) userRepo.getUserByID(ID).getFOLLOW();
         for(Integer user_id:follow_list){
-            feed.addAll(userRepo.getUserByID(user_id).getPOSTS().values().stream()
-                    .filter(posting -> (posting instanceof Post))
-                    .collect(Collectors.toList()));
+            feed.addAll(getPostsFromUser(user_id));
         }
 
         return feed;
     }
+
+
 }

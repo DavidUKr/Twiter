@@ -1,42 +1,18 @@
 package app.Twiter.repository;
 
 import app.Twiter.model.Post;
-import app.Twiter.model.Reply;
-import org.springframework.stereotype.Repository;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 
-import java.util.HashMap;
-import java.util.IllegalFormatCodePointException;
 import java.util.List;
-import java.util.Objects;
-import java.util.stream.Collectors;
 
-@Repository
-public class PostRepo {
-    private HashMap<Integer, Post> POSTS= new HashMap<>();
-    private Integer index=0; //TODO update inedxing system
+public interface PostRepo extends JpaRepository <Post, String>{
 
-    public List<Post> getAll(){
-        return POSTS.values().stream().collect(Collectors.toList());
-    }
+    @Query("SELECT p FROM Post p")
+    List<Post> getAll();
 
-    //CREATE
-    public void createPost(Post post){
-        post.setID(index);
-        POSTS.put(index, post);
-        index++;
-    }
+    @Query("INSERT INTO Post p")
+    Object save(Post post);
+    //TODO QUESTION DO YOU NEED IMPLEMENTATION?
 
-    //READ
-    public Post getPostByID(int ID){
-        Post post=POSTS.get(ID);
-        if(Objects.isNull(post)) throw new RuntimeException("Post "+ID+ "not found");
-        return post;
-    }
-
-    //UPDATE
-
-    //DELETE
-    public void deletePost(int ID){
-        POSTS.remove(ID);
-    }
 }
