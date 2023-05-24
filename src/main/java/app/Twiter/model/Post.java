@@ -1,5 +1,7 @@
 package app.Twiter.model;
 
+import io.swagger.v3.oas.annotations.media.Content;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 
@@ -8,10 +10,19 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+@Entity
+@Table(name = "posts")
 public class Post{
+
+    //@Id
+    //@GeneratedValue(strategy = GenerationType.UUID)
     private Integer ID;
-    @NotNull
+
+    //@ManyToOne
+    //@JoinColumn(name="owner_id")
     private Integer ownerID;
+
+
     private String text;
     private URL url;
     @Min(0)
@@ -25,7 +36,7 @@ public class Post{
     private java.util.List<Like> LIKES;
     private List<Reply> REPLIES;
 
-    public Post(Integer ownerID, String text, URL url){
+/*    public Post(Integer ownerID, String text, URL url){
         this.ownerID=ownerID;
         this.text=text;
         this.url=url;
@@ -37,8 +48,8 @@ public class Post{
 
         LIKES=new ArrayList<>();
         REPLIES=new ArrayList<>();
-    }
-    public Post(Integer ownerID, String text, URL url, boolean isRepost, Integer author_id){
+    }*/
+   /* public Post(Integer ownerID, String text, URL url, boolean isRepost, Integer author_id){
         this.ownerID=ownerID;
         this.text=text;
         this.url=url;
@@ -53,7 +64,7 @@ public class Post{
 
         LIKES=new ArrayList<>();
         REPLIES=new ArrayList<>();
-    }
+    }*/
 
     public void setID(Integer ID){
         this.ID=ID;

@@ -1,8 +1,8 @@
 package app.Twiter.service;
 
 import app.Twiter.model.*;
-import app.Twiter.repository.PostRepo;
-import app.Twiter.repository.UserRepo;
+import app.Twiter.repository.PostRepoImpl;
+import app.Twiter.repository.UserRepoImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,10 +15,10 @@ import java.util.stream.Collectors;
 @Service
 public class PostServiceImpl implements PostService{
 
-    PostRepo postRepo;
-    UserRepo userRepo;
+    PostRepoImpl postRepo;
+    UserRepoImpl userRepo;
     @Autowired
-    public PostServiceImpl(PostRepo postRepo, UserRepo  userRepo){
+    public PostServiceImpl(PostRepoImpl postRepo, UserRepoImpl userRepo){
         this.postRepo=postRepo;
         this.userRepo=userRepo;
     }

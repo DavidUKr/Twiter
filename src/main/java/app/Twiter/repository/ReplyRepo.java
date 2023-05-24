@@ -1,4 +1,4 @@
 package app.Twiter.repository;
 
-public interface UserRepo {
+public interface ReplyRepo {
 }
