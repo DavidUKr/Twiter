@@ -1,13 +1,48 @@
 package app.Twiter.controller;
 
+import app.Twiter.model.Content;
 import app.Twiter.model.Post;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import app.Twiter.model.Reply;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping(value="/api/v1/posts/")
 public interface PostController {
+
+    //CREATE
+    @Operation(summary = "This endpoint adds post")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Post added",
+                    content = { @io.swagger.v3.oas.annotations.media.Content(mediaType = "application/json",
+                            schema = @Schema(implementation = Post.class)) }),
+            @ApiResponse(responseCode = "400", description = "Bad request",content = @io.swagger.v3.oas.annotations.media.Content),
+            @ApiResponse(responseCode = "404", description = "User not found", content = @io.swagger.v3.oas.annotations.media.Content),
+            @ApiResponse(responseCode = "500", description = "Something happened, could not add post",content = @io.swagger.v3.oas.annotations.media.Content)
+    })
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     void addPostToUser(@PathVariable Integer user_id, @RequestBody Post post);
+
+    @PostMapping (value = "/feed/{post_id}", consumes = MediaType.APPLICATION_JSON_VALUE)
+    void replyPost(@PathVariable Integer user_id, @PathVariable Integer post_id, @RequestBody Content content, @RequestParam boolean isPublic);
+
+    //READ
+    @GetMapping(value="/{user_id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    List<Post> getMyPosts(@PathVariable Integer user_id);
+
+    @GetMapping(value = "/{user_id}/filter", produces = MediaType.APPLICATION_JSON_VALUE)
+    List<Post> getMyPostsNewerThan(@PathVariable Integer user_id, @RequestParam String oldest_date);
+
+    @GetMapping(value = "/{post_id}/replies", produces = MediaType.APPLICATION_JSON_VALUE)
+    List<Reply> getMyPostReplies(@PathVariable Integer post_id);
+
+    //DELETE
+    @DeleteMapping( value = "/{post_id}")
+    void deletePost(@RequestParam Integer post_id);
 }
