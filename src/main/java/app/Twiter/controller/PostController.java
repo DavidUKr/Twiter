@@ -47,7 +47,7 @@ public class PostController {
         return userService.getPostsFromUser(user_id);
     }
     @GetMapping(value = "/{user_id}/filter", produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<Post> getMyPostsNewerThan(@PathVariable Integer user_id, @RequestParam Integer oldest_date){
+    public List<Post> getMyPostsNewerThan(@PathVariable Integer user_id, @RequestParam String oldest_date){
         return userService.getPostsFromUserNewerThan(user_id, oldest_date);
     }
     @GetMapping(value = "/{post_id}/replies", produces = MediaType.APPLICATION_JSON_VALUE)
