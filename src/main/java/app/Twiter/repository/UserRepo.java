@@ -34,7 +34,7 @@ public class UserRepo {
         return user;
     }
 
-    public List<Post> getUserPosts(Integer ID){
+    public List<Integer> getUserPosts(Integer ID){
         User user=getUserByID(ID);
         return user.getAllPosts();
     }

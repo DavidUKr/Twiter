@@ -1,6 +1,5 @@
 package app.Twiter.controller;
 
-import app.Twiter.model.Content;
 import app.Twiter.model.Post;
 import app.Twiter.model.Reply;
 import app.Twiter.service.PostService;
@@ -13,29 +12,29 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
+import java.net.URL;
 import java.util.List;
 
 public class PostControllerImpl implements PostController{
     @Autowired
     PostService postService;
-    UserService userService;
 
     //CREATE
     public void addPostToUser(@PathVariable Integer user_id, @RequestBody Post post){
         postService.createPost(post, user_id);
     }
 
-    public void replyPost(@PathVariable Integer user_id, @PathVariable Integer post_id, @RequestBody Content content, @RequestParam boolean isPublic){
-        postService.createReply(user_id, post_id, content, isPublic);
+    public void replyPost(@PathVariable Integer user_id, @PathVariable Integer post_id, @RequestBody String text, @RequestBody URL url, @RequestParam boolean isPublic){
+        postService.createReply(user_id, post_id, text, url, isPublic);
     }
 
     //READ
     public List<Post> getMyPosts(@PathVariable Integer user_id){
-        return userService.getPostsFromUser(user_id);
+        return postService.getPostsFromUser(user_id);
     }
 
     public List<Post> getMyPostsNewerThan(@PathVariable Integer user_id, @RequestParam String oldest_date){
-        return userService.getPostsFromUserNewerThan(user_id, oldest_date);
+        return postService.getPostsFromUserNewerThan(user_id, oldest_date);
     }
 
     public List<Reply> getMyPostReplies(@PathVariable Integer post_id){

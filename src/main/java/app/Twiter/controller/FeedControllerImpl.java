@@ -1,7 +1,6 @@
 package app.Twiter.controller;
 
 import app.Twiter.model.Post;
-import app.Twiter.model.Posting;
 import app.Twiter.service.PostService;
 import app.Twiter.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;

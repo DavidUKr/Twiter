@@ -1,7 +1,6 @@
 package app.Twiter.controller;
 
 import app.Twiter.model.Post;
-import app.Twiter.model.Posting;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -20,7 +19,7 @@ public interface FeedController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Feed recieved",
                     content = {@Content(mediaType = "application/json",
-                            schema =  @Schema(implementation = Posting.class))
+                            schema =  @Schema(implementation = Post.class))
                     }),
             @ApiResponse(responseCode = "400", description = "Bad Request",content = @Content),
             @ApiResponse(responseCode = "500", description = "Could not return feed",content = @Content)

@@ -3,15 +3,17 @@ package app.Twiter.model;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 
+import java.net.URL;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Post implements Posting{
+public class Post{
     private Integer ID;
     @NotNull
     private Integer ownerID;
-    private Content content;
+    private String text;
+    private URL url;
     @Min(0)
     private int LikeCount;
     private int ReplyCount;
@@ -23,9 +25,10 @@ public class Post implements Posting{
     private java.util.List<Like> LIKES;
     private List<Reply> REPLIES;
 
-    public Post(Integer ownerID, Content content){
+    public Post(Integer ownerID, String text, URL url){
         this.ownerID=ownerID;
-        this.content=content;
+        this.text=text;
+        this.url=url;
         LikeCount=0;
         ReplyCount=0;
         ViewCount=0;
@@ -35,9 +38,10 @@ public class Post implements Posting{
         LIKES=new ArrayList<>();
         REPLIES=new ArrayList<>();
     }
-    public Post(Integer ownerID, Content content, boolean isRepost, Integer author_id){
+    public Post(Integer ownerID, String text, URL url, boolean isRepost, Integer author_id){
         this.ownerID=ownerID;
-        this.content=content;
+        this.text=text;
+        this.url=url;
         LikeCount=0;
         ReplyCount=0;
         ViewCount=0;
@@ -51,90 +55,81 @@ public class Post implements Posting{
         REPLIES=new ArrayList<>();
     }
 
-    @Override
     public void setID(Integer ID){
         this.ID=ID;
     }
 
-    @Override
     public int getID(){
         return ID;
     }
 
-    @Override
     public void addLike(Like like){
         LIKES.add(like);
         LikeCount++;
     }
 
-    @Override
     public void removeLike(Like like) {
         LIKES.remove(like);
         LikeCount--;
     }
 
-    @Override
     public int getLikeCount() {
         return LikeCount;
     }
 
-    @Override
     public List<Like> getLIKES() {
         return LIKES;
     }
 
-    @Override
     public void addReply(Reply reply) {
         REPLIES.add(reply);
         ReplyCount++;
     }
 
-    @Override
     public void removeReply(Reply reply) {
         REPLIES.remove(reply);
     }
 
-    @Override
     public int getReplyCount() {
         return ReplyCount;
     }
 
-    @Override
     public List<Reply> getREPLIES() {
         return REPLIES;
     }
 
-    @Override
     public void setOwner(Integer ownerID) {
         this.ownerID=ownerID;
     }
 
-    @Override
     public Integer getOwner() {
         return ownerID;
     }
 
-    @Override
-    public void setContent(Content content) {
-        this.content=content;
+    public String getText() {
+        return text;
     }
 
-    @Override
-    public Content getContent() {
-        return content;
+    public void setText(String text) {
+        this.text = text;
     }
 
-    @Override
+    public URL getUrl() {
+        return url;
+    }
+
+    public void setUrl(URL url) {
+        this.url = url;
+    }
+
     public void addView() {
         ViewCount++;
     }
 
-    @Override
     public int getViewCount() {
         return ViewCount;
     }
 
-    @Override
     public void addRepost() {
         RepostCount++;
     }
@@ -143,7 +138,6 @@ public class Post implements Posting{
         RepostCount--;
     }
 
-    @Override
     public int getRepostCount() {
         return RepostCount;
     }

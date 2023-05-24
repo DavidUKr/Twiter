@@ -14,8 +14,6 @@ public interface UserService {
     User getUserByID(Integer ID);
     List<User> getAll();
     List<User> searchUserByName(String name);
-    List<Post> getPostsFromUser(Integer id);
     void addFollowing(Integer follower, Integer followed);
     void removeFollowing(Integer follower, Integer followed);
-    List<Post> getPostsFromUserNewerThan(Integer id, String oldestDate);
 }

@@ -32,10 +32,10 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public void deleteUser(Integer ID) {
-        for(Post post: getPostsFromUser(ID)){ //delete posts from PostRepo
+        for(Post post: postService.getPostsFromUser(ID)){ //delete posts from PostRepo
             postService.deletePost(post.getID());
         }
-        getPostsFromUser(ID).clear(); //delete posts from user data
+        postService.getPostsFromUser(ID).clear(); //delete posts from user data
         userRepo.deleteUser(ID);
     }
 
@@ -68,19 +68,6 @@ public class UserServiceImpl implements UserService{
                 .filter(user -> user.getUSERNAME().contains(name) ||
                         user.getFIRST_NAME().contains(name) ||
                         user.getLAST_NAME().contains(name))
-                .collect(Collectors.toList());
-    }
-
-    public List<Post> getPostsFromUser(Integer ID){
-        return userRepo.getUserPosts(ID);
-    }
-
-    @Override
-    public List<Post> getPostsFromUserNewerThan(Integer ID, String oldestDate) {
-        //TODO add exception system
-        LocalDate date_limit=LocalDate.parse(oldestDate);
-        return userRepo.getUserPosts(ID).stream()
-                .filter(post -> post.getPostTime().isAfter(date_limit))
                 .collect(Collectors.toList());
     }
 

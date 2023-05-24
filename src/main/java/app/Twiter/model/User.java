@@ -19,7 +19,7 @@ public class User {
     @NotNull
     private String PASSWORD;
 
-    private Map<Integer, Post> POSTS; //index-post
+    private List<Integer> POSTS; //contains post Id's
     private List<Integer> FOLLOW;
     private List<Integer> FOLLOWERS;
 
@@ -30,7 +30,7 @@ public class User {
         this.FIRST_NAME=FIRST_NAME;
         this.PASSWORD=PASSWORD;
 
-        POSTS=new HashMap<>();
+        POSTS=new ArrayList<>();
         FOLLOW=new ArrayList<>();
         FOLLOWERS=new ArrayList<>();
     }
@@ -83,19 +83,19 @@ public class User {
         this.PASSWORD = PASSWORD;
     }
 
-    public Map<Integer, Post> getPOSTS() {
+    public List<Integer> getPOSTS() {
         return POSTS;
     }
 
     public void addPOST(Post post) {
-        POSTS.put(post.getID(), post);
+        POSTS.add(post.getID());
     }
     public void removePOST(Integer id){
         POSTS.remove(id);
     }
 
-    public List<Post> getAllPosts(){
-        return POSTS.values().stream().collect(Collectors.toList());
+    public List<Integer> getAllPosts(){
+        return POSTS;
     }
 
     public List<Integer> getFOLLOW() {

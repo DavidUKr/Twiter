@@ -1,6 +1,5 @@
 package app.Twiter.controller;
 
-import app.Twiter.model.Content;
 import app.Twiter.model.Post;
 import app.Twiter.model.Reply;
 import io.swagger.v3.oas.annotations.Operation;
@@ -10,6 +9,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
+import java.net.URL;
 import java.util.List;
 
 @RestController
@@ -30,7 +30,7 @@ public interface PostController {
     void addPostToUser(@PathVariable Integer user_id, @RequestBody Post post);
 
     @PostMapping (value = "/feed/{post_id}", consumes = MediaType.APPLICATION_JSON_VALUE)
-    void replyPost(@PathVariable Integer user_id, @PathVariable Integer post_id, @RequestBody Content content, @RequestParam boolean isPublic);
+    void replyPost(@PathVariable Integer user_id, @PathVariable Integer post_id, @RequestBody String text, @RequestBody URL url, @RequestParam boolean isPublic);
 
     //READ
     @GetMapping(value="/{user_id}", produces = MediaType.APPLICATION_JSON_VALUE)
