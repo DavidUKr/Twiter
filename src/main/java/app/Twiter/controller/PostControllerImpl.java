@@ -15,9 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RestController
-@RequestMapping(value="/api/v1/posts/")
-public class PostControllerImpl {
+public class PostControllerImpl implements PostController{
     @Autowired
     PostService postService;
     UserService userService;
