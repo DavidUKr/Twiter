@@ -14,19 +14,23 @@ import java.util.List;
 @Table(name = "posts")
 public class Post{
 
-    //@Id
-    //@GeneratedValue(strategy = GenerationType.UUID)
+    @Id
+    @GeneratedValue(strategy = GenerationType.UUID)
     private Integer ID;
 
-    //@ManyToOne
-    //@JoinColumn(name="owner_id")
+    @ManyToOne
+    @JoinColumn(name="owner_id", nullable = false)
     private Integer ownerID;
 
-
+    @Column
     private String text;
+    @Column
     private URL url;
+
+    @Column
     @Min(0)
     private int LikeCount;
+    @Column
     private int ReplyCount;
     private int ViewCount;
     private int RepostCount;
@@ -36,7 +40,8 @@ public class Post{
     private java.util.List<Like> LIKES;
     private List<Reply> REPLIES;
 
-/*    public Post(Integer ownerID, String text, URL url){
+    public Post(){}
+    public Post(Integer ownerID, String text, URL url){
         this.ownerID=ownerID;
         this.text=text;
         this.url=url;
@@ -48,8 +53,8 @@ public class Post{
 
         LIKES=new ArrayList<>();
         REPLIES=new ArrayList<>();
-    }*/
-   /* public Post(Integer ownerID, String text, URL url, boolean isRepost, Integer author_id){
+    }
+    public Post(Integer ownerID, String text, URL url, boolean isRepost, Integer author_id){
         this.ownerID=ownerID;
         this.text=text;
         this.url=url;
@@ -64,7 +69,7 @@ public class Post{
 
         LIKES=new ArrayList<>();
         REPLIES=new ArrayList<>();
-    }*/
+    }
 
     public void setID(Integer ID){
         this.ID=ID;
