@@ -42,7 +42,7 @@ public class PostServiceImpl implements PostService{
 
     @Override
     public void createReply(Integer userId, Integer postId, String text, URL url, boolean isPublic) {
-        Reply reply=new Reply(userId, text, url, postId, isPublic);
+        Reply reply=new Reply(userId, text, url, postId, isPublic, postRepo.getPostByID(postId).getOwner());
         userRepo.getUserByID(userId).addPOST(reply);
         postRepo.getPostByID(postId).addReply(reply);
     }

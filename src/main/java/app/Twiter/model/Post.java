@@ -4,6 +4,7 @@ import io.swagger.v3.oas.annotations.media.Content;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
+import org.hibernate.annotations.ManyToAny;
 
 import java.net.URL;
 import java.time.LocalDate;
@@ -32,11 +33,17 @@ public class Post{
     private int LikeCount;
     @Column
     private int ReplyCount;
+    @Column
     private int ViewCount;
+    @Column
     private int RepostCount;
+    @Column
     boolean isRepost=false;
+    @Column
     Integer author_Id;
+    @Column
     private LocalDate postTime;
+
     private java.util.List<Like> LIKES;
     private List<Reply> REPLIES;
 

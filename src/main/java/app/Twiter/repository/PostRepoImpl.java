@@ -9,7 +9,7 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Repository
-public class PostRepoImpl {
+public class PostRepoImpl implements PostRepo{
     private HashMap<Integer, Post> POSTS= new HashMap<>();
     private Integer index=0; //TODO update inedxing system
 

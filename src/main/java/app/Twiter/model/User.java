@@ -1,5 +1,6 @@
 package app.Twiter.model;
 
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 
 import java.util.ArrayList;
@@ -8,21 +9,25 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+@Entity
+@Table(name = "users")
 public class User {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.UUID)
     private int ID; //TODO upgrade to unique indexing
-    @NotNull
-    private String EMAIL;
-    @NotNull
+    @Column(nullable = false)
     private String USERNAME;
+    @Column
     private String LAST_NAME;
+    @Column
     private String FIRST_NAME;
-    @NotNull
+    @Column(nullable = false)
+    private String EMAIL;
+    @Column(nullable = false)
     private String PASSWORD;
 
-    private List<Integer> POSTS; //contains post Id's
-    private List<Integer> FOLLOW;
-    private List<Integer> FOLLOWERS;
-
+    public User(){}
     public User(String EMAIL, String USERNAME, String LAST_NAME, String FIRST_NAME, String PASSWORD){
         this.EMAIL=EMAIL;
         this.USERNAME=USERNAME;
@@ -30,9 +35,9 @@ public class User {
         this.FIRST_NAME=FIRST_NAME;
         this.PASSWORD=PASSWORD;
 
-        POSTS=new ArrayList<>();
-        FOLLOW=new ArrayList<>();
-        FOLLOWERS=new ArrayList<>();
+        //POSTS=new ArrayList<>();
+        //FOLLOW=new ArrayList<>();
+        //FOLLOWERS=new ArrayList<>();
     }
 
     public int getID() {
@@ -83,7 +88,7 @@ public class User {
         this.PASSWORD = PASSWORD;
     }
 
-    public List<Integer> getPOSTS() {
+    /*public List<Integer> getPOSTS() {
         return POSTS;
     }
 
@@ -120,5 +125,5 @@ public class User {
 
     public void removeFollower(Integer follower) {
         FOLLOWERS.remove(follower);
-    }
+    }*/
 }
