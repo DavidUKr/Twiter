@@ -1,5 +1,7 @@
 package app.Twiter.model;
 
+import jakarta.persistence.ForeignKey;
+import jakarta.persistence.JoinColumns;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 
@@ -10,6 +12,8 @@ import java.util.List;
 public class Post implements Posting{
     private Integer ID;
     @NotNull
+    @JoinColumns(foreignKey = " ")
+    @
     private Integer ownerID;
     private Content content;
     @Min(0)

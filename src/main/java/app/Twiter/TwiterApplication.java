@@ -19,6 +19,7 @@ public class TwiterApplication {
 	Exceptions for each controller method
 	Rename classes
 	Remove Content Class-> text and url
+	* DTO objects
 	*
 	* DONE:
 	* Change request paths for controllers

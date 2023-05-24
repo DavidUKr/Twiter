@@ -1,5 +1,6 @@
 package app.Twiter.model;
 
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 
 import java.util.ArrayList;
@@ -8,9 +9,15 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+@Entity
+@Table
 public class User {
+
+    @PrimaryKeyJoinColumn
+    @PrimaryKeyJoinColumns()
     private int ID; //TODO upgrade to unique indexing
     @NotNull
+    @JoinColumn(referencedColumnName = "")
     private String EMAIL;
     @NotNull
     private String USERNAME;
