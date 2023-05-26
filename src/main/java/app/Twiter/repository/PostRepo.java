@@ -8,11 +8,12 @@ import java.util.List;
 
 public interface PostRepo extends JpaRepository <Post, String>{
 
-    @Query("SELECT p FROM Post p")
-    List<Post> getAll();
+//    @Query("SELECT p FROM Post p")
+    //List<Post> getAll();
 
-    @Query("INSERT INTO Post p")
-    Object save(Post post);
+   // @Query("INSERT INTO Post p")
+    //Object save(Post post);
     //TODO QUESTION DO YOU NEED IMPLEMENTATION?
 
+    Post findPostsByAuthor_Id(Integer authorId);
 }

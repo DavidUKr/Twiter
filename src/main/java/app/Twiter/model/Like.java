@@ -15,7 +15,7 @@ public class Like {
     private Integer ID;
 
     @JoinColumn
-    private final Integer owner_id;
+    private Integer owner_id;
     @JoinColumn
     private final Integer post_id;
     @Column

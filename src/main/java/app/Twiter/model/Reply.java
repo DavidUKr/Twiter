@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "Replies")
+@Table(name = "replies")
 public class Reply extends Post{
     private Integer rootPost_id;
     private boolean isPublic;

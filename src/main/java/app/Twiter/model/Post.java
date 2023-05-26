@@ -20,7 +20,7 @@ public class Post{
 
     @ManyToOne
     @JoinColumn(name="owner_id", nullable = false)
-    private Integer ownerID;
+    private User ownerID;
 
     @Column
     private String text;
@@ -43,8 +43,6 @@ public class Post{
     @Column
     private LocalDate postTime;
 
-    private java.util.List<Like> LIKES;
-    private List<Reply> REPLIES;
 
     public Post(){}
     public Post(Integer ownerID, String text, URL url){
