@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "replies")
+//@Table(name = "replies")
 public class Reply extends Post{
     private Integer rootPostId;
     private boolean isPublic;
