@@ -14,32 +14,54 @@ public class Like {
     @GeneratedValue(strategy = GenerationType.UUID)
     private Integer ID;
 
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn
-    private Integer owner_id;
+    private User ownerId;
+
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn
-    private final Integer post_id;
+    private Post postId;
+
     @Column
-    private final LocalDate like_time;
-//TODO QUESTION can entity atributes be final?
-    public Like(){
+    private LocalDate likeTime;
+    public Like(){}
 
-    }
-    public Like(Integer owner_id, Integer post_id){
-        this.owner_id=owner_id;
-        this.post_id=post_id;
-
-        like_time= LocalDate.now();
-    }
-    public Integer getOwner() {
-        return owner_id;
+    public Like(Integer ID, User ownerId, Post postId) {
+        this.ID = ID;
+        this.ownerId = ownerId;
+        this.postId = postId;
+        this.likeTime = LocalDate.now();
     }
 
-    public Integer getPost() {
-        return post_id;
+    public Integer getID() {
+        return ID;
     }
 
-    public LocalDate getLike_time() {
-        return like_time;
+    public void setID(Integer ID) {
+        this.ID = ID;
     }
 
+    public User getOwnerId() {
+        return ownerId;
+    }
+
+    public void setOwnerId(User ownerId) {
+        this.ownerId = ownerId;
+    }
+
+    public Post getPostId() {
+        return postId;
+    }
+
+    public void setPostId(Post postId) {
+        this.postId = postId;
+    }
+
+    public LocalDate getLikeTime() {
+        return likeTime;
+    }
+
+    public void setLikeTime(LocalDate likeTime) {
+        this.likeTime = likeTime;
+    }
 }
