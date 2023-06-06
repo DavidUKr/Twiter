@@ -1,10 +1,8 @@
 package app.Twiter.model;
 
 import jakarta.persistence.*;
-import jakarta.persistence.criteria.CriteriaBuilder;
 
 import java.time.LocalDate;
-import java.util.Date;
 
 @Entity
 @Table(name = "likes")
@@ -12,7 +10,7 @@ public class Like {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    private Integer ID;
+    private Integer id;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn
@@ -27,18 +25,18 @@ public class Like {
     public Like(){}
 
     public Like(Integer ID, User ownerId, Post postId) {
-        this.ID = ID;
+        this.id = ID;
         this.ownerId = ownerId;
         this.postId = postId;
         this.likeTime = LocalDate.now();
     }
 
-    public Integer getID() {
-        return ID;
+    public Integer getId() {
+        return id;
     }
 
-    public void setID(Integer ID) {
-        this.ID = ID;
+    public void setId(Integer ID) {
+        this.id = ID;
     }
 
     public User getOwnerId() {

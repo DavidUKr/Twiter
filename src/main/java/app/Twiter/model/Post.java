@@ -26,7 +26,7 @@ public class Post {
     @Column
     private String text;
     @Column
-    private URL url;
+    private String url;
 
     @Column
     @Min(0)
@@ -48,7 +48,7 @@ public class Post {
     public Post() {
     }
 
-    public Post(Integer id, User ownerId, String text, URL url, boolean isRepost, Integer authorId, LocalDate postTime) {
+    public Post(Integer id, User ownerId, String text, String url, boolean isRepost, Integer authorId, LocalDate postTime) {
         this.id = id;
         this.ownerId = ownerId;
         this.text = text;
@@ -86,11 +86,11 @@ public class Post {
         this.text = text;
     }
 
-    public URL getUrl() {
+    public String getUrl() {
         return url;
     }
 
-    public void setUrl(URL url) {
+    public void setUrl(String url) {
         this.url = url;
     }
 

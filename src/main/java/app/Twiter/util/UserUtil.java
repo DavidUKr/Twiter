@@ -1,6 +1,7 @@
 package app.Twiter.util;
 
 import app.Twiter.model.User;
+import app.Twiter.model.projections.UserDTO;
 import org.springframework.stereotype.Component;
 
 import java.util.Map;
@@ -13,16 +14,20 @@ public class UserUtil {
         String email = partialUser.get("email");
         String password = partialUser.get("password");
         if (firstName != null) {
-            user.setFIRST_NAME(firstName);
+            user.setFirstName(firstName);
         }
         if (lastName != null) {
-            user.setLAST_NAME(lastName);
+            user.setLastName(lastName);
         }
         if (email != null) {
-            user.setEMAIL(email);
+            user.setEmail(email);
         }
         if (password != null) {
-            user.setPASSWORD(password);
+            user.setPassword(password);
         }
+    }
+
+    public UserDTO patchUserDTO(User user){
+        return new UserDTO(user.getUsername(), user.getLastName(), user.getFirstName(),user.getEmail(), user.getFollowerCount(), user.getFollowCount());
     }
 }

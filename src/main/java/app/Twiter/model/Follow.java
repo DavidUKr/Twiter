@@ -3,7 +3,6 @@ package app.Twiter.model;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
-import java.util.UUID;
 
 @Entity
 @Table(name="follows")
@@ -11,49 +10,49 @@ public class Follow {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    private Integer ID;
+    private Integer id;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn
-    private User Follower;
+    private User follower;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn
-    private User Followee;
+    private User followed;
 
     @Column
     private LocalDate followTime;
     public Follow(){}
 
     public Follow(Integer ID, User follower, User followee) {
-        this.ID = ID;
-        Follower = follower;
-        Followee = followee;
+        this.id = ID;
+        this.follower = follower;
+        followed = followee;
         this.followTime = LocalDate.now();
     }
 
-    public Integer getID() {
-        return ID;
+    public Integer getId() {
+        return id;
     }
 
-    public void setID(Integer ID) {
-        this.ID = ID;
+    public void setId(Integer ID) {
+        this.id = ID;
     }
 
     public User getFollower() {
-        return Follower;
+        return follower;
     }
 
     public void setFollower(User follower) {
-        Follower = follower;
+        this.follower = follower;
     }
 
-    public User getFollowee() {
-        return Followee;
+    public User getFollowed() {
+        return followed;
     }
 
-    public void setFollowee(User followee) {
-        Followee = followee;
+    public void setFollowed(User followed) {
+        this.followed = followed;
     }
 
     public LocalDate getFollowTime() {

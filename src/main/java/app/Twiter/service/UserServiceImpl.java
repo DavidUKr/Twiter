@@ -64,9 +64,9 @@ public class UserServiceImpl implements UserService{
     @Override
     public List<User> searchUserByName(String name) {
         return userRepo.getAllUsers().stream()
-                .filter(user -> user.getUSERNAME().contains(name) ||
-                        user.getFIRST_NAME().contains(name) ||
-                        user.getLAST_NAME().contains(name))
+                .filter(user -> user.getUsername().contains(name) ||
+                        user.getFirstName().contains(name) ||
+                        user.getLastName().contains(name))
                 .collect(Collectors.toList());
     }
 

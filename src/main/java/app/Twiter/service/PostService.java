@@ -13,7 +13,6 @@ public interface PostService {
     void deletePost(Integer postId);
     void repost(Integer userId, Integer postId);
     void likePost(Integer userId, Integer postId);
-
     void unlikePost(Integer userId, Integer postId);
     void createReply(Integer userId, Integer postId, String text, URL url, boolean isPublic);
     List<Reply> getMyPostReplies(Integer postId);

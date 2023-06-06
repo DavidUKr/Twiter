@@ -1,13 +1,6 @@
 package app.Twiter.model;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "users")
@@ -15,89 +8,89 @@ public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    private int ID; //TODO upgrade to unique indexing
+    private int id; //TODO upgrade to unique indexing
     @Column(nullable = false)
-    private String USERNAME;
+    private String username;
     @Column
-    private String LAST_NAME;
+    private String lastName;
     @Column
-    private String FIRST_NAME;
+    private String firstName;
     @Column(nullable = false)
-    private String EMAIL;
+    private String email;
     @Column(nullable = false)
-    private String PASSWORD;
+    private String password;
     @Column
-    private int followersCount;
+    private int followerCount;
     @Column
     private int followCount;
 
     public User(){}
 
-    public User(int ID, String USERNAME, String LAST_NAME, String FIRST_NAME, String EMAIL, String PASSWORD) {
-        this.ID = ID;
-        this.USERNAME = USERNAME;
-        this.LAST_NAME = LAST_NAME;
-        this.FIRST_NAME = FIRST_NAME;
-        this.EMAIL = EMAIL;
-        this.PASSWORD = PASSWORD;
-        this.followersCount = 0;
+    public User(int ID, String USERNAME, String lastName, String FIRST_NAME, String EMAIL, String PASSWORD) {
+        this.id = ID;
+        this.username = USERNAME;
+        this.lastName = lastName;
+        this.firstName = FIRST_NAME;
+        this.email = EMAIL;
+        this.password = PASSWORD;
+        this.followerCount = 0;
         this.followCount = 0;
     }
 
-    public int getID() {
-        return ID;
+    public int getId() {
+        return id;
     }
 
-    public void setID(int ID) {
-        this.ID = ID;
+    public void setId(int ID) {
+        this.id = ID;
     }
 
-    public String getUSERNAME() {
-        return USERNAME;
+    public String getUsername() {
+        return username;
     }
 
-    public void setUSERNAME(String USERNAME) {
-        this.USERNAME = USERNAME;
+    public void setUsername(String USERNAME) {
+        this.username = USERNAME;
     }
 
-    public String getLAST_NAME() {
-        return LAST_NAME;
+    public String getLastName() {
+        return lastName;
     }
 
-    public void setLAST_NAME(String LAST_NAME) {
-        this.LAST_NAME = LAST_NAME;
+    public void setLastName(String LAST_NAME) {
+        this.lastName = LAST_NAME;
     }
 
-    public String getFIRST_NAME() {
-        return FIRST_NAME;
+    public String getFirstName() {
+        return firstName;
     }
 
-    public void setFIRST_NAME(String FIRST_NAME) {
-        this.FIRST_NAME = FIRST_NAME;
+    public void setFirstName(String FIRST_NAME) {
+        this.firstName = FIRST_NAME;
     }
 
-    public String getEMAIL() {
-        return EMAIL;
+    public String getEmail() {
+        return email;
     }
 
-    public void setEMAIL(String EMAIL) {
-        this.EMAIL = EMAIL;
+    public void setEmail(String EMAIL) {
+        this.email = EMAIL;
     }
 
-    public String getPASSWORD() {
-        return PASSWORD;
+    public String getPassword() {
+        return password;
     }
 
-    public void setPASSWORD(String PASSWORD) {
-        this.PASSWORD = PASSWORD;
+    public void setPassword(String PASSWORD) {
+        this.password = PASSWORD;
     }
 
-    public int getFollowersCount() {
-        return followersCount;
+    public int getFollowerCount() {
+        return followerCount;
     }
 
-    public void setFollowersCount(int followersCount) {
-        this.followersCount = followersCount;
+    public void setFollowerCount(int followersCount) {
+        this.followerCount = followersCount;
     }
 
     public int getFollowCount() {
