@@ -12,10 +12,9 @@ public class TwiterApplication {
 	}
 
 	/*TODO
-	* 		DTO objects
+	 * 		Implement JPA repos
 	* 		Add @Operation to all endpoints
 	*		Exceptions for each controller method
-	* 		Implement JPA repos
 	* 		Test Swagger
 	* 		Implement Liquibase
 	* 		Implement Lombok
@@ -28,6 +27,7 @@ public class TwiterApplication {
 	* 	Change User -> not contain Post
 	* 	Search for feed in postRepo, not userRepo
 	* 	Rename classes
+	* 	DTO objects
 	* 	Remove Content Class-> text and url
 	* */
 }
