@@ -12,29 +12,29 @@ public class PostControllerImpl implements PostController{
     PostService postService;
 
     //CREATE
-    public void addPostToUser(@PathVariable Integer user_id, @RequestBody PostDTO postDTO){
+    public void addPostToUser(@PathVariable String user_id, @RequestBody PostDTO postDTO){
         postService.createPost(postDTO, user_id);
     }
 
-    public void replyPost(@PathVariable Integer user_id, @PathVariable Integer post_id, @RequestBody String text, @RequestBody String url, @RequestParam boolean isPublic){
+    public void replyPost(@PathVariable String user_id, @PathVariable String post_id, @RequestBody String text, @RequestBody String url, @RequestParam boolean isPublic){
         postService.createReply(user_id, post_id, text, url, isPublic);
     }
 
     //READ
-    public List<PostDTO> getMyPosts(@PathVariable Integer user_id){
+    public List<PostDTO> getMyPosts(@PathVariable String user_id){
         return postService.getPostsFromUser(user_id);
     }
 
-    public List<PostDTO> getMyPostsNewerThan(@PathVariable Integer user_id, @RequestParam String oldest_date){
+    public List<PostDTO> getMyPostsNewerThan(@PathVariable String user_id, @RequestParam String oldest_date){
         return postService.getPostsFromUserNewerThan(user_id, oldest_date);
     }
 
-    public List<ReplyDTO> getMyPostReplies(@PathVariable Integer post_id){
+    public List<ReplyDTO> getMyPostReplies(@PathVariable String post_id){
         return postService.getMyPostReplies(post_id);
     }
 
     //DELETE
-    public void deletePost(@RequestParam Integer post_id){
+    public void deletePost(@RequestParam String post_id){
         postService.deletePost(post_id);
     }
 }

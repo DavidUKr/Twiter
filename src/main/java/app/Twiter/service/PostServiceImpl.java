@@ -22,62 +22,62 @@ public class PostServiceImpl implements PostService{
     }
 
     @Override
-    public List<PostDTO> getUserFeed(Integer ID) {
+    public List<PostDTO> getUserFeed(String ID) {
         return null;
     }
 
     @Override
-    public PostDTO getPostById(Integer ID) {
+    public PostDTO getPostById(String ID) {
         return null;
     }
 
     @Override
-    public void createPost(PostDTO postDTO, Integer userID) {
+    public void createPost(PostDTO postDTO, String userID) {
 
     }
 
     @Override
-    public void deletePost(Integer postId) {
+    public void deletePost(String postId) {
 
     }
 
     @Override
-    public void repost(Integer userId, Integer postId) {
+    public void repost(String userId, String postId) {
 
     }
 
     @Override
-    public void likePost(Integer userId, Integer postId) {
+    public void likePost(String userId, String postId) {
 
     }
 
     @Override
-    public void unlikePost(Integer userId, Integer postId) {
+    public void unlikePost(String userId, String postId) {
 
     }
 
     @Override
-    public void createReply(Integer userId, Integer postId, String text, String url, boolean isPublic) {
+    public void createReply(String userId, String postId, String text, String url, boolean isPublic) {
 
     }
 
     @Override
-    public List<ReplyDTO> getMyPostReplies(Integer postId) {
+    public List<ReplyDTO> getMyPostReplies(String postId) {
         return null;
     }
 
     @Override
-    public List<ReplyDTO> getPostReplies(Integer postID) {
+    public List<ReplyDTO> getPostReplies(String postID) {
         return null;
     }
 
     @Override
-    public List<PostDTO> getPostsFromUser(Integer userId) {
+    public List<PostDTO> getPostsFromUser(String userId) {
         return null;
     }
 
     @Override
-    public List<PostDTO> getPostsFromUserNewerThan(Integer userId, String oldestDate) {
+    public List<PostDTO> getPostsFromUserNewerThan(String userId, String oldestDate) {
         return null;
     }
 }

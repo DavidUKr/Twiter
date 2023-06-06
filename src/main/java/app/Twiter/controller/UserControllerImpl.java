@@ -21,7 +21,7 @@ public class UserControllerImpl implements UserController{
         return userService.getAll();
     }
 
-    public UserDTO getUserById(@PathVariable Integer id){
+    public UserDTO getUserById(@PathVariable String id){
         return userService.getUserByID(id);
     }
 
@@ -30,12 +30,12 @@ public class UserControllerImpl implements UserController{
     }
 
     //UPDATE
-    public void patchUser(@PathVariable Integer id, @RequestBody UserDTO userDTO){
+    public void patchUser(@PathVariable String id, @RequestBody UserDTO userDTO){
         userService.updateUser(id, userDTO);
     }
 
     //DELETE
-    public void unregisterUser(@PathVariable Integer id){
+    public void unregisterUser(@PathVariable String id){
         userService.deleteUser(id);
     }
 

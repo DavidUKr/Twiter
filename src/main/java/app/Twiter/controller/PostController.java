@@ -29,22 +29,22 @@ public interface PostController {
             @ApiResponse(responseCode = "500", description = "Something happened, could not add post",content = @io.swagger.v3.oas.annotations.media.Content)
     })
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    void addPostToUser(@PathVariable Integer user_id, @RequestBody PostDTO postDTO);
+    void addPostToUser(@PathVariable String user_id, @RequestBody PostDTO postDTO);
 
     @PostMapping (value = "/feed/{post_id}", consumes = MediaType.APPLICATION_JSON_VALUE)
-    void replyPost(@PathVariable Integer user_id, @PathVariable Integer post_id, @RequestBody String text, @RequestBody String url, @RequestParam boolean isPublic);
+    void replyPost(@PathVariable String user_id, @PathVariable String post_id, @RequestBody String text, @RequestBody String url, @RequestParam boolean isPublic);
 
     //READ
     @GetMapping(value="/{user_id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    List<PostDTO> getMyPosts(@PathVariable Integer user_id);
+    List<PostDTO> getMyPosts(@PathVariable String user_id);
 
     @GetMapping(value = "/{user_id}/filter", produces = MediaType.APPLICATION_JSON_VALUE)
-    List<PostDTO> getMyPostsNewerThan(@PathVariable Integer user_id, @RequestParam String oldest_date);
+    List<PostDTO> getMyPostsNewerThan(@PathVariable String user_id, @RequestParam String oldest_date);
 
     @GetMapping(value = "/{post_id}/replies", produces = MediaType.APPLICATION_JSON_VALUE)
-    List<ReplyDTO> getMyPostReplies(@PathVariable Integer post_id);
+    List<ReplyDTO> getMyPostReplies(@PathVariable String post_id);
 
     //DELETE
     @DeleteMapping( value = "/{post_id}")
-    void deletePost(@RequestParam Integer post_id);
+    void deletePost(@RequestParam String post_id);
 }

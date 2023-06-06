@@ -6,12 +6,12 @@ import java.util.Map;
 
 public interface UserService {
     void registerUser(UserDTO userDTO);
-    void deleteUser(Integer ID);
-    void patchUser(Integer ID, Map<String, String> partialUser);
-    void updateUser(Integer ID, UserDTO userDTO);
-    UserDTO getUserByID(Integer ID);
+    void deleteUser(String id);
+    void patchUser(String id, Map<String, String> partialUser);
+    void updateUser(String id, UserDTO userDTO);
+    UserDTO getUserByID(String id);
     List<UserDTO> getAll();
     List<UserDTO> searchUserByName(String name);
-    void addFollowing(Integer follower, Integer followed);
-    void removeFollowing(Integer follower, Integer followed);
+    void addFollowing(String follower, String followed);
+    void removeFollowing(String follower, String followed);
 }

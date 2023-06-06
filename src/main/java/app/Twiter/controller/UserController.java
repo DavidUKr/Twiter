@@ -18,14 +18,14 @@ public interface UserController {
     List<UserDTO> getAllUsers();
 
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    UserDTO getUserById(@PathVariable Integer id);
+    UserDTO getUserById(@PathVariable String id);
 
     @GetMapping(value = "/search", produces = MediaType.APPLICATION_JSON_VALUE)
     List<UserDTO> searchUserByName(@RequestParam String name);
 
     @PatchMapping(value = "/{id}", consumes=MediaType.APPLICATION_JSON_VALUE)
-    void patchUser(@PathVariable Integer id, @RequestBody UserDTO userDTO);
+    void patchUser(@PathVariable String id, @RequestBody UserDTO userDTO);
 
     @DeleteMapping(value = "/{id}")
-    void unregisterUser(@PathVariable Integer id);
+    void unregisterUser(@PathVariable String id);
 }

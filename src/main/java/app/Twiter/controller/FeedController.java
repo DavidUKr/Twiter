@@ -26,7 +26,7 @@ public interface FeedController {
             @ApiResponse(responseCode = "500", description = "Could not return feed",content = @Content)
     })
     @GetMapping(value = "/user_id",produces = MediaType.APPLICATION_JSON_VALUE)
-    List<PostDTO> getMyFeed(@PathVariable Integer user_id);
+    List<PostDTO> getMyFeed(@PathVariable String user_id);
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     List<PostDTO> getAllFeed();
@@ -41,7 +41,7 @@ public interface FeedController {
             @ApiResponse(responseCode = "500", description = "Something happened, could not follow user",content = @Content)
     })
     @PostMapping (value = "/{user_id}/{id_to_follow}/follow")
-    void followUser(@PathVariable Integer user_id,@PathVariable Integer id_to_follow);
+    void followUser(@PathVariable String user_id,@PathVariable String id_to_follow);
 
     @Operation(summary = "This endpoint controls user following")
     @ApiResponses(value = {
@@ -53,14 +53,14 @@ public interface FeedController {
             @ApiResponse(responseCode = "500", description = "Something happened, you are forever following this user",content = @Content)
     })
     @PostMapping (value = "/{user_id}/{id}/unfollow", consumes = MediaType.APPLICATION_JSON_VALUE)
-    void unfollowUser(@PathVariable Integer user_id,@PathVariable Integer id);
+    void unfollowUser(@PathVariable String user_id,@PathVariable String id);
 
     @PostMapping (value = "/{user_id}/{post_id}/retweet")
-    void repost(@PathVariable Integer user_id, @PathVariable Integer post_id);
+    void repost(@PathVariable String user_id, @PathVariable String post_id);
 
     @PostMapping(value = "/{user_id}/{post_id}/like")
-    void likePost(@PathVariable Integer user_id, @PathVariable Integer post_id);
+    void likePost(@PathVariable String user_id, @PathVariable String post_id);
 
     @DeleteMapping(value = "/{user_id}/{post_id}/like")
-    void unlikePost(@PathVariable Integer user_id, @PathVariable Integer post_id);
+    void unlikePost(@PathVariable String user_id, @PathVariable String post_id);
 }

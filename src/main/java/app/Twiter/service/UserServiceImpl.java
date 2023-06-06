@@ -18,25 +18,26 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public void registerUser(UserDTO userDTO) {
+        userRepo.save(userUtil.patchUserFromDTO(userDTO));
     }
 
     @Override
-    public void deleteUser(Integer ID) {
-
+    public void deleteUser(String id) {
+        userRepo.deleteById(id);
     }
 
     @Override
-    public void patchUser(Integer ID, Map<String, String> partialUser) {
-
-    }
-
-    @Override
-    public void updateUser(Integer ID, UserDTO userDTO) {
+    public void patchUser(String id, Map<String, String> partialUser) {
 
     }
 
     @Override
-    public UserDTO getUserByID(Integer ID) {
+    public void updateUser(String id, UserDTO userDTO) {
+
+    }
+
+    @Override
+    public UserDTO getUserByID(String id) {
         return null;
     }
 
@@ -51,12 +52,13 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public void addFollowing(Integer follower, Integer followed) {
+    public void addFollowing(String follower, String followed) {
 
     }
 
     @Override
-    public void removeFollowing(Integer follower, Integer followed) {
+    public void removeFollowing(String follower, String followed) {
 
     }
+
 }
