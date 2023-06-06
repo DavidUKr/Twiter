@@ -24,8 +24,7 @@ public class Like {
     private LocalDate likeTime;
     public Like(){}
 
-    public Like(Integer ID, User ownerId, Post postId) {
-        this.id = ID;
+    public Like(User ownerId, Post postId) {
         this.ownerId = ownerId;
         this.postId = postId;
         this.likeTime = LocalDate.now();

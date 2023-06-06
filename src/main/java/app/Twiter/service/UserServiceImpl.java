@@ -1,85 +1,62 @@
 package app.Twiter.service;
 
-import app.Twiter.model.Post;
-import app.Twiter.model.User;
-import app.Twiter.repository.UserRepoImpl;
+import app.Twiter.model.projections.UserDTO;
+import app.Twiter.repository.UserRepo;
 import app.Twiter.util.UserUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 @Service
 public class UserServiceImpl implements UserService{
 
-    UserRepoImpl userRepo;
-    UserUtil userUtil;
-    PostService postService;
     @Autowired
-    public UserServiceImpl(UserRepoImpl userRepo, UserUtil userUtil, PostService postService){
-        this.userRepo=userRepo;
-        this.userUtil=userUtil;
-        this.postService=postService;
-    }
+    UserRepo userRepo;
+    PostService postService;
+    UserUtil userUtil;
 
     @Override
-    public void registerUser(User user) {
-        userRepo.createUser(user);
+    public void registerUser(UserDTO userDTO) {
     }
 
     @Override
     public void deleteUser(Integer ID) {
-        for(Post post: postService.getPostsFromUser(ID)){ //delete posts from PostRepoImpl
-            postService.deletePost(post.getID());
-        }
-        postService.getPostsFromUser(ID).clear(); //delete posts from user data
-        userRepo.deleteUser(ID);
+
     }
 
     @Override
     public void patchUser(Integer ID, Map<String, String> partialUser) {
-        User toUpdate=userRepo.getUserByID(ID);
-        userUtil.patchUser(toUpdate, partialUser);
-        updateUser(ID, toUpdate);
+
     }
 
     @Override
-    public void updateUser(Integer ID, User user) {
-        userRepo.updateUser(ID, user);
+    public void updateUser(Integer ID, UserDTO userDTO) {
+
     }
 
     @Override
-    public User getUserByID(Integer ID) {
-        return userRepo.getUserByID(ID);
+    public UserDTO getUserByID(Integer ID) {
+        return null;
     }
 
     @Override
-    public List<User> getAll() {
-
-        return userRepo.getAllUsers();
+    public List<UserDTO> getAll() {
+        return null;
     }
 
     @Override
-    public List<User> searchUserByName(String name) {
-        return userRepo.getAllUsers().stream()
-                .filter(user -> user.getUsername().contains(name) ||
-                        user.getFirstName().contains(name) ||
-                        user.getLastName().contains(name))
-                .collect(Collectors.toList());
+    public List<UserDTO> searchUserByName(String name) {
+        return null;
     }
 
     @Override
     public void addFollowing(Integer follower, Integer followed) {
-        userRepo.getUserByID(follower).addFollowing(followed);
-        userRepo.getUserByID(followed).addFollower(follower);
+
     }
 
     @Override
     public void removeFollowing(Integer follower, Integer followed) {
-        userRepo.getUserByID(follower).removeFollowing(followed);
-        userRepo.getUserByID(followed).removeFollower(follower);
-    }
 
+    }
 }

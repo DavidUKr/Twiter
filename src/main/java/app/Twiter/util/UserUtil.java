@@ -27,6 +27,10 @@ public class UserUtil {
         }
     }
 
+    public User patchUserFromDTO(UserDTO userDTO){
+        return new User(userDTO.getUserName(), userDTO.getLastName(), userDTO.getFirstName(), userDTO.getEmail());
+    }
+
     public UserDTO patchUserDTO(User user){
         return new UserDTO(user.getUsername(), user.getLastName(), user.getFirstName(),user.getEmail(), user.getFollowerCount(), user.getFollowCount());
     }

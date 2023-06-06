@@ -26,13 +26,21 @@ public class User {
 
     public User(){}
 
-    public User(int ID, String USERNAME, String lastName, String FIRST_NAME, String EMAIL, String PASSWORD) {
-        this.id = ID;
-        this.username = USERNAME;
+    public User(String username, String lastName, String firstName, String email, String password) {
+        this.username = username;
         this.lastName = lastName;
-        this.firstName = FIRST_NAME;
-        this.email = EMAIL;
-        this.password = PASSWORD;
+        this.firstName = firstName;
+        this.email = email;
+        this.password = password;
+        this.followerCount = 0;
+        this.followCount = 0;
+    }
+
+    public User(String username, String lastName, String firstName, String email) {
+        this.username = username;
+        this.lastName = lastName;
+        this.firstName = firstName;
+        this.email = email;
         this.followerCount = 0;
         this.followCount = 0;
     }
@@ -49,8 +57,8 @@ public class User {
         return username;
     }
 
-    public void setUsername(String USERNAME) {
-        this.username = USERNAME;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getLastName() {
@@ -65,24 +73,24 @@ public class User {
         return firstName;
     }
 
-    public void setFirstName(String FIRST_NAME) {
-        this.firstName = FIRST_NAME;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
     }
 
     public String getEmail() {
         return email;
     }
 
-    public void setEmail(String EMAIL) {
-        this.email = EMAIL;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getPassword() {
         return password;
     }
 
-    public void setPassword(String PASSWORD) {
-        this.password = PASSWORD;
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public int getFollowerCount() {

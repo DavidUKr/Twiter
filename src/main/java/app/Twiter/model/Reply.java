@@ -16,8 +16,8 @@ public class Reply extends Post{
 
     public Reply(){}
 
-    public Reply(Integer id, User ownerId, String text, String url, boolean isRepost, Integer authorId, LocalDate postTime, Integer rootPostId, boolean isPublic) {
-        super(id, ownerId, text, url, isRepost, authorId, postTime);
+    public Reply(User ownerId, String text, String url, boolean isRepost, Integer authorId, LocalDate postTime, Integer rootPostId, boolean isPublic) {
+        super(ownerId, text, url, isRepost, authorId, postTime);
         this.rootPostId = rootPostId;
         this.isPublic = isPublic;
     }

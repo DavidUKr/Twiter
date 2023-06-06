@@ -48,8 +48,7 @@ public class Post {
     public Post() {
     }
 
-    public Post(Integer id, User ownerId, String text, String url, boolean isRepost, Integer authorId, LocalDate postTime) {
-        this.id = id;
+    public Post(User ownerId, String text, String url, boolean isRepost, Integer authorId, LocalDate postTime) {
         this.ownerId = ownerId;
         this.text = text;
         this.url = url;
@@ -59,6 +58,17 @@ public class Post {
         this.repostCount = 0;
         this.isRepost = isRepost;
         this.authorId = authorId;
+        this.postTime = postTime;
+    }
+
+    public Post(User ownerId, String text, String url, LocalDate postTime) {
+        this.ownerId = ownerId;
+        this.text = text;
+        this.url = url;
+        this.likeCount = 0;
+        this.replyCount = 0;
+        this.viewCount = 0;
+        this.repostCount = 0;
         this.postTime = postTime;
     }
 
