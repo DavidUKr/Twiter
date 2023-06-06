@@ -1,10 +1,8 @@
 package app.Twiter.controller;
 
-import app.Twiter.model.User;
 import app.Twiter.model.projections.UserDTO;
 import app.Twiter.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -41,5 +39,5 @@ public class UserControllerImpl implements UserController{
         userService.deleteUser(id);
     }
 
-    //TODO implement get mentions QUESTION: Implemented by Frontend or Backend?
+    //TODO implement get Mentions
 }

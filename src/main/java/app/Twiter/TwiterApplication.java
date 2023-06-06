@@ -12,7 +12,7 @@ public class TwiterApplication {
 	}
 
 	/*TODO
-	 * 		Implement JPA repos
+	* 		Implement JPA repos
 	* 		Add @Operation to all endpoints
 	*		Exceptions for each controller method
 	* 		Test Swagger

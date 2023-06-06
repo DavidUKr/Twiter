@@ -1,8 +1,6 @@
 package app.Twiter.service;
 
 import app.Twiter.model.*;
-import app.Twiter.repository.PostRepoImpl;
-import app.Twiter.repository.UserRepoImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

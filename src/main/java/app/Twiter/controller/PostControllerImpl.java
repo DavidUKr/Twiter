@@ -1,20 +1,10 @@
 package app.Twiter.controller;
 
-import app.Twiter.model.Post;
-import app.Twiter.model.Reply;
 import app.Twiter.model.projections.PostDTO;
 import app.Twiter.model.projections.ReplyDTO;
 import app.Twiter.service.PostService;
-import app.Twiter.service.UserService;
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.media.Schema;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
-
-import java.net.URL;
 import java.util.List;
 
 public class PostControllerImpl implements PostController{
