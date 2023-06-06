@@ -7,7 +7,6 @@ import java.util.Map;
 public interface UserService {
     void registerUser(UserDTO userDTO);
     void deleteUser(String id);
-    void patchUser(String id, Map<String, String> partialUser);
     void updateUser(String id, UserDTO userDTO);
     UserDTO getUserByID(String id);
     List<UserDTO> getAll();

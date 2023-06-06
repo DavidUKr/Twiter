@@ -8,7 +8,7 @@ public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private int id; //TODO upgrade to unique indexing
+    private String id;
     @Column(nullable = false)
     private String username;
     @Column
@@ -45,11 +45,11 @@ public class User {
         this.followCount = 0;
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int ID) {
+    public void setId(String ID) {
         this.id = ID;
     }
 

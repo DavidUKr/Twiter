@@ -1,12 +1,17 @@
 package app.Twiter.service;
 
+import app.Twiter.advice.exception.UserNotFoundException;
+import app.Twiter.model.User;
 import app.Twiter.model.projections.UserDTO;
 import app.Twiter.repository.UserRepo;
 import app.Twiter.util.UserUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 public class UserServiceImpl implements UserService{
@@ -27,23 +32,25 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public void patchUser(String id, Map<String, String> partialUser) {
-
-    }
-
-    @Override
     public void updateUser(String id, UserDTO userDTO) {
-
+        User user=userUtil.patchUserFromDTO(userDTO);
+        user.setId(id);
+        userRepo.save(user); //if exists updates, else inserts
     }
 
     @Override
-    public UserDTO getUserByID(String id) {
-        return null;
+    public UserDTO getUserByID(String id) throws UserNotFoundException{
+        if (userRepo.existsById(id)){
+            return userUtil.patchUserDTO(userRepo.findById(id).get());
+        }
+        else throw new UserNotFoundException("User not found");
     }
 
     @Override
     public List<UserDTO> getAll() {
-        return null;
+        ArrayList<User> users=(ArrayList<User>) userRepo.findAll();
+        ArrayList<UserDTO> userDTOS=new ArrayList<>();
+        return users.stream().map(user -> userUtil.patchUserDTO(user)).collect(Collectors.toList());
     }
 
     @Override
