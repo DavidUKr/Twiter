@@ -12,20 +12,15 @@ public class TwiterApplication {
 	}
 
 	/*TODO
-<<<<<<< HEAD
-	*  Interfaces for @Operations
-	Make post controller not use userService
-	Change User -> not contain Post
-	Search for feed in postRepo, not userRepo
-	Exceptions for each controller method
-	Rename classes
-	Remove Content Class-> text and url
-	* DTO objects
-=======
-	* 	Add @Operation to all endpoints
-	*	Exceptions for each controller method
->>>>>>> 864e917aa86fd84c6711e63505d0cb4fe670d92e
-	*
+	* 		DTO objects
+	* 		Add @Operation to all endpoints
+	*		Exceptions for each controller method
+	* 		Implement JPA repos
+	* 		Test Swagger
+	* 		Implement Liquibase
+	* 		Implement Lombok
+	* 		Implement Mapstruct
+	* 		Test with junit
 	* DONE:
 	* 	Change request paths for controllers
 	*   Interfaces for @Operations

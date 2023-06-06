@@ -26,18 +26,22 @@ public class User {
     private String EMAIL;
     @Column(nullable = false)
     private String PASSWORD;
+    @Column
+    private int followersCount;
+    @Column
+    private int followCount;
 
     public User(){}
-    public User(String EMAIL, String USERNAME, String LAST_NAME, String FIRST_NAME, String PASSWORD){
-        this.EMAIL=EMAIL;
-        this.USERNAME=USERNAME;
-        this.LAST_NAME=LAST_NAME;
-        this.FIRST_NAME=FIRST_NAME;
-        this.PASSWORD=PASSWORD;
 
-        //POSTS=new ArrayList<>();
-        //FOLLOW=new ArrayList<>();
-        //FOLLOWERS=new ArrayList<>();
+    public User(int ID, String USERNAME, String LAST_NAME, String FIRST_NAME, String EMAIL, String PASSWORD) {
+        this.ID = ID;
+        this.USERNAME = USERNAME;
+        this.LAST_NAME = LAST_NAME;
+        this.FIRST_NAME = FIRST_NAME;
+        this.EMAIL = EMAIL;
+        this.PASSWORD = PASSWORD;
+        this.followersCount = 0;
+        this.followCount = 0;
     }
 
     public int getID() {
@@ -46,14 +50,6 @@ public class User {
 
     public void setID(int ID) {
         this.ID = ID;
-    }
-
-    public String getEMAIL() {
-        return EMAIL;
-    }
-
-    public void setEMAIL(String EMAIL) {
-        this.EMAIL = EMAIL;
     }
 
     public String getUSERNAME() {
@@ -80,6 +76,14 @@ public class User {
         this.FIRST_NAME = FIRST_NAME;
     }
 
+    public String getEMAIL() {
+        return EMAIL;
+    }
+
+    public void setEMAIL(String EMAIL) {
+        this.EMAIL = EMAIL;
+    }
+
     public String getPASSWORD() {
         return PASSWORD;
     }
@@ -88,42 +92,19 @@ public class User {
         this.PASSWORD = PASSWORD;
     }
 
-    /*public List<Integer> getPOSTS() {
-        return POSTS;
+    public int getFollowersCount() {
+        return followersCount;
     }
 
-    public void addPOST(Post post) {
-        POSTS.add(post.getID());
-    }
-    public void removePOST(Integer id){
-        POSTS.remove(id);
+    public void setFollowersCount(int followersCount) {
+        this.followersCount = followersCount;
     }
 
-    public List<Integer> getAllPosts(){
-        return POSTS;
+    public int getFollowCount() {
+        return followCount;
     }
 
-    public List<Integer> getFOLLOW() {
-        return FOLLOW;
+    public void setFollowCount(int followCount) {
+        this.followCount = followCount;
     }
-
-    public void addFollowing(Integer id){
-        FOLLOW.add(id);
-    }
-
-    public void removeFollowing(Integer followed) {
-        FOLLOW.remove(followed);
-    }
-
-    public List<Integer> getFOLLOWERS() {
-        return FOLLOWERS;
-    }
-
-    public void addFollower(Integer id){
-        FOLLOWERS.add(id);
-    }
-
-    public void removeFollower(Integer follower) {
-        FOLLOWERS.remove(follower);
-    }*/
 }
