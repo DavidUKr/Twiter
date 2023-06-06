@@ -2,6 +2,8 @@ package app.Twiter.controller;
 
 import app.Twiter.model.Post;
 import app.Twiter.model.Reply;
+import app.Twiter.model.projections.PostDTO;
+import app.Twiter.model.projections.ReplyDTO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -27,20 +29,20 @@ public interface PostController {
             @ApiResponse(responseCode = "500", description = "Something happened, could not add post",content = @io.swagger.v3.oas.annotations.media.Content)
     })
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    void addPostToUser(@PathVariable Integer user_id, @RequestBody Post post);
+    void addPostToUser(@PathVariable Integer user_id, @RequestBody PostDTO postDTO);
 
     @PostMapping (value = "/feed/{post_id}", consumes = MediaType.APPLICATION_JSON_VALUE)
-    void replyPost(@PathVariable Integer user_id, @PathVariable Integer post_id, @RequestBody String text, @RequestBody URL url, @RequestParam boolean isPublic);
+    void replyPost(@PathVariable Integer user_id, @PathVariable Integer post_id, @RequestBody String text, @RequestBody String url, @RequestParam boolean isPublic);
 
     //READ
     @GetMapping(value="/{user_id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    List<Post> getMyPosts(@PathVariable Integer user_id);
+    List<PostDTO> getMyPosts(@PathVariable Integer user_id);
 
     @GetMapping(value = "/{user_id}/filter", produces = MediaType.APPLICATION_JSON_VALUE)
-    List<Post> getMyPostsNewerThan(@PathVariable Integer user_id, @RequestParam String oldest_date);
+    List<PostDTO> getMyPostsNewerThan(@PathVariable Integer user_id, @RequestParam String oldest_date);
 
     @GetMapping(value = "/{post_id}/replies", produces = MediaType.APPLICATION_JSON_VALUE)
-    List<Reply> getMyPostReplies(@PathVariable Integer post_id);
+    List<ReplyDTO> getMyPostReplies(@PathVariable Integer post_id);
 
     //DELETE
     @DeleteMapping( value = "/{post_id}")

@@ -1,6 +1,7 @@
 package app.Twiter.controller;
 
 import app.Twiter.model.Post;
+import app.Twiter.model.projections.PostDTO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -25,10 +26,10 @@ public interface FeedController {
             @ApiResponse(responseCode = "500", description = "Could not return feed",content = @Content)
     })
     @GetMapping(value = "/user_id",produces = MediaType.APPLICATION_JSON_VALUE)
-    List<Post> getMyFeed(@PathVariable Integer user_id);
+    List<PostDTO> getMyFeed(@PathVariable Integer user_id);
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    List<Post> getAllFeed();
+    List<PostDTO> getAllFeed();
 
     @Operation(summary = "This endpoint controls user following")
     @ApiResponses(value = {

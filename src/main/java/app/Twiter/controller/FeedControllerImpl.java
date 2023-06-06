@@ -1,6 +1,7 @@
 package app.Twiter.controller;
 
 import app.Twiter.model.Post;
+import app.Twiter.model.projections.PostDTO;
 import app.Twiter.service.PostService;
 import app.Twiter.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -20,12 +21,12 @@ public class FeedControllerImpl implements FeedController{
     PostService postService;
     UserService userService;
 
-    public List<Post> getMyFeed(@PathVariable Integer user_id){
+    public List<PostDTO> getMyFeed(@PathVariable Integer user_id){
         return postService.getUserFeed(user_id);
     }
     //TODO implement feed to show latest posts
 
-    public List<Post> getAllFeed(){
+    public List<PostDTO> getAllFeed(){
         return postService.getAll();
     }
 
