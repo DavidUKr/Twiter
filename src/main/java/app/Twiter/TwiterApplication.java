@@ -12,7 +12,6 @@ public class TwiterApplication {
 	}
 
 	/*TODO
-	* 		Implement JPA repos
 	* 		Add @Operation to all endpoints
 	*		Exceptions for each controller method
 	* 		Test Swagger
@@ -29,5 +28,7 @@ public class TwiterApplication {
 	* 	Rename classes
 	* 	DTO objects
 	* 	Remove Content Class-> text and url
+	* 	Implement JPA repos
+	*
 	* */
 }
