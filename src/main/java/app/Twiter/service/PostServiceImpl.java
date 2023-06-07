@@ -7,10 +7,7 @@ import app.Twiter.model.Reply;
 import app.Twiter.model.User;
 import app.Twiter.model.projections.PostDTO;
 import app.Twiter.model.projections.ReplyDTO;
-import app.Twiter.repository.FollowRepo;
-import app.Twiter.repository.LikeRepo;
-import app.Twiter.repository.PostRepo;
-import app.Twiter.repository.UserRepo;
+import app.Twiter.repository.*;
 import app.Twiter.util.PostUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,6 +24,7 @@ public class PostServiceImpl implements PostService{
     PostRepo postRepo;
     FollowRepo followRepo;
     LikeRepo likeRepo;
+    ReplyRepo replyRepo;
     UserService userService;
     PostUtil postUtil;
 
@@ -121,9 +119,9 @@ public class PostServiceImpl implements PostService{
     @Override
     public List<ReplyDTO> getMyPostReplies(String postId) {
         if(checkPostExists(postId)) {
-            return postRepo.findAllByRootPostId(postRepo.findById(postId).get())
+            return replyRepo.findAllByRootPostId(postRepo.findById(postId).get())
                     .stream()
-                    .map( post -> postUtil.patchReplyDTOfromPost(post))
+                    .map(reply -> postUtil.patchReplyDTO(reply))
                     .collect(Collectors.toList());
         }
         else return null;
@@ -132,10 +130,10 @@ public class PostServiceImpl implements PostService{
     @Override
     public List<ReplyDTO> getPostReplies(String postId) {
         if(checkPostExists(postId)) {
-            return postRepo.findAllByRootPostId(postRepo.findById(postId).get())
+            return replyRepo.findAllByRootPostId(postRepo.findById(postId).get())
                     .stream()
-                    .map( post -> postUtil.patchReplyDTOfromPost(post))
-                    .filter(ReplyDTO::isPublic)
+                    .filter(Reply::isPublic)
+                    .map(reply -> postUtil.patchReplyDTO(reply))
                     .collect(Collectors.toList());
         }
         else return null;

@@ -27,14 +27,6 @@ public class Post {
     @JoinColumn
     protected User authorId;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn
-    protected User rootPostOwnerId=null;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn
-    protected Post rootPostId=null;
-
     @Column
     protected String text;
     @Column

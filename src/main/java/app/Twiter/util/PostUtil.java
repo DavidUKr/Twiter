@@ -25,6 +25,10 @@ public class PostUtil {
         return new ReplyDTO(post.getId(), post.getOwnerId(), post.getText(), post.getUrl(), post.getLikeCount(), post.getReplyCount(), post.getViewCount(), post.getRepostCount(), post.getPostTime(), ((Reply)post).getRootPostId().getId(), ((Reply)post).isPublic());
     }
 
+    public ReplyDTO patchReplyDTO(Reply reply){
+        return new ReplyDTO(reply.getId(), reply.getOwnerId(), reply.getText(), reply.getUrl(), reply.getLikeCount(), reply.getReplyCount(), reply.getViewCount(), reply.getRepostCount(), reply.getPostTime(), reply.getRootPostId().getId(), reply.isPublic());
+    }
+
     public PostDateComparator getDateComparator(){
         return new PostDateComparator();
     }
