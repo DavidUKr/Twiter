@@ -45,8 +45,6 @@ public class Post {
     protected boolean isRepost = false;
     @Column
     protected LocalDate postTime;
-    @Column
-    protected boolean isReply=false;
 
 
     public Post() {

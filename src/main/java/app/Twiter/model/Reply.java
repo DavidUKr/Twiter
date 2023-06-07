@@ -23,7 +23,6 @@ public class Reply extends Post{
         super(ownerId, text, url, postTime);
         this.rootPostId = rootPostId;
         this.isPublic = isPublic;
-        this.isReply=true;
     }
 
     public Post getRootPostId() {
