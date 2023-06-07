@@ -8,7 +8,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface LikeRepo extends JpaRepository<Like, String> {
-    Like findByID(Integer id);
+    Like findById(Integer id);
 
     //TODO Question Recomended?
     List<Like> findAllByOwnerIdOrPostId(User user, Post post);

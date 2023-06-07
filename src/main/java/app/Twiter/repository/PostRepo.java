@@ -16,8 +16,6 @@ public interface PostRepo extends JpaRepository <Post, String>{
 
     Post findById(Integer id);
     List<Post> findAllByOwnerId(User owner);
-    List<Post> findAllByOwnerIdAfter(User owner, LocalDate date);
-    List<Post> findAllByRootPostOwnerId(User rootPostOwner);
-    List<Post> findAllByRootPostId(Post rootPost);
+    List<Post> findAllByOwnerIdAndPostTimeIsAfter(User owner, LocalDate date);
     void deleteByOwnerId(User owner);
 }

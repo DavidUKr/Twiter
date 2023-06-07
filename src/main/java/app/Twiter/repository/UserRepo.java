@@ -1,7 +1,10 @@
 package app.Twiter.repository;
 
 import app.Twiter.model.User;
+import jakarta.validation.constraints.NotNull;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -13,9 +16,11 @@ public interface UserRepo extends JpaRepository<User, String> {
     //TODO Question How to implement DTO's in JPARepository
     List<User> findAll();
 
-    Optional<User> findById(String id);
+    @NotNull
+    Optional<User> findById(@NotNull String id);
 
-    List<User> findAllByUsernameRegexOrFirstNameRegexOrLastNameRegex(String name);
+    @Query("SELECT u FROM User u WHERE LOWER(u.username) LIKE %:searchTerm% OR LOWER(u.firstName) LIKE %:searchTerm% OR LOWER(u.lastName) LIKE %:searchTerm%")
+    List<User> searchByUsernameOrFirstNameOrLastName(@Param("searchTerm") String searchTerm);
 
     boolean existsById(String id);
 }

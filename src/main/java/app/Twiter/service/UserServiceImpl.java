@@ -69,7 +69,7 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public List<UserDTO> searchUserByName(String name) {
-        return userRepo.findAllByUsernameRegexOrFirstNameRegexOrLastNameRegex(name)
+        return userRepo.searchByUsernameOrFirstNameOrLastName(name)
                 .stream()
                 .map(user -> userUtil.patchUserDTO(user))
                 .collect(Collectors.toList());
