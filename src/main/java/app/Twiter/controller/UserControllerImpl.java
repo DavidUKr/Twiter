@@ -22,7 +22,7 @@ public class UserControllerImpl implements UserController{
     }
 
     public UserDTO getUserById(@PathVariable String id){
-        return userService.getUserByID(id);
+        return userService.getUserDTOByID(id);
     }
 
     public List<UserDTO> searchUserByName(@RequestParam String name){

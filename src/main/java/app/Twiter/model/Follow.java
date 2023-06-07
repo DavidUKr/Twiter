@@ -24,9 +24,9 @@ public class Follow {
     private LocalDate followTime;
     public Follow(){}
 
-    public Follow(User follower, User followee) {
+    public Follow(User follower, User followed) {
         this.follower = follower;
-        followed = followee;
+        this.followed = followed;
         this.followTime = LocalDate.now();
     }
 

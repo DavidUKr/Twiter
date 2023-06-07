@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
+import static java.awt.SystemColor.text;
+
 public class PostControllerImpl implements PostController{
     @Autowired
     PostService postService;
@@ -16,8 +18,8 @@ public class PostControllerImpl implements PostController{
         postService.createPost(postDTO, user_id);
     }
 
-    public void replyPost(@PathVariable String user_id, @PathVariable String post_id, @RequestBody String text, @RequestBody String url, @RequestParam boolean isPublic){
-        postService.createReply(user_id, post_id, text, url, isPublic);
+    public void replyPost(@PathVariable String user_id, @PathVariable String post_id, @RequestBody PostDTO postDTO, @RequestParam boolean isPublic){
+        postService.createReply(user_id, post_id, postDTO, isPublic);
     }
 
     //READ

@@ -15,5 +15,7 @@ public interface UserRepo extends JpaRepository<User, String> {
 
     Optional<User> findById(String id);
 
+    List<User> findAllByUsernameRegexOrFirstNameRegexOrLastNameRegex(String name);
+
     boolean existsById(String id);
 }

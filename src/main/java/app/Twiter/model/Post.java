@@ -17,38 +17,50 @@ public class Post {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer id;
+    protected Integer id;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "owner_id", nullable = false)
-    private User ownerId;
+    protected User ownerId;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn
+    protected User authorId;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn
+    protected User rootPostOwnerId=null;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn
+    protected Post rootPostId=null;
 
     @Column
-    private String text;
+    protected String text;
     @Column
-    private String url;
+    protected String url;
 
     @Column
     @Min(0)
-    private int likeCount;
+    protected int likeCount;
     @Column
-    private int replyCount;
+    protected int replyCount;
     @Column
-    private int viewCount;
+    protected int viewCount;
     @Column
-    private int repostCount;
+    protected int repostCount;
     @Column
-    boolean isRepost = false;
+    protected boolean isRepost = false;
     @Column
-    Integer authorId;
+    protected LocalDate postTime;
     @Column
-    private LocalDate postTime;
+    protected boolean isReply=false;
 
 
     public Post() {
     }
 
-    public Post(User ownerId, String text, String url, boolean isRepost, Integer authorId, LocalDate postTime) {
+    public Post(User ownerId, String text, String url, boolean isRepost, LocalDate postTime) {
         this.ownerId = ownerId;
         this.text = text;
         this.url = url;
@@ -57,7 +69,7 @@ public class Post {
         this.viewCount = 0;
         this.repostCount = 0;
         this.isRepost = isRepost;
-        this.authorId = authorId;
+        this.authorId = ownerId;
         this.postTime = postTime;
     }
 
@@ -144,11 +156,11 @@ public class Post {
         isRepost = repost;
     }
 
-    public Integer getAuthorId() {
+    public User getAuthorId() {
         return authorId;
     }
 
-    public void setAuthorId(Integer authorId) {
+    public void setAuthorId(User authorId) {
         this.authorId = authorId;
     }
 
@@ -163,13 +175,25 @@ public class Post {
     public void addLike(){
         likeCount++;
     }
+    public void removeLike(){
+        likeCount--;
+    }
     public void addReply(){
         replyCount++;
+    }
+    public void removeReply(){
+        replyCount--;
     }
     public void addView(){
         viewCount++;
     }
+    public void removeView(){
+        viewCount--;
+    }
     public void addRepost(){
         replyCount++;
+    }
+    public void removeRepost(){
+        replyCount--;
     }
 }

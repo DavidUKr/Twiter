@@ -32,7 +32,7 @@ public interface PostController {
     void addPostToUser(@PathVariable String user_id, @RequestBody PostDTO postDTO);
 
     @PostMapping (value = "/feed/{post_id}", consumes = MediaType.APPLICATION_JSON_VALUE)
-    void replyPost(@PathVariable String user_id, @PathVariable String post_id, @RequestBody String text, @RequestBody String url, @RequestParam boolean isPublic);
+    void replyPost(@PathVariable String user_id, @PathVariable String post_id, @RequestBody PostDTO postDTO, @RequestParam boolean isPublic);
 
     //READ
     @GetMapping(value="/{user_id}", produces = MediaType.APPLICATION_JSON_VALUE)

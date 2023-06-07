@@ -15,4 +15,7 @@ public interface LikeRepo extends JpaRepository<Like, String> {
 
     List<Like> findAllByOwnerId(User user);
     List<Like> findAllByPostId(Post post);
+    void deleteAllByOwnerId(User Owner);
+    void deleteAllByPostId(Post post);
+    void deleteByOwnerIdAndPostId(User owner, Post post);
 }

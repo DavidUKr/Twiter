@@ -1,7 +1,6 @@
 package app.Twiter.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 import java.net.URL;
 import java.time.LocalDate;
@@ -11,22 +10,28 @@ import java.util.List;
 @Entity
 //@Table(name = "replies")
 public class Reply extends Post{
-    private Integer rootPostId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn
+    private Post rootPostId;
+
+    @Column
     private boolean isPublic;
 
     public Reply(){}
 
-    public Reply(User ownerId, String text, String url, boolean isRepost, Integer authorId, LocalDate postTime, Integer rootPostId, boolean isPublic) {
-        super(ownerId, text, url, isRepost, authorId, postTime);
+    public Reply(User ownerId, String text, String url, LocalDate postTime, Post rootPostId, boolean isPublic) {
+        super(ownerId, text, url, postTime);
         this.rootPostId = rootPostId;
         this.isPublic = isPublic;
+        this.rootPostOwnerId=ownerId;
+        this.isReply=true;
     }
 
-    public Integer getRootPostId() {
+    public Post getRootPostId() {
         return rootPostId;
     }
 
-    public void setRootPostId(Integer rootPostId) {
+    public void setRootPostId(Post rootPostId) {
         this.rootPostId = rootPostId;
     }
 
