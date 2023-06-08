@@ -37,13 +37,13 @@ public class PostServiceImpl implements PostService{
 
     @Override
     public List<PostDTO> getUserFeed(String id) { //returns sorted by post time feed
-        ArrayList<User> userFeedSource=(ArrayList<User>) followRepo
+        List<User> userFeedSource= followRepo
                 .findAllByFollower(userService.getUserByID(id))
                 .stream()
                 .map(follow -> userService.getUserByID(follow.getFollowed().getId()))
-                .collect(Collectors.toList());
+                .toList();
 
-        ArrayList<Post> feed=new ArrayList<>();
+        List<Post> feed=new ArrayList<>();
         for(User u:userFeedSource){
             feed.addAll(postRepo.findAllByOwnerId(u));
         }
