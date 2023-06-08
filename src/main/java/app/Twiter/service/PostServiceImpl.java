@@ -161,7 +161,7 @@ public class PostServiceImpl implements PostService{
     @Override
     public void deletePostsFromUser(String id) { //also deletes all posts likes
         User user=userService.getUserByID(id);
-        ArrayList<Post> userPosts=(ArrayList<Post>) postRepo.findAllByOwnerId(user);
+        List<Post> userPosts=postRepo.findAllByOwnerId(user);
         for(Post p:userPosts){
             likeRepo.deleteAllByPostId(p);
         }
