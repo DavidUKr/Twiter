@@ -1,24 +1,44 @@
 package app.Twiter.model;
 
+import jakarta.persistence.*;
+
 import java.net.URL;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+@Entity
+//@Table(name = "replies")
 public class Reply extends Post{
-    private Integer rootPost_id;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn
+    private Post rootPostId;
+
+    @Column
     private boolean isPublic;
-    public Reply(Integer owner_id, String text, URL url, Integer rootPost_id, boolean isPublic) {
-        super(owner_id, text, url);
-        this.rootPost_id=rootPost_id;
-        this.isPublic=isPublic;
+
+    public Reply(){}
+
+    public Reply(User ownerId, String text, String url, LocalDate postTime, Post rootPostId, boolean isPublic) {
+        super(ownerId, text, url, postTime);
+        this.rootPostId = rootPostId;
+        this.isPublic = isPublic;
     }
 
-    public Integer getRootPost_id() {
-        return rootPost_id;
+    public Post getRootPostId() {
+        return rootPostId;
+    }
+
+    public void setRootPostId(Post rootPostId) {
+        this.rootPostId = rootPostId;
     }
 
     public boolean isPublic() {
         return isPublic;
+    }
+
+    public void setPublic(boolean aPublic) {
+        isPublic = aPublic;
     }
 }
 

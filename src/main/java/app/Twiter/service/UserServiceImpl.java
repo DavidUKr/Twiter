@@ -1,85 +1,98 @@
 package app.Twiter.service;
 
-import app.Twiter.model.Post;
+import app.Twiter.advice.exception.UserNotFoundException;
+import app.Twiter.model.Follow;
 import app.Twiter.model.User;
-import app.Twiter.repository.UserRepoImpl;
+import app.Twiter.model.projections.UserDTO;
+import app.Twiter.repository.FollowRepo;
+import app.Twiter.repository.LikeRepo;
+import app.Twiter.repository.UserRepo;
 import app.Twiter.util.UserUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
 public class UserServiceImpl implements UserService{
 
-    UserRepoImpl userRepo;
-    UserUtil userUtil;
-    PostService postService;
     @Autowired
-    public UserServiceImpl(UserRepoImpl userRepo, UserUtil userUtil, PostService postService){
-        this.userRepo=userRepo;
-        this.userUtil=userUtil;
-        this.postService=postService;
+    UserRepo userRepo;
+    FollowRepo followRepo;
+    LikeRepo likeRepo;
+    PostService postService;
+    UserUtil userUtil;
+
+    @Override
+    public void registerUser(UserDTO userDTO) {
+        userRepo.save(userUtil.patchUserFromDTO(userDTO));
     }
 
     @Override
-    public void registerUser(User user) {
-        userRepo.createUser(user);
-    }
-
-    @Override
-    public void deleteUser(Integer ID) {
-        for(Post post: postService.getPostsFromUser(ID)){ //delete posts from PostRepoImpl
-            postService.deletePost(post.getID());
+    public void deleteUser(String id) { //also deletes user posts follows and likes
+        if(checkUserExists(id)) {
+            User user=userRepo.findById(id).get();
+            followRepo.deleteAllByFollower(user);
+            postService.deletePostsFromUser(id);
+            likeRepo.deleteAllByOwnerId(user);
+            userRepo.delete(user);
         }
-        postService.getPostsFromUser(ID).clear(); //delete posts from user data
-        userRepo.deleteUser(ID);
     }
 
     @Override
-    public void patchUser(Integer ID, Map<String, String> partialUser) {
-        User toUpdate=userRepo.getUserByID(ID);
-        userUtil.patchUser(toUpdate, partialUser);
-        updateUser(ID, toUpdate);
+    public void updateUser(String id, UserDTO userDTO) {
+        User user=userUtil.patchUserFromDTO(userDTO);
+        user.setId(id);
+        userRepo.save(user); //if exists updates, else inserts
     }
 
     @Override
-    public void updateUser(Integer ID, User user) {
-        userRepo.updateUser(ID, user);
+    public UserDTO getUserDTOByID(String id) throws UserNotFoundException{
+        if (checkUserExists(id))
+            return userUtil.patchUserDTO(userRepo.findById(id).get());
+        else return null;
     }
 
     @Override
-    public User getUserByID(Integer ID) {
-        return userRepo.getUserByID(ID);
+    public User getUserByID(String id) {
+        if(checkUserExists(id)) return userRepo.findById(id).get();
+        else return null;
     }
 
     @Override
-    public List<User> getAll() {
-
-        return userRepo.getAllUsers();
-    }
-
-    @Override
-    public List<User> searchUserByName(String name) {
-        return userRepo.getAllUsers().stream()
-                .filter(user -> user.getUSERNAME().contains(name) ||
-                        user.getFIRST_NAME().contains(name) ||
-                        user.getLAST_NAME().contains(name))
+    public List<UserDTO> getAll() {
+        return userRepo.findAll()
+                .stream()
+                .map(user -> userUtil.patchUserDTO(user))
                 .collect(Collectors.toList());
     }
 
     @Override
-    public void addFollowing(Integer follower, Integer followed) {
-        userRepo.getUserByID(follower).addFollowing(followed);
-        userRepo.getUserByID(followed).addFollower(follower);
+    public List<UserDTO> searchUserByName(String name) {
+        return userRepo.searchByUsernameOrFirstNameOrLastName(name)
+                .stream()
+                .map(user -> userUtil.patchUserDTO(user))
+                .collect(Collectors.toList());
     }
 
     @Override
-    public void removeFollowing(Integer follower, Integer followed) {
-        userRepo.getUserByID(follower).removeFollowing(followed);
-        userRepo.getUserByID(followed).removeFollower(follower);
+    public void addFollowing(String follower, String followed) {
+        if(checkUserExists(follower)&&checkUserExists(followed)) {
+            Follow follow = new Follow(userRepo.findById(follower).get(), userRepo.findById(followed).get());
+            followRepo.save(follow);
+        }
+    }
+
+    @Override
+    public void removeFollowing(String follower, String followed) {
+        if(checkUserExists(follower)&&checkUserExists(followed)){
+            followRepo.deleteByFollowerAndFollowed(userRepo.findById(follower).get(), userRepo.findById(followed).get());
+        }
+    }
+
+    private boolean checkUserExists(String id) throws UserNotFoundException{
+        if(userRepo.existsById(id)) return true;
+        else throw new UserNotFoundException("User with id:"+id+" not found");
     }
 
 }

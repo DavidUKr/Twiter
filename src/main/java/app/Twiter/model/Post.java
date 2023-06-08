@@ -1,10 +1,11 @@
 package app.Twiter.model;
 
-import io.swagger.v3.oas.annotations.media.Content;
+
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotNull;
 
+
+import javax.swing.text.View;
 import java.net.URL;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -12,109 +13,81 @@ import java.util.List;
 
 @Entity
 @Table(name = "posts")
-public class Post{
+public class Post {
 
-    //@Id
-    //@GeneratedValue(strategy = GenerationType.UUID)
-    private Integer ID;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    protected Integer id;
 
-    //@ManyToOne
-    //@JoinColumn(name="owner_id")
-    private Integer ownerID;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "owner_id", nullable = false)
+    protected User ownerId;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn
+    protected User authorId;
 
-    private String text;
-    private URL url;
+    @Column
+    protected String text;
+    @Column
+    protected String url;
+
+    @Column
     @Min(0)
-    private int LikeCount;
-    private int ReplyCount;
-    private int ViewCount;
-    private int RepostCount;
-    boolean isRepost=false;
-    Integer author_Id;
-    private LocalDate postTime;
-    private java.util.List<Like> LIKES;
-    private List<Reply> REPLIES;
+    protected int likeCount;
+    @Column
+    protected int replyCount;
+    @Column
+    protected int viewCount;
+    @Column
+    protected int repostCount;
+    @Column
+    protected boolean isRepost = false;
+    @Column
+    protected LocalDate postTime;
 
-/*    public Post(Integer ownerID, String text, URL url){
-        this.ownerID=ownerID;
-        this.text=text;
-        this.url=url;
-        LikeCount=0;
-        ReplyCount=0;
-        ViewCount=0;
-        RepostCount=0;
-        postTime=LocalDate.now();
 
-        LIKES=new ArrayList<>();
-        REPLIES=new ArrayList<>();
-    }*/
-   /* public Post(Integer ownerID, String text, URL url, boolean isRepost, Integer author_id){
-        this.ownerID=ownerID;
-        this.text=text;
-        this.url=url;
-        LikeCount=0;
-        ReplyCount=0;
-        ViewCount=0;
-        RepostCount=0;
-        postTime=LocalDate.now();
-
-        this.isRepost=isRepost;
-        this.author_Id=author_id;
-
-        LIKES=new ArrayList<>();
-        REPLIES=new ArrayList<>();
-    }*/
-
-    public void setID(Integer ID){
-        this.ID=ID;
+    public Post() {
     }
 
-    public int getID(){
-        return ID;
+    public Post(User ownerId, String text, String url, boolean isRepost, LocalDate postTime) {
+        this.ownerId = ownerId;
+        this.text = text;
+        this.url = url;
+        this.likeCount = 0;
+        this.replyCount = 0;
+        this.viewCount = 0;
+        this.repostCount = 0;
+        this.isRepost = isRepost;
+        this.authorId = ownerId;
+        this.postTime = postTime;
     }
 
-    public void addLike(Like like){
-        LIKES.add(like);
-        LikeCount++;
+    public Post(User ownerId, String text, String url, LocalDate postTime) {
+        this.ownerId = ownerId;
+        this.text = text;
+        this.url = url;
+        this.likeCount = 0;
+        this.replyCount = 0;
+        this.viewCount = 0;
+        this.repostCount = 0;
+        this.postTime = postTime;
     }
 
-    public void removeLike(Like like) {
-        LIKES.remove(like);
-        LikeCount--;
+    public Integer getId() {
+        return id;
     }
 
-    public int getLikeCount() {
-        return LikeCount;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
-    public List<Like> getLIKES() {
-        return LIKES;
+    public User getOwnerId() {
+        return ownerId;
     }
 
-    public void addReply(Reply reply) {
-        REPLIES.add(reply);
-        ReplyCount++;
-    }
-
-    public void removeReply(Reply reply) {
-        REPLIES.remove(reply);
-    }
-
-    public int getReplyCount() {
-        return ReplyCount;
-    }
-
-    public List<Reply> getREPLIES() {
-        return REPLIES;
-    }
-
-    public void setOwner(Integer ownerID) {
-        this.ownerID=ownerID;
-    }
-
-    public Integer getOwner() {
-        return ownerID;
+    public void setOwnerId(User ownerId) {
+        this.ownerId = ownerId;
     }
 
     public String getText() {
@@ -125,35 +98,92 @@ public class Post{
         this.text = text;
     }
 
-    public URL getUrl() {
+    public String getUrl() {
         return url;
     }
 
-    public void setUrl(URL url) {
+    public void setUrl(String url) {
         this.url = url;
     }
 
-    public void addView() {
-        ViewCount++;
+    public int getLikeCount() {
+        return likeCount;
+    }
+
+    public void setLikeCount(int likeCount) {
+        this.likeCount = likeCount;
+    }
+
+    public int getReplyCount() {
+        return replyCount;
+    }
+
+    public void setReplyCount(int replyCount) {
+        this.replyCount = replyCount;
     }
 
     public int getViewCount() {
-        return ViewCount;
+        return viewCount;
     }
 
-    public void addRepost() {
-        RepostCount++;
-    }
-
-    public void removeRepost(){
-        RepostCount--;
+    public void setViewCount(int viewCount) {
+        this.viewCount = viewCount;
     }
 
     public int getRepostCount() {
-        return RepostCount;
+        return repostCount;
     }
 
-    public LocalDate getPostTime(){
+    public void setRepostCount(int repostCount) {
+        this.repostCount = repostCount;
+    }
+
+    public boolean isRepost() {
+        return isRepost;
+    }
+
+    public void setRepost(boolean repost) {
+        isRepost = repost;
+    }
+
+    public User getAuthorId() {
+        return authorId;
+    }
+
+    public void setAuthorId(User authorId) {
+        this.authorId = authorId;
+    }
+
+    public LocalDate getPostTime() {
         return postTime;
+    }
+
+    public void setPostTime(LocalDate postTime) {
+        this.postTime = postTime;
+    }
+
+    public void addLike(){
+        likeCount++;
+    }
+    public void removeLike(){
+        likeCount--;
+    }
+    public void addReply(){
+        replyCount++;
+    }
+    public void removeReply(){
+        replyCount--;
+    }
+    public void addView(){
+        viewCount++;
+    }
+    public void removeView(){
+        viewCount--;
+    }
+    public void addRepost(){
+        replyCount++;
+    }
+    public void removeRepost(){
+        replyCount--;
     }
 }

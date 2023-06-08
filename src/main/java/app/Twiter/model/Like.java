@@ -1,29 +1,64 @@
 package app.Twiter.model;
 
+import jakarta.persistence.*;
+
 import java.time.LocalDate;
-import java.util.Date;
 
+@Entity
+@Table(name = "likes")
 public class Like {
-    private final Integer owner_id;
-    private final Integer post_id;
-    private final LocalDate like_time;
 
-    public Like(Integer owner_id, Integer post_id){
-        this.owner_id=owner_id;
-        this.post_id=post_id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Integer id;
 
-        like_time= LocalDate.now();
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn
+    private User ownerId;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn
+    private Post postId;
+
+    @Column
+    private LocalDate likeTime;
+    public Like(){}
+
+    public Like(User ownerId, Post postId) {
+        this.ownerId = ownerId;
+        this.postId = postId;
+        this.likeTime = LocalDate.now();
     }
-    public Integer getOwner() {
-        return owner_id;
+
+    public Integer getId() {
+        return id;
     }
 
-    public Integer getPost() {
-        return post_id;
+    public void setId(Integer ID) {
+        this.id = ID;
     }
 
-    public LocalDate getLike_time() {
-        return like_time;
+    public User getOwnerId() {
+        return ownerId;
     }
 
+    public void setOwnerId(User ownerId) {
+        this.ownerId = ownerId;
+    }
+
+    public Post getPostId() {
+        return postId;
+    }
+
+    public void setPostId(Post postId) {
+        this.postId = postId;
+    }
+
+    public LocalDate getLikeTime() {
+        return likeTime;
+    }
+
+    public void setLikeTime(LocalDate likeTime) {
+        this.likeTime = likeTime;
+    }
 }

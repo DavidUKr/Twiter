@@ -1,12 +1,17 @@
 package app.Twiter.service;
 
-import app.Twiter.model.*;
-import app.Twiter.repository.PostRepoImpl;
-import app.Twiter.repository.UserRepoImpl;
+import app.Twiter.advice.exception.PostNotFoundException;
+import app.Twiter.model.Like;
+import app.Twiter.model.Post;
+import app.Twiter.model.Reply;
+import app.Twiter.model.User;
+import app.Twiter.model.projections.PostDTO;
+import app.Twiter.model.projections.ReplyDTO;
+import app.Twiter.repository.*;
+import app.Twiter.util.PostUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.net.URL;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -15,117 +20,156 @@ import java.util.stream.Collectors;
 @Service
 public class PostServiceImpl implements PostService{
 
-    PostRepoImpl postRepo;
-    UserRepoImpl userRepo;
     @Autowired
-    public PostServiceImpl(PostRepoImpl postRepo, UserRepoImpl userRepo){
-        this.postRepo=postRepo;
-        this.userRepo=userRepo;
-    }
-    @Override
-    public List<Post> getAll() {
-        return postRepo.getAll();
-    }
+    PostRepo postRepo;
+    FollowRepo followRepo;
+    LikeRepo likeRepo;
+    ReplyRepo replyRepo;
+    UserService userService;
+    PostUtil postUtil;
 
     @Override
-    public Post getPostById(Integer ID) {
-        return postRepo.getPostByID(ID);
-    }
-
-    @Override
-    public void createPost(Post post, Integer user_ID) {
-        postRepo.createPost(post);
-        post.setOwner(user_ID);
-        User user=userRepo.getUserByID(user_ID);
-        user.addPOST(post);
-    }
-
-    @Override
-    public void createReply(Integer userId, Integer postId, String text, URL url, boolean isPublic) {
-        Reply reply=new Reply(userId, text, url, postId, isPublic);
-        userRepo.getUserByID(userId).addPOST(reply);
-        postRepo.getPostByID(postId).addReply(reply);
-    }
-
-    @Override
-    public List<Reply> getMyPostReplies(Integer postId) {
-        return postRepo.getPostByID(postId).getREPLIES();
-    }
-
-    @Override
-    public List<Reply> getPostReplies(Integer postID) {
-        return postRepo.getPostByID(postID).getREPLIES().stream()
-                .filter(Reply::isPublic)
+    public List<PostDTO> getAll() {
+        return postRepo.findAll().stream()
+                .map(post-> postUtil.patchPostDTO(post))
                 .collect(Collectors.toList());
     }
 
     @Override
-    public List<Post> getPostsFromUser(Integer userId) {
-        //TODO Question can postservice acces userRepo?
-        List<Integer> post_ids=userRepo.getUserPosts(userId);
-        List<Post> POSTS=new ArrayList<>();
+    public List<PostDTO> getUserFeed(String id) { //returns sorted by post time feed
+        List<User> userFeedSource= followRepo
+                .findAllByFollower(userService.getUserByID(id))
+                .stream()
+                .map(follow -> userService.getUserByID(follow.getFollowed().getId()))
+                .toList();
 
-        for(Integer id: post_ids){
-            POSTS.add(postRepo.getPostByID(id));
+        List<Post> feed=new ArrayList<>();
+        for(User u:userFeedSource){
+            feed.addAll(postRepo.findAllByOwnerId(u));
         }
 
-        return POSTS;
+        return feed
+                .stream().sorted(postUtil.getDateComparator())
+                .map(post -> postUtil.patchPostDTO(post))
+                .collect(Collectors.toList());
     }
 
     @Override
-    public List<Post> getPostsFromUserNewerThan(Integer userId, String oldestDate) {
-        List<Post> POSTS=getPostsFromUser(userId);
+    public PostDTO getPostDTOById(String id) {
+        if(checkPostExists(id)) return postUtil.patchPostDTO(postRepo.findById(id).get());
+        else return null;
+    }
+
+    @Override
+    public Post getPostByID(String id) {
+        if(checkPostExists(id)) return postRepo.findById(id).get();
+        else return null;
+    }
+
+    @Override
+    public void createPost(PostDTO postDTO, String userID) {
+        Post post=postUtil.patchPostFromDTO(postDTO);
+        postRepo.save(post);
+        //implement postCount;
+    }
+
+    @Override
+    public void deletePost(String postId) { //deletes all likes
+        if(checkPostExists(postId)){
+            likeRepo.deleteAllByPostId(postRepo.findById(postId).get());
+            postRepo.deleteById(postId);
+        }
+    }
+
+    @Override
+    public void repost(String userId, String postId) {
+        if(checkPostExists(postId)) {
+            Post post = postRepo.findById(postId).get();
+            post.setRepost(true);
+            post.setOwnerId(userService.getUserByID(userId));
+            postRepo.save(post);
+        }
+    }
+
+    @Override
+    public void likePost(String userId, String postId) {
+        if(checkPostExists(postId)) {
+            Like like = new Like(userService.getUserByID(userId), postRepo.findById(postId).get());
+            likeRepo.save(like);
+            postRepo.findById(postId).get().addLike();
+        }
+    }
+
+    @Override
+    public void unlikePost(String userId, String postId) {
+        if(checkPostExists(postId)) {
+            likeRepo.deleteByOwnerIdAndPostId(userService.getUserByID(userId), postRepo.findById(postId).get());
+            postRepo.findById(postId).get().removeLike();
+        }
+    }
+
+    @Override
+    public void createReply(String userId, String postId, PostDTO postDTO, boolean isPublic) {
+        if(checkPostExists(postId)) {
+            Reply reply=postUtil.patchReplyFromDTO(postDTO, userService.getUserByID(userId), postRepo.findById(postId).get(), isPublic);
+            postRepo.save(reply);
+        }
+    }
+
+    @Override
+    public List<ReplyDTO> getMyPostReplies(String postId) {
+        if(checkPostExists(postId)) {
+            return replyRepo.findAllByRootPostId(postRepo.findById(postId).get())
+                    .stream()
+                    .map(reply -> postUtil.patchReplyDTO(reply))
+                    .collect(Collectors.toList());
+        }
+        else return null;
+    }
+
+    @Override
+    public List<ReplyDTO> getPostReplies(String postId) {
+        if(checkPostExists(postId)) {
+            return replyRepo.findAllByRootPostId(postRepo.findById(postId).get())
+                    .stream()
+                    .filter(Reply::isPublic)
+                    .map(reply -> postUtil.patchReplyDTO(reply))
+                    .collect(Collectors.toList());
+        }
+        else return null;
+    }
+
+    @Override
+    public List<PostDTO> getPostsFromUser(String userId) {
+        return postRepo.findAllByOwnerId(userService.getUserByID(userId))
+                .stream()
+                .map(post -> postUtil.patchPostDTO(post))
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<PostDTO> getPostsFromUserNewerThan(String userId, String oldestDate) {
         LocalDate date_limit=LocalDate.parse(oldestDate);
-        return POSTS.stream().filter(post -> post.getPostTime().isAfter(date_limit)).collect(Collectors.toList());
+
+        return postRepo.findAllByOwnerId(userService.getUserByID(userId))
+                .stream()
+                .filter(post -> post.getPostTime().isAfter(date_limit))
+                .map(post -> postUtil.patchPostDTO(post))
+                .collect(Collectors.toList());
     }
 
     @Override
-    public void repost(Integer userId, Integer postId) {
-        Post original=getPostById(postId);
-        //TODO QUESTION: Better add instance or just reference?
-        original.addRepost();
-        Post post=new Post(userId, original.getText(), original.getUrl(), true, original.getOwner());
-        createPost(post, userId);
-    }
-
-    @Override
-    public void likePost(Integer user_id, Integer post_id) {
-        Like like=new Like(user_id, post_id);
-        postRepo.getPostByID(post_id).addLike(like);
-    }
-
-    @Override
-    public void unlikePost(Integer userId, Integer postId) {
-
-        Like likeToRemove=getPostById(postId).getLIKES().stream()
-                .filter(like -> like.getOwner()==userId)
-                .findFirst().get();
-        if(likeToRemove!=null)
-            postRepo.getPostByID(postId).removeLike(likeToRemove);
-    }
-
-    @Override
-    public void deletePost(Integer ID) {
-
-        Integer owner_id=postRepo.getPostByID(ID).getOwner();
-        userRepo.getUserByID(owner_id).removePOST(ID);
-        postRepo.getPostByID(ID).getLIKES().clear(); //remove all likes
-        postRepo.getPostByID(ID).getREPLIES().clear(); //remove all replies
-        postRepo.deletePost(ID);
-    }
-
-
-    @Override
-    public List<Post> getUserFeed(Integer ID) {
-        ArrayList<Post> feed=new ArrayList<Post>();
-
-        ArrayList<Integer> follow_list= (ArrayList<Integer>) userRepo.getUserByID(ID).getFOLLOW();
-        for(Integer user_id:follow_list){
-            feed.addAll(getPostsFromUser(user_id));
+    public void deletePostsFromUser(String id) { //also deletes all posts likes
+        User user=userService.getUserByID(id);
+        ArrayList<Post> userPosts=(ArrayList<Post>) postRepo.findAllByOwnerId(user);
+        for(Post p:userPosts){
+            likeRepo.deleteAllByPostId(p);
         }
-
-        return feed;
+        postRepo.deleteByOwnerId(user);
     }
 
-
+    private boolean checkPostExists(String id){
+        if(postRepo.existsById(id)) return true;
+        else throw new PostNotFoundException("Post with id:"+id+" not found");
+    }
 }

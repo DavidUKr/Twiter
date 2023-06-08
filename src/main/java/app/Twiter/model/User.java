@@ -1,124 +1,111 @@
 package app.Twiter.model;
 
-import jakarta.validation.constraints.NotNull;
+import jakarta.persistence.*;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
-
+@Entity
+@Table(name = "users")
 public class User {
-    private int ID; //TODO upgrade to unique indexing
-    @NotNull
-    private String EMAIL;
-    @NotNull
-    private String USERNAME;
-    private String LAST_NAME;
-    private String FIRST_NAME;
-    @NotNull
-    private String PASSWORD;
 
-    private List<Integer> POSTS; //contains post Id's
-    private List<Integer> FOLLOW;
-    private List<Integer> FOLLOWERS;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private String id;
+    @Column(nullable = false)
+    private String username;
+    @Column
+    private String lastName;
+    @Column
+    private String firstName;
+    @Column(nullable = false)
+    private String email;
+    @Column(nullable = false)
+    private String password;
+    @Column
+    private int followerCount;
+    @Column
+    private int followCount;
 
-    public User(String EMAIL, String USERNAME, String LAST_NAME, String FIRST_NAME, String PASSWORD){
-        this.EMAIL=EMAIL;
-        this.USERNAME=USERNAME;
-        this.LAST_NAME=LAST_NAME;
-        this.FIRST_NAME=FIRST_NAME;
-        this.PASSWORD=PASSWORD;
+    public User(){}
 
-        POSTS=new ArrayList<>();
-        FOLLOW=new ArrayList<>();
-        FOLLOWERS=new ArrayList<>();
+    public User(String username, String lastName, String firstName, String email, String password) {
+        this.username = username;
+        this.lastName = lastName;
+        this.firstName = firstName;
+        this.email = email;
+        this.password = password;
+        this.followerCount = 0;
+        this.followCount = 0;
     }
 
-    public int getID() {
-        return ID;
+    public User(String username, String lastName, String firstName, String email) {
+        this.username = username;
+        this.lastName = lastName;
+        this.firstName = firstName;
+        this.email = email;
+        this.followerCount = 0;
+        this.followCount = 0;
     }
 
-    public void setID(int ID) {
-        this.ID = ID;
+    public String getId() {
+        return id;
     }
 
-    public String getEMAIL() {
-        return EMAIL;
+    public void setId(String ID) {
+        this.id = ID;
     }
 
-    public void setEMAIL(String EMAIL) {
-        this.EMAIL = EMAIL;
+    public String getUsername() {
+        return username;
     }
 
-    public String getUSERNAME() {
-        return USERNAME;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
-    public void setUSERNAME(String USERNAME) {
-        this.USERNAME = USERNAME;
+    public String getLastName() {
+        return lastName;
     }
 
-    public String getLAST_NAME() {
-        return LAST_NAME;
+    public void setLastName(String LAST_NAME) {
+        this.lastName = LAST_NAME;
     }
 
-    public void setLAST_NAME(String LAST_NAME) {
-        this.LAST_NAME = LAST_NAME;
+    public String getFirstName() {
+        return firstName;
     }
 
-    public String getFIRST_NAME() {
-        return FIRST_NAME;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
     }
 
-    public void setFIRST_NAME(String FIRST_NAME) {
-        this.FIRST_NAME = FIRST_NAME;
+    public String getEmail() {
+        return email;
     }
 
-    public String getPASSWORD() {
-        return PASSWORD;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
-    public void setPASSWORD(String PASSWORD) {
-        this.PASSWORD = PASSWORD;
+    public String getPassword() {
+        return password;
     }
 
-    public List<Integer> getPOSTS() {
-        return POSTS;
+    public void setPassword(String password) {
+        this.password = password;
     }
 
-    public void addPOST(Post post) {
-        POSTS.add(post.getID());
-    }
-    public void removePOST(Integer id){
-        POSTS.remove(id);
+    public int getFollowerCount() {
+        return followerCount;
     }
 
-    public List<Integer> getAllPosts(){
-        return POSTS;
+    public void setFollowerCount(int followersCount) {
+        this.followerCount = followersCount;
     }
 
-    public List<Integer> getFOLLOW() {
-        return FOLLOW;
+    public int getFollowCount() {
+        return followCount;
     }
 
-    public void addFollowing(Integer id){
-        FOLLOW.add(id);
-    }
-
-    public void removeFollowing(Integer followed) {
-        FOLLOW.remove(followed);
-    }
-
-    public List<Integer> getFOLLOWERS() {
-        return FOLLOWERS;
-    }
-
-    public void addFollower(Integer id){
-        FOLLOWERS.add(id);
-    }
-
-    public void removeFollower(Integer follower) {
-        FOLLOWERS.remove(follower);
+    public void setFollowCount(int followCount) {
+        this.followCount = followCount;
     }
 }

@@ -1,6 +1,7 @@
 package app.Twiter.controller;
 
 import app.Twiter.model.User;
+import app.Twiter.model.projections.UserDTO;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
@@ -11,20 +12,20 @@ import java.util.List;
 public interface UserController {
 
     @PutMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    void registerUser(@RequestBody User user);
+    void registerUser(@RequestBody UserDTO userDTO);
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    List<User> getAllUsers();
+    List<UserDTO> getAllUsers();
 
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    User getUserById(@PathVariable Integer id);
+    UserDTO getUserById(@PathVariable String id);
 
     @GetMapping(value = "/search", produces = MediaType.APPLICATION_JSON_VALUE)
-    List<User> searchUserByName(@RequestParam String name);
+    List<UserDTO> searchUserByName(@RequestParam String name);
 
     @PatchMapping(value = "/{id}", consumes=MediaType.APPLICATION_JSON_VALUE)
-    void patchUser(@PathVariable Integer id, @RequestBody User user);
+    void patchUser(@PathVariable String id, @RequestBody UserDTO userDTO);
 
     @DeleteMapping(value = "/{id}")
-    void unregisterUser(@PathVariable Integer id);
+    void unregisterUser(@PathVariable String id);
 }

@@ -1,15 +1,9 @@
 package app.Twiter.controller;
 
-import app.Twiter.model.Post;
+import app.Twiter.model.projections.PostDTO;
 import app.Twiter.service.PostService;
 import app.Twiter.service.UserService;
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.media.Content;
-import io.swagger.v3.oas.annotations.media.Schema;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -20,32 +14,32 @@ public class FeedControllerImpl implements FeedController{
     PostService postService;
     UserService userService;
 
-    public List<Post> getMyFeed(@PathVariable Integer user_id){
+    public List<PostDTO> getMyFeed(@PathVariable String user_id){
         return postService.getUserFeed(user_id);
     }
     //TODO implement feed to show latest posts
 
-    public List<Post> getAllFeed(){
+    public List<PostDTO> getAllFeed(){
         return postService.getAll();
     }
 
-    public void followUser(@PathVariable Integer user_id,@PathVariable Integer id_to_follow){
+    public void followUser(@PathVariable String user_id,@PathVariable String id_to_follow){
         userService.addFollowing(user_id, id_to_follow);
     }
 
-    public void unfollowUser(@PathVariable Integer user_id,@PathVariable Integer id){
+    public void unfollowUser(@PathVariable String user_id,@PathVariable String id){
         userService.removeFollowing(user_id, id);
     }
 
-    public void repost(@PathVariable Integer user_id, @PathVariable Integer post_id){
+    public void repost(@PathVariable String user_id, @PathVariable String post_id){
         postService.repost(user_id, post_id);
     }
 
-    public void likePost(@PathVariable Integer user_id, @PathVariable Integer post_id){
+    public void likePost(@PathVariable String user_id, @PathVariable String post_id){
         postService.likePost(user_id, post_id);
     }
 
-    public void unlikePost(@PathVariable Integer user_id, @PathVariable Integer post_id){
+    public void unlikePost(@PathVariable String user_id, @PathVariable String post_id){
         postService.unlikePost(user_id, post_id);
     }
 }

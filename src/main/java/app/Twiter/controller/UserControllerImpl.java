@@ -1,9 +1,8 @@
 package app.Twiter.controller;
 
-import app.Twiter.model.User;
+import app.Twiter.model.projections.UserDTO;
 import app.Twiter.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -13,32 +12,32 @@ public class UserControllerImpl implements UserController{
     @Autowired
     private UserService userService;
     //CREATE
-    public void registerUser(@RequestBody User user){
-        userService.registerUser(user);
+    public void registerUser(@RequestBody UserDTO userDTO){
+        userService.registerUser(userDTO);
     }
 
     //READ
-    public List<User> getAllUsers(){
+    public List<UserDTO> getAllUsers(){
         return userService.getAll();
     }
 
-    public User getUserById(@PathVariable Integer id){
-        return userService.getUserByID(id);
+    public UserDTO getUserById(@PathVariable String id){
+        return userService.getUserDTOByID(id);
     }
 
-    public List<User> searchUserByName(@RequestParam String name){
+    public List<UserDTO> searchUserByName(@RequestParam String name){
         return userService.searchUserByName(name);
     }
 
     //UPDATE
-    public void patchUser(@PathVariable Integer id, @RequestBody User user){
-        userService.updateUser(id, user);
+    public void patchUser(@PathVariable String id, @RequestBody UserDTO userDTO){
+        userService.updateUser(id, userDTO);
     }
 
     //DELETE
-    public void unregisterUser(@PathVariable Integer id){
+    public void unregisterUser(@PathVariable String id){
         userService.deleteUser(id);
     }
 
-    //TODO implement get mentions QUESTION: Implemented by Frontend or Backend?
+    //TODO implement get Mentions
 }
