@@ -5,6 +5,7 @@ public class UserDTO {
     private String lastName;
     private String firstName;
     private String email;
+    private String password=null;
     private int followerCount;
     private int followCount;
 
@@ -15,6 +16,15 @@ public class UserDTO {
         this.email = email;
         this.followerCount = followerCount;
         this.followCount = followCount;
+    }
+    public UserDTO(String userName, String lastName, String firstName, String email, int followerCount, int followCount, String password) {
+        this.userName = userName;
+        this.lastName = lastName;
+        this.firstName = firstName;
+        this.email = email;
+        this.followerCount = followerCount;
+        this.followCount = followCount;
+        this.password=password;
     }
 
     public String getUserName() {
@@ -63,5 +73,13 @@ public class UserDTO {
 
     public void setFollowCount(int followCount) {
         this.followCount = followCount;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 }

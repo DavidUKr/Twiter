@@ -32,7 +32,7 @@ public class PostServiceImpl implements PostService{
     public List<PostDTO> getAll() {
         return postRepo.findAll().stream()
                 .map(post-> postUtil.patchPostDTO(post))
-                .collect(Collectors.toList());
+                .toList();
     }
 
     @Override
@@ -51,7 +51,7 @@ public class PostServiceImpl implements PostService{
         return feed
                 .stream().sorted(postUtil.getDateComparator())
                 .map(post -> postUtil.patchPostDTO(post))
-                .collect(Collectors.toList());
+                .toList();
     }
 
     @Override
@@ -122,7 +122,7 @@ public class PostServiceImpl implements PostService{
             return replyRepo.findAllByRootPostId(postRepo.findById(postId).get())
                     .stream()
                     .map(reply -> postUtil.patchReplyDTO(reply))
-                    .collect(Collectors.toList());
+                    .toList();
         }
         else return null;
     }
@@ -134,7 +134,7 @@ public class PostServiceImpl implements PostService{
                     .stream()
                     .filter(Reply::isPublic)
                     .map(reply -> postUtil.patchReplyDTO(reply))
-                    .collect(Collectors.toList());
+                    .toList();
         }
         else return null;
     }
@@ -144,7 +144,7 @@ public class PostServiceImpl implements PostService{
         return postRepo.findAllByOwnerId(userService.getUserByID(userId))
                 .stream()
                 .map(post -> postUtil.patchPostDTO(post))
-                .collect(Collectors.toList());
+                .toList();
     }
 
     @Override
@@ -155,7 +155,7 @@ public class PostServiceImpl implements PostService{
                 .stream()
                 .filter(post -> post.getPostTime().isAfter(date_limit))
                 .map(post -> postUtil.patchPostDTO(post))
-                .collect(Collectors.toList());
+                .toList();
     }
 
     @Override

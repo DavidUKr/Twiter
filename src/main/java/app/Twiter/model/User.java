@@ -1,6 +1,7 @@
 package app.Twiter.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "users")
@@ -9,14 +10,24 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private String id;
+
+    @NotNull
     @Column(nullable = false)
     private String username;
+
+    @NotNull
     @Column
     private String lastName;
+
+    @NotNull
     @Column
     private String firstName;
+
+    @NotNull
     @Column(nullable = false)
     private String email;
+
+    @NotNull
     @Column(nullable = false)
     private String password;
     @Column

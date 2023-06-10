@@ -35,6 +35,10 @@ public class PostControllerImpl implements PostController{
         return postService.getMyPostReplies(post_id);
     }
 
+    public List<ReplyDTO> getPostReplies(String post_id) {
+        return postService.getPostReplies(post_id);
+    }
+
     //DELETE
     public void deletePost(@RequestParam String post_id){
         postService.deletePost(post_id);
