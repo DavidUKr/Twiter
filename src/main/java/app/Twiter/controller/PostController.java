@@ -24,7 +24,7 @@ public interface PostController {
             example = "\"text\":\"This is not acceptable, the government is going nuts\", \"url\":\"some conent url\"")
     })
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Post added",
+            @ApiResponse(responseCode = "201", description = "Post added",
                     content = { @Content(mediaType = "application/json",
                             schema = @Schema(implementation = PostDTO.class)) }),
             @ApiResponse(responseCode = "400", description = "Bad request"),
@@ -41,7 +41,7 @@ public interface PostController {
             @Parameter(name= "isPublic", description = "boolean - specifies if reply is public or not")
     })
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Reply created"),
+            @ApiResponse(responseCode = "201", description = "Reply created"),
             @ApiResponse(responseCode = "404", description = "Id not found"),
             @ApiResponse(responseCode = "500", description = "Something happened")
     })
@@ -51,7 +51,7 @@ public interface PostController {
     //READ
     @Operation(summary = "Returns list of logged user's postDTO's")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "226", description = "Here are your posts",
+            @ApiResponse(responseCode = "200", description = "Here are your posts",
                     content = { @Content(mediaType = "application/json",
                             schema = @Schema(implementation = PostDTO.class)) }),
             @ApiResponse(responseCode = "400", description = "Bad request"),

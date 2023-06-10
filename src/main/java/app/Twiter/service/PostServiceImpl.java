@@ -10,12 +10,14 @@ import app.Twiter.model.projections.ReplyDTO;
 import app.Twiter.repository.*;
 import app.Twiter.util.PostUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.net.URI;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class PostServiceImpl implements PostService{
@@ -70,6 +72,8 @@ public class PostServiceImpl implements PostService{
     public void createPost(PostDTO postDTO, String userID) {
         Post post=postUtil.patchPostFromDTO(postDTO);
         postRepo.save(post);
+        String id=post.getId();
+        if(id!=null)ResponseEntity.created(URI.create("select * from posts where id="+id));
         //implement postCount;
     }
 
@@ -113,6 +117,8 @@ public class PostServiceImpl implements PostService{
         if(checkPostExists(postId)) {
             Reply reply=postUtil.patchReplyFromDTO(postDTO, userService.getUserByID(userId), postRepo.findById(postId).get(), isPublic);
             postRepo.save(reply);
+            String id=reply.getId();
+            if(id!=null) ResponseEntity.created(URI.create("select * from posts where id="+id));
         }
     }
 
@@ -166,6 +172,7 @@ public class PostServiceImpl implements PostService{
             likeRepo.deleteAllByPostId(p);
         }
         postRepo.deleteByOwnerId(user);
+        ResponseEntity.accepted();
     }
 
     private boolean checkPostExists(String id){

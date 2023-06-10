@@ -11,8 +11,11 @@ import app.Twiter.repository.LikeRepo;
 import app.Twiter.repository.UserRepo;
 import app.Twiter.util.UserUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.orm.jpa.vendor.Database;
 import org.springframework.stereotype.Service;
+
+import java.net.URI;
 import java.util.List;
 import java.util.concurrent.TimeoutException;
 import java.util.stream.Collectors;
@@ -29,7 +32,9 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public void registerUser(UserDTO userDTO) {
-         if(checkUserCreationIntegrity(userDTO))userRepo.save(userUtil.patchUserFromDTO(userDTO));
+         if(checkUserCreationIntegrity(userDTO)){
+             userRepo.save(userUtil.patchUserFromDTO(userDTO));
+         }
     }
 
     @Override
@@ -40,6 +45,7 @@ public class UserServiceImpl implements UserService{
             postService.deletePostsFromUser(id);
             likeRepo.deleteAllByOwnerId(user);
             userRepo.delete(user);
+            ResponseEntity.accepted();
         }
     }
 
