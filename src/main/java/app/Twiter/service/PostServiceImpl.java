@@ -10,12 +10,14 @@ import app.Twiter.model.projections.ReplyDTO;
 import app.Twiter.repository.*;
 import app.Twiter.util.PostUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.net.URI;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class PostServiceImpl implements PostService{
@@ -32,7 +34,7 @@ public class PostServiceImpl implements PostService{
     public List<PostDTO> getAll() {
         return postRepo.findAll().stream()
                 .map(post-> postUtil.patchPostDTO(post))
-                .collect(Collectors.toList());
+                .toList();
     }
 
     @Override
@@ -51,7 +53,7 @@ public class PostServiceImpl implements PostService{
         return feed
                 .stream().sorted(postUtil.getDateComparator())
                 .map(post -> postUtil.patchPostDTO(post))
-                .collect(Collectors.toList());
+                .toList();
     }
 
     @Override
@@ -70,6 +72,8 @@ public class PostServiceImpl implements PostService{
     public void createPost(PostDTO postDTO, String userID) {
         Post post=postUtil.patchPostFromDTO(postDTO);
         postRepo.save(post);
+        String id=post.getId();
+        if(id!=null)ResponseEntity.created(URI.create("select * from posts where id="+id));
         //implement postCount;
     }
 
@@ -113,6 +117,8 @@ public class PostServiceImpl implements PostService{
         if(checkPostExists(postId)) {
             Reply reply=postUtil.patchReplyFromDTO(postDTO, userService.getUserByID(userId), postRepo.findById(postId).get(), isPublic);
             postRepo.save(reply);
+            String id=reply.getId();
+            if(id!=null) ResponseEntity.created(URI.create("select * from posts where id="+id));
         }
     }
 
@@ -122,7 +128,7 @@ public class PostServiceImpl implements PostService{
             return replyRepo.findAllByRootPostId(postRepo.findById(postId).get())
                     .stream()
                     .map(reply -> postUtil.patchReplyDTO(reply))
-                    .collect(Collectors.toList());
+                    .toList();
         }
         else return null;
     }
@@ -134,7 +140,7 @@ public class PostServiceImpl implements PostService{
                     .stream()
                     .filter(Reply::isPublic)
                     .map(reply -> postUtil.patchReplyDTO(reply))
-                    .collect(Collectors.toList());
+                    .toList();
         }
         else return null;
     }
@@ -144,7 +150,7 @@ public class PostServiceImpl implements PostService{
         return postRepo.findAllByOwnerId(userService.getUserByID(userId))
                 .stream()
                 .map(post -> postUtil.patchPostDTO(post))
-                .collect(Collectors.toList());
+                .toList();
     }
 
     @Override
@@ -155,17 +161,18 @@ public class PostServiceImpl implements PostService{
                 .stream()
                 .filter(post -> post.getPostTime().isAfter(date_limit))
                 .map(post -> postUtil.patchPostDTO(post))
-                .collect(Collectors.toList());
+                .toList();
     }
 
     @Override
     public void deletePostsFromUser(String id) { //also deletes all posts likes
         User user=userService.getUserByID(id);
-        ArrayList<Post> userPosts=(ArrayList<Post>) postRepo.findAllByOwnerId(user);
+        List<Post> userPosts=postRepo.findAllByOwnerId(user);
         for(Post p:userPosts){
             likeRepo.deleteAllByPostId(p);
         }
         postRepo.deleteByOwnerId(user);
+        ResponseEntity.accepted();
     }
 
     private boolean checkPostExists(String id){

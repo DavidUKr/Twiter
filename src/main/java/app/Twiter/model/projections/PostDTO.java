@@ -6,7 +6,7 @@ import java.time.LocalDate;
 
 public class PostDTO {
 
-    private int id;
+    private String id;
     private User ownerId;
     private String text;
     private String url;
@@ -16,7 +16,7 @@ public class PostDTO {
     private int repostCount;
     private LocalDate postTime;
 
-    public PostDTO(int id, User ownerId, String text, String url, int likeCount, int replyCount, int viewCount, int repostCount, LocalDate postTime) {
+    public PostDTO(String id, User ownerId, String text, String url, int likeCount, int replyCount, int viewCount, int repostCount, LocalDate postTime) {
         this.id = id;
         this.ownerId = ownerId;
         this.text = text;
@@ -28,11 +28,11 @@ public class PostDTO {
         this.postTime = postTime;
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
