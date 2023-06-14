@@ -1,5 +1,6 @@
 package app.Twiter.service;
 
+import app.Twiter.model.Mention;
 import app.Twiter.model.User;
 import app.Twiter.model.projections.UserDTO;
 import org.springframework.http.ResponseEntity;
@@ -19,4 +20,6 @@ public interface UserService {
     void removeFollowing(String follower, String followed);
 
     public boolean checkUserExists(String id);
+
+    List<Mention> getUserMentions(String id);
 }

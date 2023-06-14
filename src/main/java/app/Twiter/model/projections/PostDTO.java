@@ -1,8 +1,11 @@
 package app.Twiter.model.projections;
 
+import app.Twiter.model.Mention;
 import app.Twiter.model.User;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 public class PostDTO {
 
@@ -15,6 +18,8 @@ public class PostDTO {
     private int viewCount;
     private int repostCount;
     private LocalDate postTime;
+
+    private List<String> mentionedIds=new ArrayList<>();
 
     public PostDTO() {}
 
@@ -100,5 +105,9 @@ public class PostDTO {
 
     public void setPostTime(LocalDate postTime) {
         this.postTime = postTime;
+    }
+
+    public List<String> getMentionedIds() {
+        return mentionedIds;
     }
 }
