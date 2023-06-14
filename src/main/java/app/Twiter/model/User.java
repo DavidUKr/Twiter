@@ -2,8 +2,10 @@ package app.Twiter.model;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
+import lombok.Data;
 
 @Entity
+//@Data
 @Table(name = "users")
 public class User {
 
