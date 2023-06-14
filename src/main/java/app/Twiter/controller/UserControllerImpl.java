@@ -1,5 +1,6 @@
 package app.Twiter.controller;
 
+import app.Twiter.model.Mention;
 import app.Twiter.model.projections.UserDTO;
 import app.Twiter.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -94,6 +95,11 @@ public class UserControllerImpl implements UserController{
         return userService.searchUserByName(name);
     }
 
+    @GetMapping(value= "{id}/mentions", produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<Mention> getUserMentions(String id) {
+        return userService.getUserMentions(id);
+    }
+
     //UPDATE
     @Operation(summary = "Updates user with input data based on path id. Modifies only what is given")
     @Parameter(name = "userDTO", description = "Body that contains data to change", example = "\"password\":\"87654321\"")
@@ -119,5 +125,5 @@ public class UserControllerImpl implements UserController{
         return userService.deleteUser(id);
     }
 
-    //TODO implement get Mentions
+
 }

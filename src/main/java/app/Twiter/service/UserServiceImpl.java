@@ -4,10 +4,12 @@ import app.Twiter.advice.exception.DatabaseErrorException;
 import app.Twiter.advice.exception.InvalidDataException;
 import app.Twiter.advice.exception.UserNotFoundException;
 import app.Twiter.model.Follow;
+import app.Twiter.model.Mention;
 import app.Twiter.model.User;
 import app.Twiter.model.projections.UserDTO;
 import app.Twiter.repository.FollowRepo;
 import app.Twiter.repository.LikeRepo;
+import app.Twiter.repository.MentionRepo;
 import app.Twiter.repository.UserRepo;
 import app.Twiter.util.UserUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +26,7 @@ public class UserServiceImpl implements UserService{
     FollowRepo followRepo;
     LikeRepo likeRepo;
     PostService postService;
+    MentionRepo mentionRepo;
     @Autowired
     UserUtil userUtil;
 
@@ -117,6 +120,14 @@ public class UserServiceImpl implements UserService{
     public boolean checkUserExists(String id) throws UserNotFoundException{
         if(userRepo.existsById(id)) return true;
         else throw new UserNotFoundException("User with id:"+id+" not found");
+    }
+
+    @Override
+    public List<Mention> getUserMentions(String id) {
+        if(checkUserExists(id)){
+            return mentionRepo.findAllByMentioned(userRepo.findById(id).get());
+        }
+        else return null;
     }
 
     private boolean checkUserCreationIntegrity(UserDTO userDTO)throws  InvalidDataException{
