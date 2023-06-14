@@ -3,6 +3,7 @@ package app.Twiter.model;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
+import lombok.Data;
 
 
 import javax.swing.text.View;
@@ -12,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
+@Data
 @Table(name = "posts")
 public class Post {
 
@@ -90,94 +92,6 @@ public class Post {
         this.replyCount = 0;
         this.viewCount = 0;
         this.repostCount = 0;
-        this.postTime = postTime;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public User getOwnerId() {
-        return ownerId;
-    }
-
-    public void setOwnerId(User ownerId) {
-        this.ownerId = ownerId;
-    }
-
-    public String getText() {
-        return text;
-    }
-
-    public void setText(String text) {
-        this.text = text;
-    }
-
-    public String getUrl() {
-        return url;
-    }
-
-    public void setUrl(String url) {
-        this.url = url;
-    }
-
-    public int getLikeCount() {
-        return likeCount;
-    }
-
-    public void setLikeCount(int likeCount) {
-        this.likeCount = likeCount;
-    }
-
-    public int getReplyCount() {
-        return replyCount;
-    }
-
-    public void setReplyCount(int replyCount) {
-        this.replyCount = replyCount;
-    }
-
-    public int getViewCount() {
-        return viewCount;
-    }
-
-    public void setViewCount(int viewCount) {
-        this.viewCount = viewCount;
-    }
-
-    public int getRepostCount() {
-        return repostCount;
-    }
-
-    public void setRepostCount(int repostCount) {
-        this.repostCount = repostCount;
-    }
-
-    public boolean isRepost() {
-        return isRepost;
-    }
-
-    public void setRepost(boolean repost) {
-        isRepost = repost;
-    }
-
-    public User getAuthorId() {
-        return authorId;
-    }
-
-    public void setAuthorId(User authorId) {
-        this.authorId = authorId;
-    }
-
-    public LocalDate getPostTime() {
-        return postTime;
-    }
-
-    public void setPostTime(LocalDate postTime) {
         this.postTime = postTime;
     }
 
