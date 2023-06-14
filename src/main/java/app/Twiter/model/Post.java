@@ -4,6 +4,7 @@ package app.Twiter.model;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
 import lombok.Data;
+import org.hibernate.bytecode.internal.bytebuddy.BytecodeProviderImpl;
 
 
 import javax.swing.text.View;
@@ -52,7 +53,7 @@ public class Post {
     public Post() {
     }
 
-    public Post(User ownerId, String text, String url, boolean isRepost, LocalDate postTime) {
+    public Post(User ownerId, String text, String url, boolean isRepost) {
         this.ownerId = ownerId;
         this.text = text;
         this.url = url;
@@ -62,9 +63,9 @@ public class Post {
         this.repostCount = 0;
         this.isRepost = isRepost;
         this.authorId = ownerId;
-        this.postTime = postTime;
+        this.postTime = LocalDate.now();
     }
-    public Post(String text, String url, boolean isRepost, LocalDate postTime) {
+    public Post(String text, String url, boolean isRepost) {
         this.text = text;
         this.url = url;
         this.likeCount = 0;
@@ -72,10 +73,10 @@ public class Post {
         this.viewCount = 0;
         this.repostCount = 0;
         this.isRepost = isRepost;
-        this.postTime = postTime;
+        this.postTime = LocalDate.now();
     }
 
-    public Post(User ownerId, String text, String url, LocalDate postTime) {
+    public Post(User ownerId, String text, String url) {
         this.ownerId = ownerId;
         this.text = text;
         this.url = url;
@@ -83,16 +84,16 @@ public class Post {
         this.replyCount = 0;
         this.viewCount = 0;
         this.repostCount = 0;
-        this.postTime = postTime;
+        this.postTime = LocalDate.now();
     }
-    public Post(String text, String url, LocalDate postTime) {
+    public Post(String text, String url) {
         this.text = text;
         this.url = url;
         this.likeCount = 0;
         this.replyCount = 0;
         this.viewCount = 0;
         this.repostCount = 0;
-        this.postTime = postTime;
+        this.postTime = LocalDate.now();
     }
 
     public void addLike(){

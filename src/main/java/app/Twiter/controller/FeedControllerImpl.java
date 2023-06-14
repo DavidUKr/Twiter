@@ -11,6 +11,7 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -20,11 +21,11 @@ import java.util.List;
 
 @RestController
 @RequestMapping(value="/api/v1/feed")
+@RequiredArgsConstructor
 public class FeedControllerImpl implements FeedController{
 
-    @Autowired
-    PostService postService;
-    UserService userService;
+    private final PostService postService;
+    private final UserService userService;
 
     @Operation(summary = "This endpoint uses path variable user_id and returns a personalized feed (List<PostDTO>).")
     @ApiResponses(value = {
@@ -36,7 +37,7 @@ public class FeedControllerImpl implements FeedController{
             @ApiResponse(responseCode = "404", description = "User not found"),
             @ApiResponse(responseCode = "500", description = "Could not return feed",content = @Content)
     })
-    @GetMapping(value = "/user_id",produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/{user_id}",produces = MediaType.APPLICATION_JSON_VALUE)
     public List<PostDTO> getMyFeed(@PathVariable String user_id){
         return postService.getUserFeed(user_id);
     }

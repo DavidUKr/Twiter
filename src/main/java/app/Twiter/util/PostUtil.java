@@ -8,15 +8,16 @@ import app.Twiter.model.projections.ReplyDTO;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Comparator;
 
 @Component
 public class PostUtil {
     public Post patchPostFromDTO(PostDTO postDTO){
-        return new Post(postDTO.getText(), postDTO.getUrl(), postDTO.getPostTime());
+        return new Post(postDTO.getText(), postDTO.getUrl());
     }
     public Reply patchReplyFromDTO(PostDTO postDTO, User userId, Post postId, boolean isPublic){
-        return new Reply(userId, postDTO.getText(), postDTO.getUrl(), LocalDate.now(), postId, isPublic);
+        return new Reply(userId, postDTO.getText(), postDTO.getUrl(), postId, isPublic);
     }
 
     public PostDTO patchPostDTO(Post post){

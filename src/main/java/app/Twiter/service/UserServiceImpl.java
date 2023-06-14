@@ -12,23 +12,23 @@ import app.Twiter.repository.LikeRepo;
 import app.Twiter.repository.MentionRepo;
 import app.Twiter.repository.UserRepo;
 import app.Twiter.util.UserUtil;
+import lombok.RequiredArgsConstructor;
+import org.hibernate.validator.internal.util.stereotypes.Lazy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import java.util.List;
 
+@RequiredArgsConstructor
 @Service
 public class UserServiceImpl implements UserService{
 
-    @Autowired
-    UserRepo userRepo;
-    FollowRepo followRepo;
-    LikeRepo likeRepo;
-    PostService postService;
-    MentionRepo mentionRepo;
-    @Autowired
-    UserUtil userUtil;
+    private final UserRepo userRepo;
+    private final FollowRepo followRepo;
+    private final LikeRepo likeRepo;
+    private final MentionRepo mentionRepo;
+    private final UserUtil userUtil;
 
     @Override
     public ResponseEntity<UserDTO> registerUser(UserDTO userDTO) {
@@ -44,7 +44,7 @@ public class UserServiceImpl implements UserService{
         if(checkUserExists(id)) {
             User user=userRepo.findById(id).get();
             followRepo.deleteAllByFollower(user);
-            postService.deletePostsFromUser(id);
+            //postService.deletePostsFromUser(id);
             likeRepo.deleteAllByOwnerId(user);
             userRepo.delete(user);
             return ResponseEntity.status(HttpStatus.ACCEPTED);
@@ -55,8 +55,10 @@ public class UserServiceImpl implements UserService{
     @Override
     public void updateUser(String id, UserDTO userDTO) {
         if(checkUserExists(id)) {
+            User aux=userRepo.findById(id).get();
             User user = userUtil.patchUserFromDTO(userDTO);
             user.setId(id);
+            user.setPassword(aux.getPassword());
             userRepo.save(user);
         }
     }
@@ -150,4 +152,9 @@ public class UserServiceImpl implements UserService{
         else if(userDTO.getPassword()==null) throw new InvalidDataException("password is null");
         else return true;
     }
+
+    /*@Autowired
+    void setPostService(@ postService){
+        this.postService=postService;
+    }*/
 }

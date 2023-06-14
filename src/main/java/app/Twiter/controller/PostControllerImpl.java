@@ -24,10 +24,10 @@ public class PostControllerImpl implements PostController{
 
     //CREATE
     @Operation(summary = "This endpoint adds post")
-    @Parameters(value = {
+    /*@Parameters(value = {
             @Parameter(name = "postDTO", description = "body that contains the data that characterizes a post, containing only basic info",
                     example = "\"text\":\"This is not acceptable, the government is going nuts\", \"url\":\"some conent url\"")
-    })
+    })*/
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "Post created",
                     content = { @Content(mediaType = "application/json",

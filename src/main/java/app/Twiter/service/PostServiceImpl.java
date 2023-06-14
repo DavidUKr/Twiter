@@ -6,6 +6,7 @@ import app.Twiter.model.projections.PostDTO;
 import app.Twiter.model.projections.ReplyDTO;
 import app.Twiter.repository.*;
 import app.Twiter.util.PostUtil;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,17 +17,17 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@RequiredArgsConstructor
 @Service
 public class PostServiceImpl implements PostService{
 
-    @Autowired
-    PostRepo postRepo;
-    FollowRepo followRepo;
-    LikeRepo likeRepo;
-    ReplyRepo replyRepo;
-    MentionRepo mentionRepo;
-    UserService userService;
-    PostUtil postUtil;
+    private final PostRepo postRepo;
+    private final FollowRepo followRepo;
+    private final LikeRepo likeRepo;
+    private final ReplyRepo replyRepo;
+    private final MentionRepo mentionRepo;
+    private final UserService userService;
+    private final PostUtil postUtil;
 
     //CREATE
     @Override
@@ -35,9 +36,8 @@ public class PostServiceImpl implements PostService{
             Post post = postUtil.patchPostFromDTO(postDTO);
             post.setOwnerId(userService.getUserByID(userId));
             Post savedPost=postRepo.save(post);
-            saveMentions(postDTO.getMentionedIds(), savedPost.getId());
+           // saveMentions(postDTO.getMentionedIds(), savedPost.getId());
             return ResponseEntity.status(HttpStatus.CREATED);
-            //implement postCount;
         }
         return ResponseEntity.status(HttpStatus.NOT_FOUND);
     }
@@ -49,7 +49,7 @@ public class PostServiceImpl implements PostService{
             post.setRepost(true);
             post.setOwnerId(userService.getUserByID(userId));
             Post savedPost=postRepo.save(post);
-            saveMentions(mentionRepo.findAllByPostId(post).stream().map(mention -> mention.getMentioned().getId()).toList(),savedPost.getId());
+           // saveMentions(mentionRepo.findAllByPostId(post).stream().map(mention -> mention.getMentioned().getId()).toList(),savedPost.getId());
             return ResponseEntity.status(HttpStatus.CREATED);
         }
         return ResponseEntity.status(HttpStatus.NOT_FOUND);
@@ -60,7 +60,7 @@ public class PostServiceImpl implements PostService{
         if(checkPostExists(postId) && userService.checkUserExists(userId)) {
             Reply reply=postUtil.patchReplyFromDTO(postDTO, userService.getUserByID(userId), postRepo.findById(postId).get(), isPublic);
             Post savedPost=postRepo.save(reply);
-            saveMentions(postDTO.getMentionedIds(), savedPost.getId());
+            //saveMentions(postDTO.getMentionedIds(), savedPost.getId());
             return ResponseEntity.status(HttpStatus.CREATED);
         }
         return ResponseEntity.status(HttpStatus.NOT_FOUND);
