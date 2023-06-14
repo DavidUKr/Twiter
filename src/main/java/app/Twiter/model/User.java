@@ -49,5 +49,17 @@ public class User {
         this.followCount = 0;
     }
 
+    public void addFollower(){
+        followerCount++;
+    }
+    public void removeFollower(){
+        followerCount--;
+    }
+    public void addFollow(){
+        followCount++;
+    }
+    public void removeFollow(){
+        followCount--;
+    }
 
 }

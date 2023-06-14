@@ -36,7 +36,7 @@ public class PostControllerImpl implements PostController{
             @ApiResponse(responseCode = "404", description = "User not found"),
             @ApiResponse(responseCode = "500", description = "Something happened, could not add post")
     })
-    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/{user_id}",consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity.BodyBuilder addPostToUser(@PathVariable String user_id, @RequestBody PostDTO postDTO){
         return postService.createPost(postDTO, user_id);
     }

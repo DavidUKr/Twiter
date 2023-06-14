@@ -103,17 +103,29 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public void addFollowing(String follower, String followed) {
-        if(checkUserExists(follower)&&checkUserExists(followed)) {
-            Follow follow = new Follow(userRepo.findById(follower).get(), userRepo.findById(followed).get());
+    public void addFollowing(String followerId, String followedId) {
+        if(checkUserExists(followerId)&&checkUserExists(followedId)) {
+            User follower=userRepo.findById(followerId).get();
+            User followed=userRepo.findById(followedId).get();
+            Follow follow = new Follow(follower, followed);
             followRepo.save(follow);
+            follower.addFollow();
+            followed.addFollower();
+            updateUser(followerId, userUtil.patchUserDTO(follower));
+            updateUser(followedId, userUtil.patchUserDTO(followed));
         }
     }
 
     @Override
-    public void removeFollowing(String follower, String followed) {
-        if(checkUserExists(follower)&&checkUserExists(followed)){
-            followRepo.deleteByFollowerAndFollowed(userRepo.findById(follower).get(), userRepo.findById(followed).get());
+    public void removeFollowing(String followerId, String followedId) {
+        if(checkUserExists(followerId)&&checkUserExists(followedId)) {
+            User follower = userRepo.findById(followerId).get();
+            User followed = userRepo.findById(followedId).get();
+            followRepo.deleteByFollowerAndFollowed(follower, followed);
+            follower.addFollow();
+            followed.addFollower();
+            updateUser(followerId, userUtil.patchUserDTO(follower));
+            updateUser(followedId, userUtil.patchUserDTO(followed));
         }
     }
 
