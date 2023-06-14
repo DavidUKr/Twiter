@@ -16,7 +16,7 @@ import java.util.List;
 public class Post {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.UUID)
     protected String id;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -62,9 +62,28 @@ public class Post {
         this.authorId = ownerId;
         this.postTime = postTime;
     }
+    public Post(String text, String url, boolean isRepost, LocalDate postTime) {
+        this.text = text;
+        this.url = url;
+        this.likeCount = 0;
+        this.replyCount = 0;
+        this.viewCount = 0;
+        this.repostCount = 0;
+        this.isRepost = isRepost;
+        this.postTime = postTime;
+    }
 
     public Post(User ownerId, String text, String url, LocalDate postTime) {
         this.ownerId = ownerId;
+        this.text = text;
+        this.url = url;
+        this.likeCount = 0;
+        this.replyCount = 0;
+        this.viewCount = 0;
+        this.repostCount = 0;
+        this.postTime = postTime;
+    }
+    public Post(String text, String url, LocalDate postTime) {
         this.text = text;
         this.url = url;
         this.likeCount = 0;

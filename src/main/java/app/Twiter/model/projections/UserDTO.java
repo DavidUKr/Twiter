@@ -1,6 +1,10 @@
 package app.Twiter.model.projections;
 
+import org.springframework.stereotype.Component;
+
+@Component
 public class UserDTO {
+    private String id;
     private String userName;
     private String lastName;
     private String firstName;
@@ -9,7 +13,10 @@ public class UserDTO {
     private int followerCount;
     private int followCount;
 
-    public UserDTO(String userName, String lastName, String firstName, String email, int followerCount, int followCount) {
+    public UserDTO() {}
+
+    public UserDTO(String id, String userName, String lastName, String firstName, String email, int followerCount, int followCount) {
+        this.id=id;
         this.userName = userName;
         this.lastName = lastName;
         this.firstName = firstName;
@@ -17,7 +24,8 @@ public class UserDTO {
         this.followerCount = followerCount;
         this.followCount = followCount;
     }
-    public UserDTO(String userName, String lastName, String firstName, String email, int followerCount, int followCount, String password) {
+    public UserDTO(String id, String userName, String lastName, String firstName, String email, int followerCount, int followCount, String password) {
+        this.id=id;
         this.userName = userName;
         this.lastName = lastName;
         this.firstName = firstName;
@@ -25,6 +33,14 @@ public class UserDTO {
         this.followerCount = followerCount;
         this.followCount = followCount;
         this.password=password;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getUserName() {

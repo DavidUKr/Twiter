@@ -5,12 +5,15 @@ import app.Twiter.model.projections.PostDTO;
 import app.Twiter.service.PostService;
 import app.Twiter.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.Parameters;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -79,14 +82,31 @@ public class FeedControllerImpl implements FeedController{
 
     @Operation(summary = "This endpoint creates a repost - post but with different author than owner")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Repost created"),
+            @ApiResponse(responseCode = "201", description = "Repost created"),
             @ApiResponse(responseCode = "400", description = "Bad request"),
             @ApiResponse(responseCode = "404", description = "Not found"),
             @ApiResponse(responseCode = "500", description = "Something happened, could not add repost")
     })
     @PostMapping (value = "/{user_id}/{post_id}/retweet")
-    public void repost(@PathVariable String user_id, @PathVariable String post_id){
-        postService.repost(user_id, post_id);
+    public ResponseEntity.BodyBuilder repost(@PathVariable String user_id, @PathVariable String post_id){
+        return postService.repost(user_id, post_id);
+    }
+
+    @Operation(summary = "Creates Reply to a given by id post")
+    @Parameters(value = {
+            @Parameter(name = "postDTO", description = "Body that contains reply data",
+                    example = "\"text\":\"This dude is crazy\", \"url\":\"some conent url\""),
+            @Parameter(name= "isPublic", description = "boolean - specifies if reply is public or not")
+    })
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = "Reply created"),
+            @ApiResponse(responseCode = "404", description = "Id not found"),
+            @ApiResponse(responseCode = "500", description = "Something happened")
+    })
+    @PostMapping (value = "/{user_id}/{post_id}", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity.BodyBuilder replyPost(@PathVariable String user_id, @PathVariable String post_id, @RequestBody PostDTO postDTO, @RequestParam boolean isPublic){
+        postService.createReply(user_id, post_id, postDTO, isPublic);
+        return null;
     }
 
     @Operation(summary = "This endpoint adds like entry between user and post")

@@ -20,7 +20,7 @@ public class Reply extends Post{
     public Reply(){}
 
     public Reply(User ownerId, String text, String url, LocalDate postTime, Post rootPostId, boolean isPublic) {
-        super(ownerId, text, url, postTime);
+        super(ownerId, text, url, false, postTime);
         this.rootPostId = rootPostId;
         this.isPublic = isPublic;
     }

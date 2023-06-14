@@ -2,6 +2,7 @@ package app.Twiter.controller;
 
 import app.Twiter.model.projections.PostDTO;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -15,6 +16,9 @@ public interface FeedController {
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     List<PostDTO> getAllFeed();
 
+    @PostMapping (value = "/{user_id}/{post_id}/reply", consumes = MediaType.APPLICATION_JSON_VALUE)
+    ResponseEntity.BodyBuilder replyPost(@PathVariable String user_id,@PathVariable String post_id, @RequestBody PostDTO postDTO, @RequestParam boolean isPublic);
+
     @PostMapping (value = "/{user_id}/{id_to_follow}/follow")
     void followUser(@PathVariable String user_id,@PathVariable String id_to_follow);
 
@@ -22,7 +26,7 @@ public interface FeedController {
     void unfollowUser(@PathVariable String user_id,@PathVariable String id);
 
     @PostMapping (value = "/{user_id}/{post_id}/retweet")
-    void repost(@PathVariable String user_id, @PathVariable String post_id);
+    ResponseEntity.BodyBuilder repost(@PathVariable String user_id, @PathVariable String post_id);
 
     @PostMapping(value = "/{user_id}/{post_id}/like")
     void likePost(@PathVariable String user_id, @PathVariable String post_id);

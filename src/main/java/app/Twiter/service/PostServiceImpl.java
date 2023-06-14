@@ -14,7 +14,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.net.URI;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -30,6 +29,40 @@ public class PostServiceImpl implements PostService{
     UserService userService;
     PostUtil postUtil;
 
+    //CREATE
+    @Override
+    public ResponseEntity.BodyBuilder createPost(PostDTO postDTO, String userId) {
+        if(userService.checkUserExists(userId)) {
+            Post post = postUtil.patchPostFromDTO(postDTO);
+            post.setOwnerId(userService.getUserByID(userId));
+            postRepo.save(post);
+            return ResponseEntity.status(HttpStatus.CREATED);
+            //implement postCount;
+        }
+        return ResponseEntity.status(HttpStatus.NOT_FOUND);
+    }
+    @Override
+    public ResponseEntity.BodyBuilder repost(String userId, String postId) {
+        if(checkPostExists(postId)) {
+            Post post = postRepo.findById(postId).get();
+            post.setRepost(true);
+            post.setOwnerId(userService.getUserByID(userId));
+            postRepo.save(post);
+            return ResponseEntity.status(HttpStatus.CREATED);
+        }
+        return ResponseEntity.status(HttpStatus.NOT_FOUND);
+    }
+    @Override
+    public ResponseEntity.BodyBuilder createReply(String userId, String postId, PostDTO postDTO, boolean isPublic) {
+        if(checkPostExists(postId)) {
+            Reply reply=postUtil.patchReplyFromDTO(postDTO, userService.getUserByID(userId), postRepo.findById(postId).get(), isPublic);
+            postRepo.save(reply);
+            return ResponseEntity.status(HttpStatus.CREATED);
+        }
+        return ResponseEntity.status(HttpStatus.NOT_FOUND);
+    }
+
+    //READ
     @Override
     public List<PostDTO> getAll() {
         return postRepo.findAll().stream()
@@ -67,61 +100,6 @@ public class PostServiceImpl implements PostService{
         if(checkPostExists(id)) return postRepo.findById(id).get();
         else return null;
     }
-
-    @Override
-    public void createPost(PostDTO postDTO, String userID) {
-        Post post=postUtil.patchPostFromDTO(postDTO);
-        postRepo.save(post);
-        String id=post.getId();
-        if(id!=null)ResponseEntity.created(URI.create("select * from posts where id="+id));
-        //implement postCount;
-    }
-
-    @Override
-    public void deletePost(String postId) { //deletes all likes
-        if(checkPostExists(postId)){
-            likeRepo.deleteAllByPostId(postRepo.findById(postId).get());
-            postRepo.deleteById(postId);
-        }
-    }
-
-    @Override
-    public void repost(String userId, String postId) {
-        if(checkPostExists(postId)) {
-            Post post = postRepo.findById(postId).get();
-            post.setRepost(true);
-            post.setOwnerId(userService.getUserByID(userId));
-            postRepo.save(post);
-        }
-    }
-
-    @Override
-    public void likePost(String userId, String postId) {
-        if(checkPostExists(postId)) {
-            Like like = new Like(userService.getUserByID(userId), postRepo.findById(postId).get());
-            likeRepo.save(like);
-            postRepo.findById(postId).get().addLike();
-        }
-    }
-
-    @Override
-    public void unlikePost(String userId, String postId) {
-        if(checkPostExists(postId)) {
-            likeRepo.deleteByOwnerIdAndPostId(userService.getUserByID(userId), postRepo.findById(postId).get());
-            postRepo.findById(postId).get().removeLike();
-        }
-    }
-
-    @Override
-    public void createReply(String userId, String postId, PostDTO postDTO, boolean isPublic) {
-        if(checkPostExists(postId)) {
-            Reply reply=postUtil.patchReplyFromDTO(postDTO, userService.getUserByID(userId), postRepo.findById(postId).get(), isPublic);
-            postRepo.save(reply);
-            String id=reply.getId();
-            if(id!=null) ResponseEntity.created(URI.create("select * from posts where id="+id));
-        }
-    }
-
     @Override
     public List<ReplyDTO> getMyPostReplies(String postId) {
         if(checkPostExists(postId)) {
@@ -164,15 +142,46 @@ public class PostServiceImpl implements PostService{
                 .toList();
     }
 
+    //UPDATE
+
     @Override
-    public void deletePostsFromUser(String id) { //also deletes all posts likes
+    public void likePost(String userId, String postId) {
+        if(checkPostExists(postId)) {
+            Like like = new Like(userService.getUserByID(userId), postRepo.findById(postId).get());
+            likeRepo.save(like);
+            postRepo.findById(postId).get().addLike();
+        }
+    }
+
+    @Override
+    public void unlikePost(String userId, String postId) {
+        if(checkPostExists(postId)) {
+            likeRepo.deleteByOwnerIdAndPostId(userService.getUserByID(userId), postRepo.findById(postId).get());
+            postRepo.findById(postId).get().removeLike();
+        }
+    }
+
+    //DELETE
+
+    @Override
+    public ResponseEntity.BodyBuilder deletePost(String postId) { //deletes all likes
+        if(checkPostExists(postId)){
+            likeRepo.deleteAllByPostId(postRepo.findById(postId).get());
+            postRepo.deleteById(postId);
+            return ResponseEntity.status(HttpStatus.ACCEPTED);
+        }
+        else return ResponseEntity.status(HttpStatus.NOT_FOUND);
+    }
+
+    @Override
+    public ResponseEntity.BodyBuilder deletePostsFromUser(String id) { //also deletes all posts likes
         User user=userService.getUserByID(id);
         List<Post> userPosts=postRepo.findAllByOwnerId(user);
         for(Post p:userPosts){
             likeRepo.deleteAllByPostId(p);
         }
         postRepo.deleteByOwnerId(user);
-        ResponseEntity.accepted();
+        return ResponseEntity.status(HttpStatus.ACCEPTED);
     }
 
     private boolean checkPostExists(String id){

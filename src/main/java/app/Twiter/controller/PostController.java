@@ -3,7 +3,9 @@ package app.Twiter.controller;
 import app.Twiter.model.projections.PostDTO;
 import app.Twiter.model.projections.ReplyDTO;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
 
 @RestController
@@ -11,10 +13,7 @@ import java.util.List;
 public interface PostController {
     //CREATE
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    void addPostToUser(@PathVariable String user_id, @RequestBody PostDTO postDTO);
-
-    @PostMapping (value = "/feed/{post_id}", consumes = MediaType.APPLICATION_JSON_VALUE)
-    void replyPost(@PathVariable String user_id, @PathVariable String post_id, @RequestBody PostDTO postDTO, @RequestParam boolean isPublic);
+    ResponseEntity.BodyBuilder addPostToUser(@PathVariable String user_id, @RequestBody PostDTO postDTO);
 
     //READ
     @GetMapping(value="/{user_id}", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -31,5 +30,5 @@ public interface PostController {
 
     //DELETE
     @DeleteMapping( value = "/{post_id}")
-    void deletePost(@RequestParam String post_id);
+    ResponseEntity.BodyBuilder deletePost(@RequestParam String post_id);
 }

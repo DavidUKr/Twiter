@@ -12,6 +12,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
@@ -28,7 +29,7 @@ public class PostControllerImpl implements PostController{
                     example = "\"text\":\"This is not acceptable, the government is going nuts\", \"url\":\"some conent url\"")
     })
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "201", description = "Post added",
+            @ApiResponse(responseCode = "201", description = "Post created",
                     content = { @Content(mediaType = "application/json",
                             schema = @Schema(implementation = PostDTO.class)) }),
             @ApiResponse(responseCode = "400", description = "Bad request"),
@@ -36,24 +37,8 @@ public class PostControllerImpl implements PostController{
             @ApiResponse(responseCode = "500", description = "Something happened, could not add post")
     })
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    public void addPostToUser(@PathVariable String user_id, @RequestBody PostDTO postDTO){
-        postService.createPost(postDTO, user_id);
-    }
-
-    @Operation(summary = "Creates Reply to a given by id post")
-    @Parameters(value = {
-            @Parameter(name = "postDTO", description = "Body that contains reply data",
-                    example = "\"text\":\"This dude is crazy\", \"url\":\"some conent url\""),
-            @Parameter(name= "isPublic", description = "boolean - specifies if reply is public or not")
-    })
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "201", description = "Reply created"),
-            @ApiResponse(responseCode = "404", description = "Id not found"),
-            @ApiResponse(responseCode = "500", description = "Something happened")
-    })
-    @PostMapping (value = "/feed/{post_id}", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public void replyPost(@PathVariable String user_id, @PathVariable String post_id, @RequestBody PostDTO postDTO, @RequestParam boolean isPublic){
-        postService.createReply(user_id, post_id, postDTO, isPublic);
+    public ResponseEntity.BodyBuilder addPostToUser(@PathVariable String user_id, @RequestBody PostDTO postDTO){
+        return postService.createPost(postDTO, user_id);
     }
 
     //READ
@@ -125,7 +110,7 @@ public class PostControllerImpl implements PostController{
             @ApiResponse(responseCode = "500", description = "Something happened")
     })
     @DeleteMapping( value = "/{post_id}")
-    public void deletePost(@RequestParam String post_id){
-        postService.deletePost(post_id);
+    public ResponseEntity.BodyBuilder deletePost(@RequestParam String post_id){
+        return postService.deletePost(post_id);
     }
 }
