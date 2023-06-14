@@ -1,10 +1,12 @@
 package app.Twiter.model;
 
 import jakarta.persistence.*;
+import lombok.Data;
 
 import java.time.LocalDate;
 
 @Entity
+@Data
 @Table(name = "likes")
 public class Like {
 
@@ -28,37 +30,5 @@ public class Like {
         this.ownerId = ownerId;
         this.postId = postId;
         this.likeTime = LocalDate.now();
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public User getOwnerId() {
-        return ownerId;
-    }
-
-    public void setOwnerId(User ownerId) {
-        this.ownerId = ownerId;
-    }
-
-    public Post getPostId() {
-        return postId;
-    }
-
-    public void setPostId(Post postId) {
-        this.postId = postId;
-    }
-
-    public LocalDate getLikeTime() {
-        return likeTime;
-    }
-
-    public void setLikeTime(LocalDate likeTime) {
-        this.likeTime = likeTime;
     }
 }

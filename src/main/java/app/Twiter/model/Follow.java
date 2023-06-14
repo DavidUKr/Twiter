@@ -1,10 +1,12 @@
 package app.Twiter.model;
 
 import jakarta.persistence.*;
+import lombok.Data;
 
 import java.time.LocalDate;
 
 @Entity
+@Data
 @Table(name="follows")
 public class Follow {
 
@@ -28,37 +30,5 @@ public class Follow {
         this.follower = follower;
         this.followed = followed;
         this.followTime = LocalDate.now();
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public User getFollower() {
-        return follower;
-    }
-
-    public void setFollower(User follower) {
-        this.follower = follower;
-    }
-
-    public User getFollowed() {
-        return followed;
-    }
-
-    public void setFollowed(User followed) {
-        this.followed = followed;
-    }
-
-    public LocalDate getFollowTime() {
-        return followTime;
-    }
-
-    public void setFollowTime(LocalDate followTime) {
-        this.followTime = followTime;
     }
 }

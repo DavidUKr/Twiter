@@ -1,14 +1,18 @@
 package app.Twiter.model;
 
 import jakarta.persistence.*;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import java.net.URL;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+@EqualsAndHashCode(callSuper = true)
 @Entity
 //@Table(name = "replies")
+@Data
 public class Reply extends Post{
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn
