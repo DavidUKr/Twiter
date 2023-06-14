@@ -11,14 +11,10 @@ import app.Twiter.repository.LikeRepo;
 import app.Twiter.repository.UserRepo;
 import app.Twiter.util.UserUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.orm.jpa.vendor.Database;
 import org.springframework.stereotype.Service;
-
-import java.net.URI;
 import java.util.List;
-import java.util.concurrent.TimeoutException;
-import java.util.stream.Collectors;
 
 @Service
 public class UserServiceImpl implements UserService{
@@ -28,25 +24,29 @@ public class UserServiceImpl implements UserService{
     FollowRepo followRepo;
     LikeRepo likeRepo;
     PostService postService;
+    @Autowired
     UserUtil userUtil;
 
     @Override
-    public void registerUser(UserDTO userDTO) {
+    public ResponseEntity<UserDTO> registerUser(UserDTO userDTO) {
          if(checkUserCreationIntegrity(userDTO)){
              userRepo.save(userUtil.patchUserFromDTO(userDTO));
          }
+        //return ResponseEntity.status(HttpStatus.CREATED).body("{\"id\":\""+userRepo.findByUsername(userDTO.getUserName()).getId()+"\"}");
+        return ResponseEntity.status(HttpStatus.CREATED).body(userUtil.patchUserDTO(userRepo.findByUsername(userDTO.getUserName())));
     }
 
     @Override
-    public void deleteUser(String id) { //also deletes user posts follows and likes
+    public ResponseEntity.BodyBuilder deleteUser(String id) { //also deletes user posts follows and likes
         if(checkUserExists(id)) {
             User user=userRepo.findById(id).get();
             followRepo.deleteAllByFollower(user);
             postService.deletePostsFromUser(id);
             likeRepo.deleteAllByOwnerId(user);
             userRepo.delete(user);
-            ResponseEntity.accepted();
+            return ResponseEntity.status(HttpStatus.ACCEPTED);
         }
+        return ResponseEntity.status(HttpStatus.NOT_FOUND);
     }
 
     @Override
@@ -71,6 +71,13 @@ public class UserServiceImpl implements UserService{
             if(userRepo.findById(id).isEmpty()) throw new DatabaseErrorException("Data not recieved");
             return userRepo.findById(id).get();
         }
+        else return null;
+    }
+
+    @Override
+    public UserDTO getUserAccount(String id) {
+        if (checkUserExists(id))
+            return userUtil.patchUserDTOwPassword(userRepo.findById(id).get());
         else return null;
     }
 
@@ -107,7 +114,7 @@ public class UserServiceImpl implements UserService{
         }
     }
 
-    private boolean checkUserExists(String id) throws UserNotFoundException{
+    public boolean checkUserExists(String id) throws UserNotFoundException{
         if(userRepo.existsById(id)) return true;
         else throw new UserNotFoundException("User with id:"+id+" not found");
     }

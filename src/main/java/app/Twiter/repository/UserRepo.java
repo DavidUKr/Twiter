@@ -14,7 +14,7 @@ import java.util.Optional;
 public interface UserRepo extends JpaRepository<User, String> {
 
     //TODO Question How to implement DTO's in JPARepository
-    List<User> findAll();
+    @NotNull List<User> findAll();
 
     @NotNull
     Optional<User> findById(@NotNull String id);
@@ -23,4 +23,6 @@ public interface UserRepo extends JpaRepository<User, String> {
     List<User> searchByUsernameOrFirstNameOrLastName(@Param("searchTerm") String searchTerm);
 
     boolean existsById(String id);
+
+    User findByUsername(String username);
 }

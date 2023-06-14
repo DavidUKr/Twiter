@@ -9,8 +9,8 @@ import java.time.LocalDate;
 public class Like {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer id;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private String id;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn
@@ -30,12 +30,12 @@ public class Like {
         this.likeTime = LocalDate.now();
     }
 
-    public Integer getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Integer ID) {
-        this.id = ID;
+    public void setId(String id) {
+        this.id = id;
     }
 
     public User getOwnerId() {

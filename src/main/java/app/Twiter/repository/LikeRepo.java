@@ -4,11 +4,14 @@ import app.Twiter.model.Like;
 import app.Twiter.model.Post;
 import app.Twiter.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
+@Repository
 public interface LikeRepo extends JpaRepository<Like, String> {
-    Like findById(Integer id);
+    Optional<Like> findById(String id);
 
     //TODO Question Recomended?
     List<Like> findAllByOwnerIdOrPostId(User user, Post post);

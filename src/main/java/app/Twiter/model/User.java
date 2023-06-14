@@ -8,11 +8,11 @@ import jakarta.validation.constraints.NotNull;
 public class User {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
 
     @NotNull
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String username;
 
     @NotNull
@@ -37,7 +37,7 @@ public class User {
 
     public User(){}
 
-    public User(String username, String lastName, String firstName, String email, String password) {
+    public User(@NotNull String username, @NotNull String lastName, @NotNull String firstName, @NotNull String email, @NotNull String password) {
         this.username = username;
         this.lastName = lastName;
         this.firstName = firstName;
@@ -47,14 +47,15 @@ public class User {
         this.followCount = 0;
     }
 
-    public User(String username, String lastName, String firstName, String email) {
+/*    public User(String username, String lastName, String firstName, String email) {
         this.username = username;
         this.lastName = lastName;
         this.firstName = firstName;
         this.email = email;
         this.followerCount = 0;
         this.followCount = 0;
-    }
+        password="";
+    }*/
 
     public String getId() {
         return id;

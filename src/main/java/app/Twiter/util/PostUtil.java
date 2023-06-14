@@ -5,28 +5,30 @@ import app.Twiter.model.Reply;
 import app.Twiter.model.User;
 import app.Twiter.model.projections.PostDTO;
 import app.Twiter.model.projections.ReplyDTO;
+import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
 import java.util.Comparator;
 
+@Component
 public class PostUtil {
     public Post patchPostFromDTO(PostDTO postDTO){
-        return new Post(postDTO.getOwnerId(), postDTO.getText(), postDTO.getUrl(), postDTO.getPostTime());
+        return new Post(postDTO.getText(), postDTO.getUrl(), postDTO.getPostTime());
     }
     public Reply patchReplyFromDTO(PostDTO postDTO, User userId, Post postId, boolean isPublic){
         return new Reply(userId, postDTO.getText(), postDTO.getUrl(), LocalDate.now(), postId, isPublic);
     }
 
     public PostDTO patchPostDTO(Post post){
-        return new PostDTO(post.getId(), post.getOwnerId(), post.getText(), post.getUrl(), post.getLikeCount(), post.getReplyCount(), post.getViewCount(), post.getRepostCount(), post.getPostTime());
+        return new PostDTO(post.getId(), post.getOwnerId().getId(), post.getText(), post.getUrl(), post.getLikeCount(), post.getReplyCount(), post.getViewCount(), post.getRepostCount(), post.getPostTime());
     }
 
     public ReplyDTO patchReplyDTOfromPost(Post post){
-        return new ReplyDTO(post.getId(), post.getOwnerId(), post.getText(), post.getUrl(), post.getLikeCount(), post.getReplyCount(), post.getViewCount(), post.getRepostCount(), post.getPostTime(), ((Reply)post).getRootPostId().getId(), ((Reply)post).isPublic());
+        return new ReplyDTO(post.getId(), post.getOwnerId().getId(), post.getText(), post.getUrl(), post.getLikeCount(), post.getReplyCount(), post.getViewCount(), post.getRepostCount(), post.getPostTime(), ((Reply)post).getRootPostId().getId(), ((Reply)post).isPublic());
     }
 
     public ReplyDTO patchReplyDTO(Reply reply){
-        return new ReplyDTO(reply.getId(), reply.getOwnerId(), reply.getText(), reply.getUrl(), reply.getLikeCount(), reply.getReplyCount(), reply.getViewCount(), reply.getRepostCount(), reply.getPostTime(), reply.getRootPostId().getId(), reply.isPublic());
+        return new ReplyDTO(reply.getId(), reply.getOwnerId().getId(), reply.getText(), reply.getUrl(), reply.getLikeCount(), reply.getReplyCount(), reply.getViewCount(), reply.getRepostCount(), reply.getPostTime(), reply.getRootPostId().getId(), reply.isPublic());
     }
 
     public PostDateComparator getDateComparator(){
