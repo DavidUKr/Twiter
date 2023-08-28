@@ -1,8 +1,4 @@
 package app.Twiter.model.projections;
-
-import app.Twiter.model.Mention;
-import app.Twiter.model.User;
-
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;

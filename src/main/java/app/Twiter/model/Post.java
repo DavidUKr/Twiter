@@ -4,14 +4,7 @@ package app.Twiter.model;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
 import lombok.Data;
-import org.hibernate.bytecode.internal.bytebuddy.BytecodeProviderImpl;
-
-
-import javax.swing.text.View;
-import java.net.URL;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
 @Data
