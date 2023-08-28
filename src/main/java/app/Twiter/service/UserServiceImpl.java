@@ -7,15 +7,14 @@ import app.Twiter.model.Follow;
 import app.Twiter.model.Mention;
 import app.Twiter.model.User;
 import app.Twiter.model.projections.UserDTO;
-import app.Twiter.repository.FollowRepo;
-import app.Twiter.repository.LikeRepo;
-import app.Twiter.repository.MentionRepo;
-import app.Twiter.repository.UserRepo;
+import app.Twiter.repository.*;
 import app.Twiter.util.UserUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -26,6 +25,7 @@ public class UserServiceImpl implements UserService{
     private final FollowRepo followRepo;
     private final LikeRepo likeRepo;
     private final MentionRepo mentionRepo;
+    private final PostRepo postRepo;
     private final UserUtil userUtil;
 
     @Override
@@ -38,11 +38,13 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
+    @Transactional
     public ResponseEntity.BodyBuilder deleteUser(String id) { //also deletes user posts follows and likes
         if(checkUserExists(id)) {
             User user=userRepo.findById(id).get();
             followRepo.deleteAllByFollower(user);
             //postService.deletePostsFromUser(id);
+            postRepo.deleteByOwnerId(user);
             likeRepo.deleteAllByOwnerId(user);
             userRepo.delete(user);
             return ResponseEntity.status(HttpStatus.ACCEPTED);

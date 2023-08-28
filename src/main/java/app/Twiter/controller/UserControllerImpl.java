@@ -95,6 +95,14 @@ public class UserControllerImpl implements UserController{
         return userService.searchUserByName(name);
     }
 
+    @Operation(summary = "Returns list of mentions")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Here are your mentions",
+                    content = {@Content(mediaType = "application/json",
+                            schema=@Schema(implementation = Mention.class))}),
+            @ApiResponse(responseCode = "404", description = "No user found"),
+            @ApiResponse(responseCode = "500", description = "Something happened")
+    })
     @GetMapping(value= "{id}/mentions", produces = MediaType.APPLICATION_JSON_VALUE)
     public List<Mention> getUserMentions(String id) {
         return userService.getUserMentions(id);
