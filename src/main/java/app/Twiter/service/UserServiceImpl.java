@@ -13,8 +13,6 @@ import app.Twiter.repository.MentionRepo;
 import app.Twiter.repository.UserRepo;
 import app.Twiter.util.UserUtil;
 import lombok.RequiredArgsConstructor;
-import org.hibernate.validator.internal.util.stereotypes.Lazy;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -152,9 +150,4 @@ public class UserServiceImpl implements UserService{
         else if(userDTO.getPassword()==null) throw new InvalidDataException("password is null");
         else return true;
     }
-
-    /*@Autowired
-    void setPostService(@ postService){
-        this.postService=postService;
-    }*/
 }
